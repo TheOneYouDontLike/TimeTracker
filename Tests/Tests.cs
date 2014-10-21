@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Core;
     using Moq;
     using NUnit.Framework;
 
@@ -61,60 +62,5 @@
             const int expectedDays = 293;
             Assert.That(statiscticsTime, Is.EqualTo(expectedDays));
         }
-    }
-
-    public interface IDateProvider
-    {
-        DateTime GetCurrentDate();
-    }
-
-    public class Statisctics
-    {
-        private readonly List<ActivityItem> _listOfActivities;
-        private readonly IDateProvider _dateProvider;
-
-        public Statisctics(List<ActivityItem> listOfActivities, IDateProvider dateProvider)
-        {
-            _listOfActivities = listOfActivities;
-            _dateProvider = dateProvider;
-        }
-
-        public int TimeSpan()
-        {
-            var smallestDate = _listOfActivities.Min(activity => activity.Date);
-            var totalDays = _dateProvider.GetCurrentDate().Subtract(smallestDate).TotalDays;
-            
-            return Convert.ToInt32(Math.Floor(totalDays));
-        }
-    }
-
-    public class ActivityItem
-    {
-        private readonly DateTime _date;
-        private readonly int _duration;
-        private readonly ActivityType _activityType;
-
-        public ActivityItem(DateTime date, int duration, ActivityType activityType)
-        {
-            _date = date;
-            _duration = duration;
-            _activityType = activityType;
-        }
-
-        public int Duration
-        {
-            get { return _duration; }
-        }
-
-        public DateTime Date
-        {
-            get { return _date; }
-        }
-    }
-
-    public enum ActivityType
-    {
-        Movie,
-        Series
     }
 }
