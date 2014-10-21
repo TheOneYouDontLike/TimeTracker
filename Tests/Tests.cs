@@ -3,11 +3,20 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Moq;
     using NUnit.Framework;
 
     [TestFixture]
     public class Tests
     {
+        private Mock<IDateProvider> _dateProvider;
+
+        [SetUp]
+        public void Setup()
+        {
+            _dateProvider = new Mock<IDateProvider>();
+        }
+
         [Test]
         public void ShouldBePossibleToCreateNewItem()
         {
@@ -43,30 +52,37 @@
                 new ActivityItem(new DateTime(2014,10,01), 80, ActivityType.Movie)
             };
 
+            _dateProvider.Setup(provider => provider.GetCurrentDate()).Returns(new DateTime(2014, 10, 21));
+
             // when
-            var statiscticsTime = new Statisctics(listOfActivities).TimeSpan();
+            var statiscticsTime = new Statisctics(listOfActivities, _dateProvider.Object).TimeSpan();
 
             // then
-            var timeSpan = DateTime.Now.Subtract(new DateTime(2014, 01, 01));
-            var timeSpanToInt = Convert.ToInt32(Math.Floor(timeSpan.TotalDays));
-            Console.WriteLine(timeSpan.TotalDays);
-            Assert.That(statiscticsTime, Is.EqualTo(timeSpanToInt));
+            const int expectedDays = 293;
+            Assert.That(statiscticsTime, Is.EqualTo(expectedDays));
         }
+    }
+
+    public interface IDateProvider
+    {
+        DateTime GetCurrentDate();
     }
 
     public class Statisctics
     {
         private readonly List<ActivityItem> _listOfActivities;
+        private readonly IDateProvider _dateProvider;
 
-        public Statisctics(List<ActivityItem> listOfActivities)
+        public Statisctics(List<ActivityItem> listOfActivities, IDateProvider dateProvider)
         {
             _listOfActivities = listOfActivities;
+            _dateProvider = dateProvider;
         }
 
         public int TimeSpan()
         {
             var smallestDate = _listOfActivities.Min(activity => activity.Date);
-            var totalDays = DateTime.Now.Subtract(smallestDate).TotalDays;
+            var totalDays = _dateProvider.GetCurrentDate().Subtract(smallestDate).TotalDays;
             
             return Convert.ToInt32(Math.Floor(totalDays));
         }
