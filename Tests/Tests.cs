@@ -19,38 +19,38 @@
         }
 
         [Test]
-        public void ShouldBePossibleToCreateNewItem()
+        public void ShouldBePossibleToCreateNewActivity()
         {
-            new ActivityItem(DateTime.Now, 120, ActivityType.Movie);
+            new Activity(DateTime.Now, 120, ActivityType.Movie);
         }
 
         [Test]
-        public void ShouldBePossibleToCountAllActivitiesDuration()
+        public void ShouldCountActivitiesTotalDuration()
         {
             // given
-            var listOfActivities = new List<ActivityItem>
+            var listOfActivities = new List<Activity>
             {
-                new ActivityItem(DateTime.Now, 100, ActivityType.Movie),
-                new ActivityItem(DateTime.Now, 120, ActivityType.Movie),
-                new ActivityItem(DateTime.Now, 80, ActivityType.Movie)
+                new Activity(DateTime.Now, 100, ActivityType.Movie),
+                new Activity(DateTime.Now, 120, ActivityType.Movie),
+                new Activity(DateTime.Now, 80, ActivityType.Series)
             };
 
             // when
-            var duration = listOfActivities.Sum(activityItem => activityItem.Duration);
+            var duration = new Statisctics(listOfActivities, _dateProvider.Object).TotalDurationOfActivities();
 
             // then
             Assert.That(duration, Is.EqualTo(300));
         }
 
         [Test]
-        public void ShouldBePossibleToDetermineStatisticsTimeSpan()
+        public void ShouldDetermineStatisticsTimeSpan()
         {
             // given
-            var listOfActivities = new List<ActivityItem>
+            var listOfActivities = new List<Activity>
             {
-                new ActivityItem(new DateTime(2014,01,01), 100, ActivityType.Movie),
-                new ActivityItem(new DateTime(2014,05,01), 120, ActivityType.Movie),
-                new ActivityItem(new DateTime(2014,10,01), 80, ActivityType.Movie)
+                new Activity(new DateTime(2014,01,01), 100, ActivityType.Movie),
+                new Activity(new DateTime(2014,05,01), 120, ActivityType.Movie),
+                new Activity(new DateTime(2014,10,01), 80, ActivityType.Movie)
             };
 
             _dateProvider.Setup(provider => provider.GetCurrentDate()).Returns(new DateTime(2014, 10, 21));
@@ -61,6 +61,43 @@
             // then
             const int expectedDays = 293;
             Assert.That(statiscticsTime, Is.EqualTo(expectedDays));
+        }
+
+        [Test]
+        public void ShouldCalculateMoviesTotalDuration()
+        {
+            // given
+            var listOfActivities = new List<Activity>
+            {
+                new Activity(new DateTime(2014,01,01), 100, ActivityType.Movie),
+                new Activity(new DateTime(2014,05,01), 120, ActivityType.Movie),
+                new Activity(new DateTime(2014,10,01), 80, ActivityType.Series)
+            };
+
+            // when
+            var totalDurationOfMovies = new Statisctics(listOfActivities, _dateProvider.Object).TotalDurationOfActivities(ActivityType.Movie);
+
+            // then
+            Assert.That(totalDurationOfMovies, Is.EqualTo(220));
+        }
+
+        [Test]
+        public void ShouldCalculateSeriesTotalDuration()
+        {
+            // given
+            var listOfActivities = new List<Activity>
+            {
+                new Activity(new DateTime(2014,01,01), 100, ActivityType.Movie),
+                new Activity(new DateTime(2014,05,01), 120, ActivityType.Movie),
+                new Activity(new DateTime(2014,10,01), 80, ActivityType.Series),
+                new Activity(new DateTime(2014,10,01), 80, ActivityType.Series)
+            };
+
+            // when
+            var totalDurationOfMovies = new Statisctics(listOfActivities, _dateProvider.Object).TotalDurationOfActivities(ActivityType.Series);
+
+            // then
+            Assert.That(totalDurationOfMovies, Is.EqualTo(160));
         }
     }
 }

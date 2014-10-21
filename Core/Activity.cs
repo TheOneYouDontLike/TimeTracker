@@ -2,13 +2,13 @@ namespace Core
 {
     using System;
 
-    public class ActivityItem
+    public class Activity
     {
         private readonly DateTime _date;
         private readonly int _duration;
         private readonly ActivityType _activityType;
 
-        public ActivityItem(DateTime date, int duration, ActivityType activityType)
+        public Activity(DateTime date, int duration, ActivityType activityType)
         {
             _date = date;
             _duration = duration;
@@ -23,6 +23,11 @@ namespace Core
         public DateTime Date
         {
             get { return _date; }
+        }
+
+        public ActivityType Type
+        {
+            get { return _activityType; }
         }
     }
 }
