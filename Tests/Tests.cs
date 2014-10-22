@@ -99,5 +99,25 @@
             // then
             Assert.That(totalDurationOfMovies, Is.EqualTo(160));
         }
+
+        [Test]
+        public void ShouldCalculateAverageIntervalBetweenActivities()
+        {
+            // given
+            var listOfActivities = new List<Activity>
+            {
+                new Activity(new DateTime(2014,01,01), 100, ActivityType.Movie),
+                new Activity(new DateTime(2014,01,04), 120, ActivityType.Movie),
+                new Activity(new DateTime(2014,01,08), 80, ActivityType.Series),
+                new Activity(new DateTime(2014,01,13), 80, ActivityType.Series)
+            };
+
+            // when
+            var averageInterval =
+                new Statisctics(listOfActivities, _dateProvider.Object).AverageIntervalBetweenActivities();
+
+            // then
+            Assert.That(averageInterval, Is.EqualTo(4));
+        }
     }
 }

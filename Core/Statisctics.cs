@@ -32,5 +32,23 @@ namespace Core
         {
             return _listOfActivities.Where(activity => activity.Type == activityType).Sum(activity => activity.Duration);
         }
+
+        public double AverageIntervalBetweenActivities()
+        {
+            var totalDays = 0.0;
+            var sortedListOfActivities = _listOfActivities.OrderBy(activity => activity.Date).ToList();
+
+            for (var i = 0; i < sortedListOfActivities.Count - 1; i++)
+            {
+                var nextActivityDate = sortedListOfActivities[i + 1].Date;
+                var previousActivityDate = sortedListOfActivities[i].Date;
+
+                totalDays += nextActivityDate.Subtract(previousActivityDate).TotalDays;
+            }
+
+            var numberOfIntervals = sortedListOfActivities.Count - 1;
+
+            return totalDays / numberOfIntervals;
+        }
     }
 }
