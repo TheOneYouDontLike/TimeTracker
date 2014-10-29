@@ -119,5 +119,35 @@
             // then
             Assert.That(averageInterval, Is.EqualTo(4));
         }
+
+        [Test]
+        public void ShouldCalculateTotalNumberOfWatchedActivity()
+        {
+            // given
+            var listOfMovies = new List<Activity>
+            {
+                new Activity(new DateTime(2014,01,01), 100, ActivityType.Movie),
+                new Activity(new DateTime(2014,01,04), 120, ActivityType.Movie),
+                new Activity(new DateTime(2014,01,04), 120, ActivityType.Series)
+            };
+
+            var listOfSeries = new List<Activity>
+            {
+                new Activity(new DateTime(2014,01,01), 100, ActivityType.Series),
+                new Activity(new DateTime(2014,01,04), 120, ActivityType.Series),
+                new Activity(new DateTime(2014,01,04), 120, ActivityType.Movie)
+            };
+
+            // when
+            var totalNumberOfWatchedMovies =
+                new Statisctics(listOfMovies, _dateProvider.Object).TotalNumberOfMovies();
+
+            var totalNumberOfWatchedSeries =
+                new Statisctics(listOfSeries, _dateProvider.Object).TotalNumberOfSeries();
+
+            // then
+            Assert.That(totalNumberOfWatchedMovies, Is.EqualTo(2));
+            Assert.That(totalNumberOfWatchedSeries, Is.EqualTo(2));
+        }
     }
 }

@@ -50,5 +50,15 @@ namespace Core
 
             return totalDays / numberOfIntervals;
         }
+
+        public int TotalNumberOfMovies()
+        {
+            return _listOfActivities.Count(activity => activity.Type == ActivityType.Movie);
+        }
+
+        public int TotalNumberOfSeries()
+        {
+            return _listOfActivities.Count(activity => activity.Type == ActivityType.Series);
+        }
     }
 }
