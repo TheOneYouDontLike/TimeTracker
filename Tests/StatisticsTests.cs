@@ -29,7 +29,7 @@
             };
 
             // when
-            var duration = new Statisctics(listOfActivities, _dateProvider.Object).TotalDurationOfActivities();
+            var duration = new Statistics(listOfActivities, _dateProvider.Object).TotalDurationOfActivities();
 
             // then
             Assert.That(duration, Is.EqualTo(300));
@@ -49,7 +49,7 @@
             _dateProvider.Setup(provider => provider.GetCurrentDate()).Returns(new DateTime(2014, 10, 21));
 
             // when
-            var statiscticsTime = new Statisctics(listOfActivities, _dateProvider.Object).TimeSpan();
+            var statiscticsTime = new Statistics(listOfActivities, _dateProvider.Object).TimeSpan();
 
             // then
             const int expectedDays = 293;
@@ -68,7 +68,7 @@
             };
 
             // when
-            var totalDurationOfMovies = new Statisctics(listOfActivities, _dateProvider.Object).TotalDurationOfActivities(ActivityType.Movie);
+            var totalDurationOfMovies = new Statistics(listOfActivities, _dateProvider.Object).TotalDurationOfActivities(ActivityType.Movie);
 
             // then
             Assert.That(totalDurationOfMovies, Is.EqualTo(220));
@@ -87,7 +87,7 @@
             };
 
             // when
-            var totalDurationOfMovies = new Statisctics(listOfActivities, _dateProvider.Object).TotalDurationOfActivities(ActivityType.Series);
+            var totalDurationOfMovies = new Statistics(listOfActivities, _dateProvider.Object).TotalDurationOfActivities(ActivityType.Series);
 
             // then
             Assert.That(totalDurationOfMovies, Is.EqualTo(160));
@@ -107,7 +107,7 @@
 
             // when
             var averageInterval =
-                new Statisctics(listOfActivities, _dateProvider.Object).AverageIntervalBetweenActivities();
+                new Statistics(listOfActivities, _dateProvider.Object).AverageIntervalBetweenActivities();
 
             // then
             Assert.That(averageInterval, Is.EqualTo(4));
@@ -117,30 +117,22 @@
         public void ShouldCalculateTotalNumberOfWatchedActivity()
         {
             // given
-            var listOfMovies = new List<Activity>
+            var listOfActivities = new List<Activity>
             {
                 new Activity(new DateTime(2014,01,01), 100, ActivityType.Movie),
                 new Activity(new DateTime(2014,01,04), 120, ActivityType.Movie),
                 new Activity(new DateTime(2014,01,04), 120, ActivityType.Series)
             };
 
-            var listOfSeries = new List<Activity>
-            {
-                new Activity(new DateTime(2014,01,01), 100, ActivityType.Series),
-                new Activity(new DateTime(2014,01,04), 120, ActivityType.Series),
-                new Activity(new DateTime(2014,01,04), 120, ActivityType.Movie)
-            };
-
             // when
-            var totalNumberOfWatchedMovies =
-                new Statisctics(listOfMovies, _dateProvider.Object).TotalNumberOfMovies();
-
-            var totalNumberOfWatchedSeries =
-                new Statisctics(listOfSeries, _dateProvider.Object).TotalNumberOfSeries();
+            var statistics = new Statistics(listOfActivities, _dateProvider.Object);
+            
+            var totalNumberOfWatchedMovies = statistics.TotalNumberOfMovies;
+            var totalNumberOfWatchedSeries = statistics.TotalNumberOfSeries;
 
             // then
             Assert.That(totalNumberOfWatchedMovies, Is.EqualTo(2));
-            Assert.That(totalNumberOfWatchedSeries, Is.EqualTo(2));
+            Assert.That(totalNumberOfWatchedSeries, Is.EqualTo(1));
         }
     }
 }

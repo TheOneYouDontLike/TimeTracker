@@ -4,12 +4,12 @@ namespace Core
     using System.Collections.Generic;
     using System.Linq;
 
-    public class Statisctics
+    public class Statistics
     {
         private readonly List<Activity> _listOfActivities;
         private readonly IDateProvider _dateProvider;
 
-        public Statisctics(List<Activity> listOfActivities, IDateProvider dateProvider)
+        public Statistics(List<Activity> listOfActivities, IDateProvider dateProvider)
         {
             _listOfActivities = listOfActivities;
             _dateProvider = dateProvider;
@@ -51,14 +51,14 @@ namespace Core
             return totalDays / numberOfIntervals;
         }
 
-        public int TotalNumberOfMovies()
+        public int TotalNumberOfMovies
         {
-            return _listOfActivities.Count(activity => activity.ActivityType == ActivityType.Movie);
+            get { return _listOfActivities.Count(activity => activity.ActivityType == ActivityType.Movie); }
         }
 
-        public int TotalNumberOfSeries()
+        public int TotalNumberOfSeries
         {
-            return _listOfActivities.Count(activity => activity.ActivityType == ActivityType.Series);
+            get { return _listOfActivities.Count(activity => activity.ActivityType == ActivityType.Series); }
         }
     }
 }
