@@ -15,7 +15,7 @@ namespace Core
             _dateProvider = dateProvider;
         }
 
-        public int TimeSpan()
+        public int TotalTimeSpan()
         {
             var smallestDate = _listOfActivities.Min(activity => activity.Date);
             var totalDays = _dateProvider.GetCurrentDate().Subtract(smallestDate).TotalDays;
@@ -33,10 +33,41 @@ namespace Core
             return _listOfActivities.Where(activity => activity.ActivityType == activityType).Sum(activity => activity.Duration);
         }
 
-        public double AverageIntervalBetweenActivities()
+        public int TotalNumberOfMovies
+        {
+            get { return _listOfActivities.Count(activity => activity.ActivityType == ActivityType.Movie); }
+        }
+
+        public int TotalNumberOfSeries
+        {
+            get { return _listOfActivities.Count(activity => activity.ActivityType == ActivityType.Series); }
+        }
+
+        public double AverageIntervalBetweenActivities
+        {
+            get
+            {
+                var sortedListOfActivities = _listOfActivities.OrderBy(activity => activity.Date).ToList();
+
+                return CalculateAverageIntervalBetweenSortedActivities(sortedListOfActivities);
+            }
+        }
+
+        public double AverageIntervalBetweenCinemaVisits
+        {
+            get
+            {
+                var sortedListOfActivities = _listOfActivities
+                    .Where(activity => activity.WatchedInCinema)
+                    .OrderBy(activity => activity.Date).ToList();
+
+                return CalculateAverageIntervalBetweenSortedActivities(sortedListOfActivities);
+            }
+        }
+
+        private static double CalculateAverageIntervalBetweenSortedActivities(List<Activity> sortedListOfActivities)
         {
             var totalDays = 0.0;
-            var sortedListOfActivities = _listOfActivities.OrderBy(activity => activity.Date).ToList();
 
             for (var i = 0; i < sortedListOfActivities.Count - 1; i++)
             {
@@ -49,16 +80,6 @@ namespace Core
             var numberOfIntervals = sortedListOfActivities.Count - 1;
 
             return totalDays / numberOfIntervals;
-        }
-
-        public int TotalNumberOfMovies
-        {
-            get { return _listOfActivities.Count(activity => activity.ActivityType == ActivityType.Movie); }
-        }
-
-        public int TotalNumberOfSeries
-        {
-            get { return _listOfActivities.Count(activity => activity.ActivityType == ActivityType.Series); }
         }
     }
 }

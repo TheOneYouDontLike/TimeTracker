@@ -49,7 +49,7 @@
             _dateProvider.Setup(provider => provider.GetCurrentDate()).Returns(new DateTime(2014, 10, 21));
 
             // when
-            var statiscticsTime = new Statistics(listOfActivities, _dateProvider.Object).TimeSpan();
+            var statiscticsTime = new Statistics(listOfActivities, _dateProvider.Object).TotalTimeSpan();
 
             // then
             const int expectedDays = 293;
@@ -107,7 +107,7 @@
 
             // when
             var averageInterval =
-                new Statistics(listOfActivities, _dateProvider.Object).AverageIntervalBetweenActivities();
+                new Statistics(listOfActivities, _dateProvider.Object).AverageIntervalBetweenActivities;
 
             // then
             Assert.That(averageInterval, Is.EqualTo(4));
@@ -126,13 +126,32 @@
 
             // when
             var statistics = new Statistics(listOfActivities, _dateProvider.Object);
-            
+
             var totalNumberOfWatchedMovies = statistics.TotalNumberOfMovies;
             var totalNumberOfWatchedSeries = statistics.TotalNumberOfSeries;
 
             // then
             Assert.That(totalNumberOfWatchedMovies, Is.EqualTo(2));
             Assert.That(totalNumberOfWatchedSeries, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void ShouldCalculateAverageIntervalBetweenVisitsInTheCinema()
+        {
+            // given
+            var activities = new List<Activity>
+            {
+                new Activity(new DateTime(2014,01,01), 100, ActivityType.Movie){ WatchedInCinema = true },
+                new Activity(new DateTime(2014,01,04), 120, ActivityType.Movie){ WatchedInCinema = true },
+                new Activity(new DateTime(2014,01,08), 120, ActivityType.Movie){ WatchedInCinema = true },
+                new Activity(new DateTime(2014,01,20), 120, ActivityType.Movie)
+            };
+
+            // when
+            var averageIntervalBetweenCinemaVisits = new Statistics(activities, _dateProvider.Object).AverageIntervalBetweenCinemaVisits;
+
+            // then
+            Assert.That(averageIntervalBetweenCinemaVisits, Is.EqualTo(3.5));
         }
     }
 }
