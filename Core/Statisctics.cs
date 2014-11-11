@@ -30,7 +30,7 @@ namespace Core
 
         public int TotalDurationOfActivities(ActivityType activityType)
         {
-            return _listOfActivities.Where(activity => activity.Type == activityType).Sum(activity => activity.Duration);
+            return _listOfActivities.Where(activity => activity.ActivityType == activityType).Sum(activity => activity.Duration);
         }
 
         public double AverageIntervalBetweenActivities()
@@ -53,12 +53,12 @@ namespace Core
 
         public int TotalNumberOfMovies()
         {
-            return _listOfActivities.Count(activity => activity.Type == ActivityType.Movie);
+            return _listOfActivities.Count(activity => activity.ActivityType == ActivityType.Movie);
         }
 
         public int TotalNumberOfSeries()
         {
-            return _listOfActivities.Count(activity => activity.Type == ActivityType.Series);
+            return _listOfActivities.Count(activity => activity.ActivityType == ActivityType.Series);
         }
     }
 }

@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Activity.cs" />
+    <Compile Include="ActivityException.cs" />
     <Compile Include="ActivityType.cs" />
     <Compile Include="IDateProvider.cs" />
     <Compile Include="Infrastructure\DateProvider.cs" />

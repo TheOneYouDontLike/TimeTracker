@@ -149,5 +149,34 @@
             Assert.That(totalNumberOfWatchedMovies, Is.EqualTo(2));
             Assert.That(totalNumberOfWatchedSeries, Is.EqualTo(2));
         }
+
+        [Test]
+        public void ShouldBePossibleToAddMovieWatchedInTheCinema()
+        {
+            // when
+            Activity activity = new Activity(new DateTime(), 120, ActivityType.Movie)
+            {
+                WatchedInCinema = true
+            };
+
+            // then
+            Assert.That(activity.WatchedInCinema, Is.True);
+        }
+
+        [Test]
+        public void ShouldNotBePossibleToAddSeriesWatchedInTheCinema()
+        {
+            // when
+            var creatingNewActivity = new TestDelegate(() =>
+            {
+                new Activity(new DateTime(), 120, ActivityType.Series)
+                {
+                    WatchedInCinema = true
+                };
+            });
+
+            // then
+            Assert.That(creatingNewActivity, Throws.TypeOf<ActivityException>());
+        }
     }
 }

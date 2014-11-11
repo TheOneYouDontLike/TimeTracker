@@ -4,30 +4,29 @@ namespace Core
 
     public class Activity
     {
-        private readonly DateTime _date;
-        private readonly int _duration;
-        private readonly ActivityType _activityType;
+        public DateTime Date { get; private set; }
+        public int Duration { get; private set; }
+        public ActivityType ActivityType { get; private set; }
+        private bool _watchedInCinema;
+
+        public bool WatchedInCinema
+        {
+            get { return _watchedInCinema; }
+            set
+            {
+                if (value && ActivityType == ActivityType.Series)
+                {
+                    throw new ActivityException("Series cannot be watched in the cinema.");
+                }
+                _watchedInCinema = value;
+            }
+        }
 
         public Activity(DateTime date, int duration, ActivityType activityType)
         {
-            _date = date;
-            _duration = duration;
-            _activityType = activityType;
-        }
-
-        public int Duration
-        {
-            get { return _duration; }
-        }
-
-        public DateTime Date
-        {
-            get { return _date; }
-        }
-
-        public ActivityType Type
-        {
-            get { return _activityType; }
+            Date = date;
+            Duration = duration;
+            ActivityType = activityType;
         }
     }
 }
