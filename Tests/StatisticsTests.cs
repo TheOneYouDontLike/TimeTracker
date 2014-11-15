@@ -9,12 +9,12 @@
     [TestFixture]
     public class StatisticsTests
     {
-        private Fake<IDateProvider> _dateProvider;
+        private IDateProvider _dateProviderMock;
 
         [SetUp]
         public void Setup()
         {
-            _dateProvider = new Fake<IDateProvider>();
+            _dateProviderMock = A.Fake<IDateProvider>();
         }
 
         [Test]
@@ -29,7 +29,7 @@
             };
 
             // when
-            var duration = new Statistics(listOfActivities, _dateProvider.FakedObject).TotalDurationOfActivities();
+            var duration = new Statistics(listOfActivities, _dateProviderMock).TotalDurationOfActivities();
 
             // then
             Assert.That(duration, Is.EqualTo(300));
@@ -46,10 +46,10 @@
                 new Activity(new DateTime(2014, 10, 01), 80, ActivityType.Movie)
             };
 
-            _dateProvider.CallsTo(provider => provider.GetCurrentDate()).Returns(new DateTime(2014, 10, 21));
+            A.CallTo(() => _dateProviderMock.GetCurrentDate()).Returns(new DateTime(2014, 10, 21));
 
             // when
-            var statiscticsTime = new Statistics(listOfActivities, _dateProvider.FakedObject).TotalTimeSpan();
+            var statiscticsTime = new Statistics(listOfActivities, _dateProviderMock).TotalTimeSpan();
 
             // then
             const int expectedDays = 293;
@@ -68,7 +68,7 @@
             };
 
             // when
-            var totalDurationOfMovies = new Statistics(listOfActivities, _dateProvider.FakedObject).TotalDurationOfActivities(ActivityType.Movie);
+            var totalDurationOfMovies = new Statistics(listOfActivities, _dateProviderMock).TotalDurationOfActivities(ActivityType.Movie);
 
             // then
             Assert.That(totalDurationOfMovies, Is.EqualTo(220));
@@ -87,7 +87,7 @@
             };
 
             // when
-            var totalDurationOfMovies = new Statistics(listOfActivities, _dateProvider.FakedObject).TotalDurationOfActivities(ActivityType.Series);
+            var totalDurationOfMovies = new Statistics(listOfActivities, _dateProviderMock).TotalDurationOfActivities(ActivityType.Series);
 
             // then
             Assert.That(totalDurationOfMovies, Is.EqualTo(160));
@@ -107,7 +107,7 @@
 
             // when
             var averageInterval =
-                new Statistics(listOfActivities, _dateProvider.FakedObject).AverageIntervalBetweenActivities;
+                new Statistics(listOfActivities, _dateProviderMock).AverageIntervalBetweenActivities;
 
             // then
             Assert.That(averageInterval, Is.EqualTo(4));
@@ -125,7 +125,7 @@
             };
 
             // when
-            var statistics = new Statistics(listOfActivities, _dateProvider.FakedObject);
+            var statistics = new Statistics(listOfActivities, _dateProviderMock);
 
             var totalNumberOfWatchedMovies = statistics.TotalNumberOfMovies;
             var totalNumberOfWatchedSeries = statistics.TotalNumberOfSeries;
@@ -148,7 +148,7 @@
             };
 
             // when
-            var averageIntervalBetweenCinemaVisits = new Statistics(activities, _dateProvider.FakedObject).AverageIntervalBetweenCinemaVisits;
+            var averageIntervalBetweenCinemaVisits = new Statistics(activities, _dateProviderMock).AverageIntervalBetweenCinemaVisits;
 
             // then
             Assert.That(averageIntervalBetweenCinemaVisits, Is.EqualTo(3.5));
