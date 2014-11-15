@@ -9,6 +9,8 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.sublime-project
+*.sublime-workspace
 
 # Build results
 [Dd]ebug/
