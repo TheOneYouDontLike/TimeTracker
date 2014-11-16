@@ -9,16 +9,16 @@
     [TestFixture]
     public class StatisticsTests
     {
-        private IDateProvider _dateProviderMock;
+        private IDateProvider _dateProvider;
 
         [SetUp]
         public void Setup()
         {
-            _dateProviderMock = A.Fake<IDateProvider>();
+            _dateProvider = A.Fake<IDateProvider>();
         }
 
         [Test]
-        public void ShouldCountActivitiesTotalDuration()
+        public void Should_count_activities_total_duration()
         {
             // given
             var listOfActivities = new List<Activity>
@@ -29,14 +29,14 @@
             };
 
             // when
-            var duration = new Statistics(listOfActivities, _dateProviderMock).TotalDurationOfActivities();
+            var duration = new Statistics(listOfActivities, _dateProvider).TotalDurationOfActivities();
 
             // then
             Assert.That(duration, Is.EqualTo(300));
         }
 
         [Test]
-        public void ShouldDetermineStatisticsTimeSpan()
+        public void Should_determine_statistics_time_span()
         {
             // given
             var listOfActivities = new List<Activity>
@@ -46,10 +46,10 @@
                 new Activity(new DateTime(2014, 10, 01), 80, ActivityType.Movie)
             };
 
-            A.CallTo(() => _dateProviderMock.GetCurrentDate()).Returns(new DateTime(2014, 10, 21));
+            A.CallTo(() => _dateProvider.GetCurrentDate()).Returns(new DateTime(2014, 10, 21));
 
             // when
-            var statiscticsTime = new Statistics(listOfActivities, _dateProviderMock).TotalTimeSpan();
+            var statiscticsTime = new Statistics(listOfActivities, _dateProvider).TotalTimeSpan();
 
             // then
             const int expectedDays = 293;
@@ -57,7 +57,7 @@
         }
 
         [Test]
-        public void ShouldCalculateMoviesTotalDuration()
+        public void Should_calculate_movies_total_duration()
         {
             // given
             var listOfActivities = new List<Activity>
@@ -68,14 +68,14 @@
             };
 
             // when
-            var totalDurationOfMovies = new Statistics(listOfActivities, _dateProviderMock).TotalDurationOfActivities(ActivityType.Movie);
+            var totalDurationOfMovies = new Statistics(listOfActivities, _dateProvider).TotalDurationOfActivities(ActivityType.Movie);
 
             // then
             Assert.That(totalDurationOfMovies, Is.EqualTo(220));
         }
 
         [Test]
-        public void ShouldCalculateSeriesTotalDuration()
+        public void Should_calculate_series_total_duration()
         {
             // given
             var listOfActivities = new List<Activity>
@@ -87,14 +87,14 @@
             };
 
             // when
-            var totalDurationOfMovies = new Statistics(listOfActivities, _dateProviderMock).TotalDurationOfActivities(ActivityType.Series);
+            var totalDurationOfMovies = new Statistics(listOfActivities, _dateProvider).TotalDurationOfActivities(ActivityType.Series);
 
             // then
             Assert.That(totalDurationOfMovies, Is.EqualTo(160));
         }
 
         [Test]
-        public void ShouldCalculateAverageIntervalBetweenActivities()
+        public void Should_calculate_average_interval_between_activities()
         {
             // given
             var listOfActivities = new List<Activity>
@@ -107,14 +107,14 @@
 
             // when
             var averageInterval =
-                new Statistics(listOfActivities, _dateProviderMock).AverageIntervalBetweenActivities;
+                new Statistics(listOfActivities, _dateProvider).AverageIntervalBetweenActivities;
 
             // then
             Assert.That(averageInterval, Is.EqualTo(4));
         }
 
         [Test]
-        public void ShouldCalculateTotalNumberOfWatchedActivity()
+        public void Should_calculate_total_number_of_watched_activities()
         {
             // given
             var listOfActivities = new List<Activity>
@@ -125,7 +125,7 @@
             };
 
             // when
-            var statistics = new Statistics(listOfActivities, _dateProviderMock);
+            var statistics = new Statistics(listOfActivities, _dateProvider);
 
             var totalNumberOfWatchedMovies = statistics.TotalNumberOfMovies;
             var totalNumberOfWatchedSeries = statistics.TotalNumberOfSeries;
@@ -136,7 +136,7 @@
         }
 
         [Test]
-        public void ShouldCalculateAverageIntervalBetweenVisitsInTheCinema()
+        public void Should_calculate_average_interval_between_visits_in_the_cinema()
         {
             // given
             var activities = new List<Activity>
@@ -148,7 +148,7 @@
             };
 
             // when
-            var averageIntervalBetweenCinemaVisits = new Statistics(activities, _dateProviderMock).AverageIntervalBetweenCinemaVisits;
+            var averageIntervalBetweenCinemaVisits = new Statistics(activities, _dateProvider).AverageIntervalBetweenCinemaVisits;
 
             // then
             Assert.That(averageIntervalBetweenCinemaVisits, Is.EqualTo(3.5));

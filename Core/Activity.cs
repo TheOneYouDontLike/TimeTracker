@@ -4,6 +4,7 @@ namespace Core
 
     public class Activity
     {
+        public int Id { get; private set; }
         public DateTime Date { get; private set; }
         public int Duration { get; private set; }
         public ActivityType ActivityType { get; private set; }
@@ -23,7 +24,7 @@ namespace Core
         }
 
         public Activity(DateTime date, int duration, ActivityType activityType)
-        {
+        {            
             Date = date;
             Duration = duration;
             ActivityType = activityType;

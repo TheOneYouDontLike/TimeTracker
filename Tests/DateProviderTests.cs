@@ -8,7 +8,7 @@
     public class DateProviderTests
     {
         [Test]
-        public void ShouldReturnCurrentDate()
+        public void Should_return_current_date()
         {
             // given
             var dateProvider = new DateProvider();
