@@ -10,14 +10,14 @@ namespace Tests
         [Test]
         public void Should_be_possible_to_create_new_activity()
         {
-            new Activity(DateTime.Now, 120, ActivityType.Movie);
+            new Activity("Interstellar", DateTime.Now, 120, ActivityType.Movie);
         }
 
         [Test]
         public void Should_be_possible_to_create_movie_watched_in_the_cinema()
         {
             // when
-            Activity activity = new Activity(new DateTime(), 120, ActivityType.Movie)
+            Activity activity = new Activity("Interstellar", new DateTime(), 120, ActivityType.Movie)
             {
                 WatchedInCinema = true
             };
@@ -32,7 +32,7 @@ namespace Tests
             // when
             var creatingNewActivity = new TestDelegate(() =>
             {
-                new Activity(new DateTime(), 120, ActivityType.Series)
+                new Activity("Family Guy", new DateTime(), 120, ActivityType.Series)
                 {
                     WatchedInCinema = true
                 };

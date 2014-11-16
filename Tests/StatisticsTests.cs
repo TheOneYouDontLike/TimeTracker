@@ -23,9 +23,9 @@
             // given
             var listOfActivities = new List<Activity>
             {
-                new Activity(DateTime.Now, 100, ActivityType.Movie),
-                new Activity(DateTime.Now, 120, ActivityType.Movie),
-                new Activity(DateTime.Now, 80, ActivityType.Series)
+                new Activity("Interstellar", DateTime.Now, 100, ActivityType.Movie),
+                new Activity("The Dark Knight", DateTime.Now, 120, ActivityType.Movie),
+                new Activity("Futurama", DateTime.Now, 80, ActivityType.Series)
             };
 
             // when
@@ -41,9 +41,9 @@
             // given
             var listOfActivities = new List<Activity>
             {
-                new Activity(new DateTime(2014, 01, 01), 100, ActivityType.Movie),
-                new Activity(new DateTime(2014, 05, 01), 120, ActivityType.Movie),
-                new Activity(new DateTime(2014, 10, 01), 80, ActivityType.Movie)
+                new Activity("Interstellar", new DateTime(2014, 01, 01), 100, ActivityType.Movie),
+                new Activity("The Dark Knight", new DateTime(2014, 05, 01), 120, ActivityType.Movie),
+                new Activity("The Prestige", new DateTime(2014, 10, 01), 80, ActivityType.Movie)
             };
 
             A.CallTo(() => _dateProvider.GetCurrentDate()).Returns(new DateTime(2014, 10, 21));
@@ -62,9 +62,9 @@
             // given
             var listOfActivities = new List<Activity>
             {
-                new Activity(new DateTime(2014, 01, 01), 100, ActivityType.Movie),
-                new Activity(new DateTime(2014, 05, 01), 120, ActivityType.Movie),
-                new Activity(new DateTime(2014, 10, 01), 80, ActivityType.Series)
+                new Activity("Interstellar", new DateTime(2014, 01, 01), 100, ActivityType.Movie),
+                new Activity("The Dark Knight", new DateTime(2014, 05, 01), 120, ActivityType.Movie),
+                new Activity("Family Guy", new DateTime(2014, 10, 01), 80, ActivityType.Series)
             };
 
             // when
@@ -80,10 +80,10 @@
             // given
             var listOfActivities = new List<Activity>
             {
-                new Activity(new DateTime(2014, 01, 01), 100, ActivityType.Movie),
-                new Activity(new DateTime(2014, 05, 01), 120, ActivityType.Movie),
-                new Activity(new DateTime(2014, 10, 01), 80, ActivityType.Series),
-                new Activity(new DateTime(2014, 10, 01), 80, ActivityType.Series)
+                new Activity("Interstellar", new DateTime(2014, 01, 01), 100, ActivityType.Movie),
+                new Activity("The Dark Knight", new DateTime(2014, 05, 01), 120, ActivityType.Movie),
+                new Activity("Dexter", new DateTime(2014, 10, 01), 80, ActivityType.Series),
+                new Activity("Breaking Bad", new DateTime(2014, 10, 01), 80, ActivityType.Series)
             };
 
             // when
@@ -99,10 +99,10 @@
             // given
             var listOfActivities = new List<Activity>
             {
-                new Activity(new DateTime(2014, 01, 01), 100, ActivityType.Movie),
-                new Activity(new DateTime(2014, 01, 04), 120, ActivityType.Movie),
-                new Activity(new DateTime(2014, 01, 08), 80, ActivityType.Series),
-                new Activity(new DateTime(2014, 01, 13), 80, ActivityType.Series)
+                new Activity("El Dorado", new DateTime(2014, 01, 01), 100, ActivityType.Movie),
+                new Activity("When Harry Met Sally", new DateTime(2014, 01, 04), 120, ActivityType.Movie),
+                new Activity("Firefly", new DateTime(2014, 01, 08), 80, ActivityType.Series),
+                new Activity("Twin Peaks", new DateTime(2014, 01, 13), 80, ActivityType.Series)
             };
 
             // when
@@ -119,9 +119,9 @@
             // given
             var listOfActivities = new List<Activity>
             {
-                new Activity(new DateTime(2014, 01, 01), 100, ActivityType.Movie),
-                new Activity(new DateTime(2014, 01, 04), 120, ActivityType.Movie),
-                new Activity(new DateTime(2014, 01, 04), 120, ActivityType.Series)
+                new Activity("Bringing Up Baby", new DateTime(2014, 01, 01), 100, ActivityType.Movie),
+                new Activity("Vertigo", new DateTime(2014, 01, 04), 120, ActivityType.Movie),
+                new Activity("True Detective", new DateTime(2014, 01, 04), 120, ActivityType.Series)
             };
 
             // when
@@ -141,10 +141,10 @@
             // given
             var activities = new List<Activity>
             {
-                new Activity(new DateTime(2014, 01, 01), 100, ActivityType.Movie){ WatchedInCinema = true },
-                new Activity(new DateTime(2014, 01, 04), 120, ActivityType.Movie){ WatchedInCinema = true },
-                new Activity(new DateTime(2014, 01, 08), 120, ActivityType.Movie){ WatchedInCinema = true },
-                new Activity(new DateTime(2014, 01, 20), 120, ActivityType.Movie)
+                new Activity("Interstellar", new DateTime(2014, 01, 01), 100, ActivityType.Movie){ WatchedInCinema = true },
+                new Activity("Transformers", new DateTime(2014, 01, 04), 120, ActivityType.Movie){ WatchedInCinema = true },
+                new Activity("Jurassic Park", new DateTime(2014, 01, 08), 120, ActivityType.Movie){ WatchedInCinema = true },
+                new Activity("Roman Holiday", new DateTime(2014, 01, 20), 120, ActivityType.Movie)
             };
 
             // when

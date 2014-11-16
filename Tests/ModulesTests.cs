@@ -9,15 +9,11 @@
         [Test]
         public void ShouldCreateHomeNancyModule()
         {
-            var module = new HomeModule();
+            var module = new ActivityApiModule();
         }
     }
 
-    public class HomeModule : NancyModule
+    public class ActivityApiModule : NancyModule
     {
-        public HomeModule()
-        {
-            
-        } 
     }
 }

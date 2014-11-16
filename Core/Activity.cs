@@ -5,6 +5,7 @@ namespace Core
     public class Activity
     {
         public int Id { get; private set; }
+        public string Name { get; private set; }
         public DateTime Date { get; private set; }
         public int Duration { get; private set; }
         public ActivityType ActivityType { get; private set; }
@@ -23,8 +24,9 @@ namespace Core
             }
         }
 
-        public Activity(DateTime date, int duration, ActivityType activityType)
-        {            
+        public Activity(string name, DateTime date, int duration, ActivityType activityType)
+        {
+            Name = name;
             Date = date;
             Duration = duration;
             ActivityType = activityType;
