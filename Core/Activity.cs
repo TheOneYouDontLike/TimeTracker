@@ -24,6 +24,11 @@ namespace Core
             }
         }
 
+        private Activity()
+        {
+            
+        }
+
         public Activity(string name, DateTime date, int duration, ActivityType activityType)
         {
             Name = name;
