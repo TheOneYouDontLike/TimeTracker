@@ -94,8 +94,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActivityTests.cs" />
-    <Compile Include="StoringActivitiesTests.cs" />
+    <Compile Include="ActivityServiceTests.cs" />
     <Compile Include="DateProviderTests.cs" />
+    <Compile Include="JsonSerializationTests.cs" />
+    <Compile Include="JsonSettings.cs" />
     <Compile Include="ModulesTests.cs" />
     <Compile Include="StatisticsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

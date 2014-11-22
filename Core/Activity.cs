@@ -24,11 +24,6 @@ namespace Core
             }
         }
 
-        private Activity()
-        {
-            
-        }
-
         public Activity(string name, DateTime date, int duration, ActivityType activityType)
         {
             Name = name;
@@ -36,5 +31,7 @@ namespace Core
             Duration = duration;
             ActivityType = activityType;
         }
+
+        private Activity() { }
     }
 }
