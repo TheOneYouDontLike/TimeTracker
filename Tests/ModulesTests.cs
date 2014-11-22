@@ -4,9 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using Core;
-    using CsQuery.ExtensionMethods;
-    using CsQuery.Utility;
+    using FakeItEasy;
     using Nancy;
+    using Nancy.Extensions;
     using Nancy.Testing;
     using NUnit.Framework;
     using Raven.Client.Embedded;
@@ -16,6 +16,7 @@
     [TestFixture]
     public class ModulesTests
     {
+        private const string ApplicationJson = "application/json";
         private Browser _browser;
         private ActivityService _activityService;
         private EmbeddableDocumentStore _embeddableDocumentStore;
@@ -30,7 +31,9 @@
 
             _browser = new Browser(
                 with => with.Module(new ActivityApiModule(_activityService)),
-                context => context.Accept("application/json"));
+                context => context.Accept(ApplicationJson));
+
+            JsonConvert.DefaultSettings += JsonSettings.EnumSerialization;
         }
 
         [Test]
@@ -56,6 +59,33 @@
             Assert.That(list[0].ActivityType, Is.EqualTo(ActivityType.Movie));
             Assert.That(list[1].Name, Is.EqualTo("Matrix II"));
         }
+
+        [Test]
+        public void Should_add_activity()
+        {
+            // given
+            var activity = new Activity("Kill Bill", new DateTime(2014, 09, 09), 150, ActivityType.Movie)
+            {
+                WatchedInCinema = true
+            };
+
+            var serializedActivity = JsonConvert.SerializeObject(activity);
+
+            // when
+            var postResponse = _browser.Post("/activities", with =>
+            {
+                with.HttpsRequest();
+                with.Body(serializedActivity, ApplicationJson);
+            });
+
+            var response = _browser.Get("/activities");
+            var list = JsonConvert.DeserializeObject<List<Activity>>(response.Body.AsString());
+
+            // then
+            Assert.That(postResponse.StatusCode, Is.EqualTo(HttpStatusCode.Created));
+
+            Assert.That(list.Any(a => a.Name == "Kill Bill"));
+        }
     }
 
     public class ActivityApiModule : NancyModule
@@ -78,6 +108,15 @@
                 response.StatusCode = HttpStatusCode.OK;
 
                 return response;
+            };
+
+            Post["/activities"] = _ =>
+            {
+                var deserializedActivity = JsonConvert.DeserializeObject<Activity>(Request.Body.AsString());
+
+                _activityService.AddNew(deserializedActivity);
+
+                return HttpStatusCode.Created;
             };
         }
     }
