@@ -56,9 +56,6 @@
 
             // when
             var jsonString = JsonConvert.SerializeObject(activities);
-            Console.WriteLine("Serialized");
-            Console.WriteLine(jsonString);
-
             var deserializedActivities = JsonConvert.DeserializeObject<List<Activity>>(jsonString);
             Console.WriteLine(jsonString);
 
