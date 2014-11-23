@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Cryptography;
     using Core;
     using FakeItEasy;
     using Nancy;
@@ -86,6 +87,35 @@
 
             Assert.That(list.Any(a => a.Name == "Kill Bill"));
         }
+
+        [Test]
+        public void Should_return_single_activity()
+        {
+            // given
+            var activity = new Activity("Kill Bill II", new DateTime(2014, 09, 09), 150, ActivityType.Movie)
+            {
+                WatchedInCinema = true
+            };
+
+            var serializedActivity = JsonConvert.SerializeObject(activity);
+
+            _browser.Post("/activities", with =>
+            {
+                with.HttpsRequest();
+                with.Body(serializedActivity, ApplicationJson);
+            });
+
+            // when
+            var response = _browser.Get("/activities/1");
+
+            var asString = response.Body.AsString();
+            //TODO: check Id deserialization and WatchedInCinemaProperty
+            var deserializedActivity = JsonConvert.DeserializeObject<Activity>(asString);
+
+            // then
+            Assert.That(deserializedActivity.Name, Is.EqualTo("Kill Bill II"));
+            Assert.That(deserializedActivity.Id, Is.EqualTo(1));
+        }
     }
 
     public class ActivityApiModule : NancyModule
@@ -117,6 +147,17 @@
                 _activityService.AddNew(deserializedActivity);
 
                 return HttpStatusCode.Created;
+            };
+
+            Get["/activities/{id}"] = _ =>
+            {
+                var id = _.id;
+                var activity = _activityService.GetById(id);
+                var serializedAcivity = JsonConvert.SerializeObject(activity);
+
+                var response = (Response)serializedAcivity;
+
+                return response;
             };
         }
     }
