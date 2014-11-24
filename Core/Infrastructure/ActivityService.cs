@@ -34,7 +34,7 @@ namespace Core.Infrastructure
         {
             using (var session = _documentStore.OpenSession())
             {
-                return Enumerable.ToList<Activity>(session.Query<Activity>());
+                return session.Query<Activity>().ToList();
             }
         }
 
