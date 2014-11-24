@@ -3,9 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Security.Cryptography;
     using Core;
-    using FakeItEasy;
+    using Core.Infrastructure;
     using Nancy;
     using Nancy.Extensions;
     using Nancy.Testing;
@@ -35,6 +34,7 @@
                 context => context.Accept(ApplicationJson));
 
             JsonConvert.DefaultSettings += JsonSettings.EnumSerialization;
+            JsonConvert.DefaultSettings += JsonSettings.PrivateSettersResolver;
         }
 
         [Test]
@@ -70,9 +70,9 @@
                 WatchedInCinema = true
             };
 
+            // when
             var serializedActivity = JsonConvert.SerializeObject(activity);
 
-            // when
             var postResponse = _browser.Post("/activities", with =>
             {
                 with.HttpsRequest();
@@ -109,12 +109,42 @@
             var response = _browser.Get("/activities/1");
 
             var asString = response.Body.AsString();
-            //TODO: check Id deserialization and WatchedInCinemaProperty
             var deserializedActivity = JsonConvert.DeserializeObject<Activity>(asString);
 
             // then
             Assert.That(deserializedActivity.Name, Is.EqualTo("Kill Bill II"));
             Assert.That(deserializedActivity.Id, Is.EqualTo(1));
+            Assert.That(deserializedActivity.WatchedInCinema, Is.True);
+        }
+
+        [Test]
+        public void Should_update_activity()
+        {
+            // given
+            var activity = new Activity("Jurassic Park", new DateTime(2014, 09, 09), 120, ActivityType.Movie)
+            {
+                WatchedInCinema = true
+            };
+
+            _activityService.AddNew(activity);
+
+
+            // when
+            activity.ChangeName("Jurassic Park II");
+
+            var serializedActivity = JsonConvert.SerializeObject(activity);
+
+            _browser.Put("/activities/" + activity.Id, with =>
+            {
+                with.HttpRequest();
+                with.Body(serializedActivity, ApplicationJson);
+            });
+
+            var response = _browser.Get("/activities" + activity.Id);
+            var deserializedActivity = JsonConvert.DeserializeObject<Activity>(response.Body.AsString());
+
+            // then
+            Assert.That(deserializedActivity.Name, Is.EqualTo("Jurassic Park II"));
         }
     }
 
@@ -127,6 +157,7 @@
             _activityService = activityService;
 
             JsonConvert.DefaultSettings += JsonSettings.EnumSerialization;
+            JsonConvert.DefaultSettings += JsonSettings.PrivateSettersResolver;
 
             Get["/activities"] = _ =>
             {
@@ -151,8 +182,7 @@
 
             Get["/activities/{id}"] = _ =>
             {
-                var id = _.id;
-                var activity = _activityService.GetById(id);
+                var activity = _activityService.GetById(_.id);
                 var serializedAcivity = JsonConvert.SerializeObject(activity);
 
                 var response = (Response)serializedAcivity;

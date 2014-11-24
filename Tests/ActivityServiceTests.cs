@@ -1,9 +1,9 @@
 ﻿namespace Tests
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using Core;
+    using Core.Infrastructure;
     using NUnit.Framework;
     using Raven.Client;
     using Raven.Client.Embedded;
@@ -12,6 +12,7 @@
     public class ActivityServiceTests
     {
         private IDocumentStore _documentStore;
+        private ActivityService _activityService;
 
         [SetUp]
         public void Setup()
@@ -21,21 +22,23 @@
                 RunInMemory = true
             };
             _documentStore.Initialize();
+            _activityService = new ActivityService(_documentStore);
         }
 
         [Test]
         public void Should_be_possible_to_add_and_get_activity()
         {
             // given
-            var activityService = new ActivityService(_documentStore);
             var activity = new Activity("Interstellar", new DateTime(2014, 10, 12), 120, ActivityType.Movie);
 
             // when
-            activityService.AddNew(activity);
+            _activityService.AddNew(activity);
 
             // then
-            var activityFromStore = activityService.GetById(activity.Id);
+            var activityFromStore = _activityService.GetById(activity.Id);
+
             Assert.That(activityFromStore, Is.Not.Null);
+            Assert.That(activityFromStore.Id, Is.EqualTo(1));
             Assert.That(activityFromStore.Name, Is.EqualTo("Interstellar"));
         }
 
@@ -47,51 +50,31 @@
             var secondActivity = new Activity("The Prestige", new DateTime(2014, 10, 12), 120, ActivityType.Movie);
 
             // when
-            var activityService = new ActivityService(_documentStore);
-            activityService.AddNew(firstActivity);
-            activityService.AddNew(secondActivity);
+            _activityService.AddNew(firstActivity);
+            _activityService.AddNew(secondActivity);
 
-            var activities = activityService.GetAll();
+            var activities = _activityService.GetAll();
 
             // then
             Assert.That(activities.Count, Is.EqualTo(2));
             Assert.That(activities.Any(activity => activity.Name == "Interstellar"));
             Assert.That(activities.Any(activity => activity.Name == "The Prestige"));            
         }
-    }
 
-    public class ActivityService
-    {
-        private readonly IDocumentStore _documentStore;
-
-        public ActivityService(IDocumentStore documentStore)
+        [Test]
+        public void Should_update_activity()
         {
-            _documentStore = documentStore;
-        }
+            // given
+            var activity = new Activity("Dumb and dumber", new DateTime(2013, 01, 01), 120, ActivityType.Movie);
+            _activityService.AddNew(activity);
 
-        public void AddNew(Activity activity)
-        {
-            using (var session = _documentStore.OpenSession())
-            {
-                session.Store(activity);
-                session.SaveChanges();
-            }
-        }
+            // when
+            _activityService.ChangeActivityName(activity.Id, "Dumb and dumber II");
 
-        public Activity GetById(int id)
-        {
-            using (var session = _documentStore.OpenSession())
-            {
-                return session.Load<Activity>(id);
-            }
-        }
+            var updatedActivity = _activityService.GetById(activity.Id);
 
-        public List<Activity> GetAll()
-        {
-            using (var session = _documentStore.OpenSession())
-            {
-                return session.Query<Activity>().ToList();
-            }
+            // then
+            Assert.That(updatedActivity.Name, Is.EqualTo("Dumb and dumber II"));
         }
     }
 }
