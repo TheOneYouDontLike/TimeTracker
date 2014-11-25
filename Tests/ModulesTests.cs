@@ -118,7 +118,7 @@
         }
 
         [Test]
-        public void Should_update_activity()
+        public void Should_update_activity_name()
         {
             // given
             var activity = new Activity("Jurassic Park", new DateTime(2014, 09, 09), 120, ActivityType.Movie)
@@ -128,19 +128,16 @@
 
             _activityService.AddNew(activity);
 
-
             // when
-            activity.ChangeName("Jurassic Park II");
+            var serializedName = JsonConvert.SerializeObject(new { NewName = "Jurassic Park II" });
 
-            var serializedActivity = JsonConvert.SerializeObject(activity);
-
-            _browser.Put("/activities/" + activity.Id, with =>
+            _browser.Put("/activities/changeName/" + activity.Id, with =>
             {
                 with.HttpRequest();
-                with.Body(serializedActivity, ApplicationJson);
+                with.Body(serializedName, ApplicationJson);
             });
 
-            var response = _browser.Get("/activities" + activity.Id);
+            var response = _browser.Get("/activities/" + activity.Id);
             var deserializedActivity = JsonConvert.DeserializeObject<Activity>(response.Body.AsString());
 
             // then
@@ -188,6 +185,15 @@
                 var response = (Response)serializedAcivity;
 
                 return response;
+            };
+
+            Put["/activities/changeName/{id}"] = _ =>
+            {
+                var newName = Request.Body.AsString();
+                var deserializedObject = JsonConvert.DeserializeAnonymousType(newName, new { NewName = "" });
+                _activityService.ChangeActivityName(_.id, deserializedObject.NewName);
+
+                return HttpStatusCode.OK;
             };
         }
     }
