@@ -5,8 +5,8 @@
     using System.Linq;
     using Core;
     using Core.Infrastructure;
+    using Core.Modules;
     using Nancy;
-    using Nancy.Extensions;
     using Nancy.Testing;
     using NUnit.Framework;
     using Raven.Client.Embedded;
@@ -142,59 +142,6 @@
 
             // then
             Assert.That(deserializedActivity.Name, Is.EqualTo("Jurassic Park II"));
-        }
-    }
-
-    public class ActivityApiModule : NancyModule
-    {
-        private readonly ActivityService _activityService;
-
-        public ActivityApiModule(ActivityService activityService)
-        {
-            _activityService = activityService;
-
-            JsonConvert.DefaultSettings += JsonSettings.EnumSerialization;
-            JsonConvert.DefaultSettings += JsonSettings.PrivateSettersResolver;
-
-            Get["/activities"] = _ =>
-            {
-                var activities = _activityService.GetAll();
-
-                var serializedAcivities = JsonConvert.SerializeObject(activities);
-
-                var response = (Response)serializedAcivities;
-                response.StatusCode = HttpStatusCode.OK;
-
-                return response;
-            };
-
-            Post["/activities"] = _ =>
-            {
-                var deserializedActivity = JsonConvert.DeserializeObject<Activity>(Request.Body.AsString());
-
-                _activityService.AddNew(deserializedActivity);
-
-                return HttpStatusCode.Created;
-            };
-
-            Get["/activities/{id}"] = _ =>
-            {
-                var activity = _activityService.GetById(_.id);
-                var serializedAcivity = JsonConvert.SerializeObject(activity);
-
-                var response = (Response)serializedAcivity;
-
-                return response;
-            };
-
-            Put["/activities/changeName/{id}"] = _ =>
-            {
-                var newName = Request.Body.AsString();
-                var deserializedObject = JsonConvert.DeserializeAnonymousType(newName, new { NewName = "" });
-                _activityService.ChangeActivityName(_.id, deserializedObject.NewName);
-
-                return HttpStatusCode.OK;
-            };
         }
     }
 }
