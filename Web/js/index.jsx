@@ -7,7 +7,7 @@ module.exports = React.createClass({
         return (
             <div className='activities-box'>
                 <h1>Sth here</h1>
-                helo {this.props.name}
+                helo { this.props.name }
             </div>
         );
     }
