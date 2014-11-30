@@ -6,7 +6,7 @@
   "scripts": {
     "test": "test"
   },
-  "author": "",
+  "author": "TheOneYouDontLike <theoneyoudontlike@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "react": "^0.12.1"
