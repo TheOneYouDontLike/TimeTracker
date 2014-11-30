@@ -3,15 +3,12 @@
 var React = require('react');
 
 module.exports = React.createClass({
-    displayName: 'ActivitiesClass',
     render: function() {
         return (
-            React.createElement(
-                'div', {
-                    className: 'activities-box' 
-                },
-                'Hello Activities!'
-            )
+            <div className='activities-box'>
+                <h1>Sth here</h1>
+                helo {this.props.name}
+            </div>
         );
     }
 });
