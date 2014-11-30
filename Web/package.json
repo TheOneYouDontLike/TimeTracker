@@ -1,0 +1,14 @@
+{
+  "name": "TimeTracker",
+  "version": "0.0.0",
+  "description": "Time tracking app",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "react": "^0.12.1"
+  }
+}
