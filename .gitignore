@@ -190,3 +190,4 @@ FakesAssemblies/
 
 #bower
 Web/bower_components
+Web/node_modules
