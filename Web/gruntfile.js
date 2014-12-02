@@ -28,8 +28,12 @@ module.exports = function(grunt) {
         },
         watch: {
             browserify: {
-                files: ['app.jsx', './js/**', 'tests/**/*.jsx'],
+                files: ['app.jsx', './js/**'],
                 tasks: ['browserify:dev', 'browserify:tests', 'mochaTest']
+            },
+            tests: {
+                files: ['tests/**/*.jsx'],
+                tasks: ['browserify:tests', 'mochaTest']
             }
         }
     });
