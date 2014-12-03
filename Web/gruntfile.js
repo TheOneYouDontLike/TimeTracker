@@ -10,12 +10,12 @@ module.exports = function(grunt) {
                 extensions: ['.jsx'],
             },
             dev: {
-                src: ['app.jsx', 'js/*.jsx'],
+                src: ['app.jsx'],
                 dest: 'bundle.js'
             },
             tests: {
-                src: ['tests/**/*.jsx'],
-                dest: 'tests/testsBundle.js'
+                src: ['tests/suite.jsx'],
+                dest: 'spec.js'
             }
         },
         mochaTest: {
@@ -23,13 +23,13 @@ module.exports = function(grunt) {
                 options: {
                     reporter: 'spec'
                 },
-                src: ['tests/**/*.js']
+                src: ['spec.js']
             }
         },
         watch: {
             browserify: {
                 files: ['app.jsx', './js/**'],
-                tasks: ['browserify:dev', 'browserify:tests', 'mochaTest']
+                tasks: ['browserify:dev', 'mochaTest']
             },
             tests: {
                 files: ['tests/**/*.jsx'],

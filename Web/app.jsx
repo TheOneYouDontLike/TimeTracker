@@ -1,6 +1,6 @@
 'use strict';
 
 var React = require('react');
-var Activities = require('./js/index.jsx');
+var ActivitiesBox = require('./js/activitiesBox.jsx');
 
-React.render(<Activities name="Patryk" />, document.getElementById('main-container'));
+React.render(<ActivitiesBox name="swagger" />, document.getElementById('main-container'));

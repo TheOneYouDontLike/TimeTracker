@@ -194,4 +194,4 @@ Web/node_modules
 
 #main bundle file
 Web/bundle.js
-Web/tests/testsBundle.js
+Web/spec.js
