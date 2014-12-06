@@ -3,9 +3,9 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Core;
-    using Core.Infrastructure;
-    using Core.Modules;
+    using App;
+    using App.Infrastructure;
+    using App.Modules;
     using Nancy;
     using Nancy.Testing;
     using NUnit.Framework;

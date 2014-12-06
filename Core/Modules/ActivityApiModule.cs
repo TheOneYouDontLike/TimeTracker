@@ -1,6 +1,6 @@
-namespace Core.Modules
+namespace App.Modules
 {
-    using Core.Infrastructure;
+    using App.Infrastructure;
     using Nancy;
     using Nancy.Extensions;
     using Newtonsoft.Json;

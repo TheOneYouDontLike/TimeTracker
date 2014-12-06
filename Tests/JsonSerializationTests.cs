@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using Core;
+    using App;
     using Newtonsoft.Json;
     using NUnit.Framework;
 

@@ -1,4 +1,4 @@
-namespace Core.Infrastructure
+namespace App.Infrastructure
 {
     using System.Collections.Generic;
     using System.Linq;

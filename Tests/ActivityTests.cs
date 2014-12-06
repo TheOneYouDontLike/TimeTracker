@@ -1,7 +1,7 @@
 namespace Tests
 {
     using System;
-    using Core;
+    using App;
     using NUnit.Framework;
 
     [TestFixture]

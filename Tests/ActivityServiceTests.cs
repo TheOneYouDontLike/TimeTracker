@@ -2,8 +2,8 @@
 {
     using System;
     using System.Linq;
-    using Core;
-    using Core.Infrastructure;
+    using App;
+    using App.Infrastructure;
     using NUnit.Framework;
     using Raven.Client;
     using Raven.Client.Embedded;
