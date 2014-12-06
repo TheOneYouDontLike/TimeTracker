@@ -85,7 +85,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\App.csproj">
+    <ProjectReference Include="..\App\App.csproj">
       <Project>{0E1E1608-30D7-4B5A-AAF7-34FC98C362C7}</Project>
       <Name>App</Name>
     </ProjectReference>
