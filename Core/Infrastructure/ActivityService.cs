@@ -3,8 +3,17 @@ namespace App.Infrastructure
     using System.Collections.Generic;
     using System.Linq;
     using Raven.Client;
+    using Raven.Client.Linq;
 
-    public class ActivityService
+    public interface IActivityService
+    {
+        void AddNew(Activity activity);
+        Activity GetById(int id);
+        List<Activity> GetAll();
+        void ChangeActivityName(int id, string newName);
+    }
+
+    public class ActivityService : IActivityService
     {
         private readonly IDocumentStore _documentStore;
 
@@ -32,6 +41,7 @@ namespace App.Infrastructure
 
         public List<Activity> GetAll()
         {
+            _documentStore.Initialize();
             using (var session = _documentStore.OpenSession())
             {
                 return session.Query<Activity>().ToList();

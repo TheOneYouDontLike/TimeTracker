@@ -7,9 +7,9 @@ namespace App.Modules
 
     public class ActivityApiModule : NancyModule
     {
-        private readonly ActivityService _activityService;
+        private readonly IActivityService _activityService;
 
-        public ActivityApiModule(ActivityService activityService)
+        public ActivityApiModule(IActivityService activityService)
         {
             _activityService = activityService;
 
