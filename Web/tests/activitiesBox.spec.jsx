@@ -14,15 +14,23 @@ var ActivitiesBox = require('../js/activitiesBox.jsx');
 
 describe('activities-box', function () {
 	it('should render correctly with proper prop.name', function () {
+		// when
 		var rendered = TestUtils.renderIntoDocument(<ActivitiesBox name="heheszko" />);
 		
-		//console.log(rendered.getDOMNode());
+		// then
 		rendered.props.name.should.equal('heheszko');
-		rendered.state.count.should.equal(0);
+	});
 
+	it('should increment state.count after clicking', function () {
+		// given
+		var rendered = TestUtils.renderIntoDocument(<ActivitiesBox name="heheszko" />);
+		rendered.state.count.should.equal(0);		
+
+		// when
 		TestUtils.Simulate.click(rendered.refs.activitiesBoxRef);
 		TestUtils.Simulate.click(rendered.refs.activitiesBoxRef);
 
+		// then
 		rendered.state.count.should.equal(2);
 	});
 });
