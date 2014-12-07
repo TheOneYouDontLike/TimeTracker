@@ -5,9 +5,9 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         browserify: {
             options: {
-                debug: true,
                 transform: ['reactify'],
                 extensions: ['.jsx'],
+                exclude: ['jsdom']
             },
             dev: {
                 src: ['app.jsx'],

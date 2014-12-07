@@ -1,6 +1,6 @@
 'use strict';
 
-var jsdom = require('js'+'dom').jsdom; // some sick magic
+var jsdom = require('jsdom').jsdom;
 var should = require('should');
 
 global.document = jsdom('<html><head></head><body></body></html>');
