@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using App;
     using App.Infrastructure;
@@ -53,6 +54,7 @@
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
 
             Console.WriteLine(response.Body.AsString());
+            
             var list = JsonConvert.DeserializeObject<List<Activity>>(response.Body.AsString());
 
             Assert.That(list[0].Name, Is.EqualTo("Matrix"));
@@ -108,13 +110,14 @@
             // when
             var response = _browser.Get("/activities/1");
 
-            var asString = response.Body.AsString();
+            var asString = response.Body.AsString();            
             var deserializedActivity = JsonConvert.DeserializeObject<Activity>(asString);
 
             // then
             Assert.That(deserializedActivity.Name, Is.EqualTo("Kill Bill II"));
             Assert.That(deserializedActivity.Id, Is.EqualTo(1));
             Assert.That(deserializedActivity.WatchedInCinema, Is.True);
+            Assert.That(deserializedActivity.ActivityType, Is.EqualTo(ActivityType.Movie));
         }
 
         [Test]
@@ -142,6 +145,38 @@
 
             // then
             Assert.That(deserializedActivity.Name, Is.EqualTo("Jurassic Park II"));
+        }
+
+        [Test]
+        public void Should_return_activity_with_type_as_type_name_not_number()
+        {
+            // should be:
+            // { 
+            //  ...
+            //  "ActivityType": "Movie"
+            //  ...
+            // }
+            // not:
+            // { 
+            //  ...
+            //  "ActivityType": 0
+            //  ...
+            // }
+
+            // given
+            _activityService.AddNew(
+                new Activity("Matrix", new DateTime(2008, 12, 12), 200, ActivityType.Movie));
+
+            // when
+            var response = _browser.Get("/activities");
+
+            // then
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+
+            var asString = response.Body.AsString();
+            Console.WriteLine(asString);
+
+            Assert.That(asString, Contains.Substring("Movie"));
         }
     }
 }

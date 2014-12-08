@@ -3,7 +3,6 @@ namespace App.Infrastructure
     using System.Collections.Generic;
     using System.Linq;
     using Raven.Client;
-    using Raven.Client.Linq;
 
     public interface IActivityService
     {
@@ -41,7 +40,6 @@ namespace App.Infrastructure
 
         public List<Activity> GetAll()
         {
-            _documentStore.Initialize();
             using (var session = _documentStore.OpenSession())
             {
                 return session.Query<Activity>().ToList();
