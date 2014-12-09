@@ -9,12 +9,15 @@
     [TestFixture]
     public class JsonSerializationTests
     {
+        [SetUp]
+        public void Setup()
+        {
+            JsonConvert.DefaultSettings += JsonSettings.GlobalJsonSerializerSettings;
+        }
+
         [Test]
         public void Should_serialize_activity_type_as_string()
         {
-            // given
-            JsonConvert.DefaultSettings += JsonSettings.EnumSerialization;
-
             // when
             var jsonString = JsonConvert.SerializeObject(ActivityType.Movie);
 
@@ -27,12 +30,10 @@
         {
             // given
             var activity = new Activity("Vertigo", new DateTime(2014, 02, 02), 100, ActivityType.Movie);
-            JsonConvert.DefaultSettings += JsonSettings.EnumSerialization;
 
             // when
             var jsonString = JsonConvert.SerializeObject(activity);
             var deserializedActivity = JsonConvert.DeserializeObject<Activity>(jsonString);
-            Console.WriteLine(jsonString);
 
             // then
             Assert.That(deserializedActivity.Name, Is.EqualTo("Vertigo"));
@@ -50,14 +51,11 @@
             {
                 activity,
                 activity2
-            };
-
-            JsonConvert.DefaultSettings += JsonSettings.EnumSerialization;
+            };            
 
             // when
             var jsonString = JsonConvert.SerializeObject(activities);
             var deserializedActivities = JsonConvert.DeserializeObject<List<Activity>>(jsonString);
-            Console.WriteLine(jsonString);
 
             // then
             Assert.That(deserializedActivities[0].Name, Is.EqualTo("Vertigo"));

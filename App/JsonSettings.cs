@@ -9,25 +9,13 @@ namespace App
 
     public static class JsonSettings
     {
-        public static Func<JsonSerializerSettings> EnumSerialization
+        public static Func<JsonSerializerSettings> GlobalJsonSerializerSettings
         {
             get
             {
                 var jsonSettings = new Func<JsonSerializerSettings>(() => new JsonSerializerSettings()
                 {
-                    Converters = new List<JsonConverter> { new StringEnumConverter() }
-                });
-
-                return jsonSettings;
-            }
-        }
-
-        public static Func<JsonSerializerSettings> PrivateSettersResolver
-        {
-            get
-            {
-                var jsonSettings = new Func<JsonSerializerSettings>(() => new JsonSerializerSettings()
-                {
+                    Converters = new List<JsonConverter> { new StringEnumConverter() },
                     ContractResolver = new SisoJsonDefaultContractResolver()
                 });
 

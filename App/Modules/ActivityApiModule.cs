@@ -13,8 +13,7 @@ namespace App.Modules
         {
             _activityService = activityService;
 
-            JsonConvert.DefaultSettings += JsonSettings.EnumSerialization;
-            JsonConvert.DefaultSettings += JsonSettings.PrivateSettersResolver;
+            JsonConvert.DefaultSettings += JsonSettings.GlobalJsonSerializerSettings;
 
             Get["/activities"] = _ =>
             {

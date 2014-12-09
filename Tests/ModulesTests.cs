@@ -34,8 +34,7 @@
                 with => with.Module(new ActivityApiModule(_activityService)),
                 context => context.Accept(ApplicationJson));
 
-            JsonConvert.DefaultSettings += JsonSettings.EnumSerialization;
-            JsonConvert.DefaultSettings += JsonSettings.PrivateSettersResolver;
+            JsonConvert.DefaultSettings += JsonSettings.GlobalJsonSerializerSettings;
         }
 
         [Test]
@@ -52,8 +51,6 @@
 
             // then
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-
-            Console.WriteLine(response.Body.AsString());
             
             var list = JsonConvert.DeserializeObject<List<Activity>>(response.Body.AsString());
 
@@ -172,9 +169,7 @@
 
             // then
             Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-
             var asString = response.Body.AsString();
-            Console.WriteLine(asString);
 
             Assert.That(asString, Contains.Substring("Movie"));
         }
