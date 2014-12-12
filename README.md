@@ -1,4 +1,3 @@
 TimeTracker
 ===========
-
-Time tracker app
+Time tracker app, using Nancy and ReactJS.
