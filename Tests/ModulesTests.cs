@@ -173,5 +173,19 @@
 
             Assert.That(asString, Contains.Substring("Movie"));
         }
+
+        [Test]
+        public void Should_return_index_view()
+        {
+            // given
+            var browser = new Browser(configurator => configurator.Module(new ViewsModule()));
+
+            // when
+            var browserResponse = browser.Get("/");
+
+            // then
+            var viewName = browserResponse.GetViewName();
+            Assert.That(viewName, Is.EqualTo("index.html"));
+        }
     }
 }

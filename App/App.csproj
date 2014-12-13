@@ -80,6 +80,7 @@
     <Compile Include="IDateProvider.cs" />
     <Compile Include="Infrastructure\ActivityService.cs" />
     <Compile Include="Infrastructure\DateProvider.cs" />
+    <Compile Include="Modules\ViewsModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
