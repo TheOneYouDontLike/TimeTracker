@@ -22,8 +22,7 @@ namespace App.Modules
                 var serializedAcivities = JsonConvert.SerializeObject(activities);
 
                 var response = (Response)serializedAcivities;
-                response.ContentType = "application/json";
-                response.StatusCode = HttpStatusCode.OK;
+                PrepareOkResponseForGetMethod(response);
 
                 return response;
             };
@@ -43,7 +42,8 @@ namespace App.Modules
                 var serializedAcivity = JsonConvert.SerializeObject(activity);
 
                 var response = (Response)serializedAcivity;
-                response.ContentType = "application/json";
+                PrepareOkResponseForGetMethod(response);
+
                 return response;
             };
 
@@ -55,6 +55,12 @@ namespace App.Modules
 
                 return HttpStatusCode.OK;
             };
+        }
+
+        private static void PrepareOkResponseForGetMethod(Response response)
+        {
+            response.ContentType = "application/json";
+            response.StatusCode = HttpStatusCode.OK;
         }
     }
 }
