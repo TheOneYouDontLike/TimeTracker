@@ -8,7 +8,7 @@
         {
             Get["/"] = _ =>
             {
-                return View["index.html"];
+                return View["Web/index.html"];
             };
         }
     }

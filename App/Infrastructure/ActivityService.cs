@@ -2,15 +2,8 @@ namespace App.Infrastructure
 {
     using System.Collections.Generic;
     using System.Linq;
+    using App.Domain;
     using Raven.Client;
-
-    public interface IActivityService
-    {
-        void AddNew(Activity activity);
-        Activity GetById(int id);
-        List<Activity> GetAll();
-        void ChangeActivityName(int id, string newName);
-    }
 
     public class ActivityService : IActivityService
     {

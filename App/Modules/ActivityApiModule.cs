@@ -1,5 +1,6 @@
 namespace App.Modules
 {
+    using App.Domain;
     using App.Infrastructure;
     using Nancy;
     using Nancy.Extensions;

@@ -72,20 +72,21 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Activity.cs" />
-    <Compile Include="JsonSettings.cs" />
+    <Compile Include="Domain\Activity.cs" />
+    <Compile Include="Domain\IActivityService.cs" />
+    <Compile Include="Infrastructure\JsonSettings.cs" />
     <Compile Include="Modules\ActivityApiModule.cs" />
-    <Compile Include="ActivityException.cs" />
-    <Compile Include="ActivityType.cs" />
-    <Compile Include="IDateProvider.cs" />
+    <Compile Include="Domain\ActivityException.cs" />
+    <Compile Include="Domain\ActivityType.cs" />
+    <Compile Include="Domain\IDateProvider.cs" />
     <Compile Include="Infrastructure\ActivityService.cs" />
     <Compile Include="Infrastructure\DateProvider.cs" />
     <Compile Include="Modules\ViewsModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SelfhostRootPathProvider.cs" />
+    <Compile Include="Infrastructure\SelfhostRootPathProvider.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Statistics.cs" />
+    <Compile Include="Domain\Statistics.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

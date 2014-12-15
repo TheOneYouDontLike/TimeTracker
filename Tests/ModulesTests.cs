@@ -21,6 +21,7 @@
         private Browser _browser;
         private ActivityService _activityService;
         private EmbeddableDocumentStore _embeddableDocumentStore;
+        private readonly ViewModulesTests _viewModulesTests = new ViewModulesTests();
 
         [SetUp]
         public void Setup()
@@ -172,24 +173,6 @@
             var asString = response.Body.AsString();
 
             Assert.That(asString, Contains.Substring("Movie"));
-        }
-
-        [Test]
-        public void Should_return_index_view()
-        {
-            // given
-            var browser = new Browser(with =>
-            {
-                with.Module(new ViewsModule());
-                with.RootPathProvider<SelfhostRootPathProvider>();
-            });
-
-            // when
-            var browserResponse = browser.Get("/");
-
-            // then
-            Assert.That(browserResponse.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            browserResponse.Body["#main-container"].ShouldExist();
         }
     }
 }

@@ -1,9 +1,12 @@
 ﻿namespace App
 {
+    using System;
     using System.Runtime.InteropServices.ComTypes;
+    using App.Domain;
     using App.Infrastructure;
     using Nancy;
     using Nancy.Bootstrapper;
+    using Nancy.Conventions;
     using Nancy.TinyIoc;
     using Owin;
     using Raven.Client;
@@ -13,13 +16,25 @@
     {
         public void Configuration(IAppBuilder app)
         {
-            app.UseNancy();   
+            app.UseNancy();
+        }
+
+        protected override IRootPathProvider RootPathProvider
+        {
+            get { return new SelfhostRootPathProvider(); }
+        }
+
+        protected override void ConfigureConventions(NancyConventions nancyConventions)
+        {
+            nancyConventions.StaticContentsConventions.Add(
+                StaticContentConventionBuilder.AddDirectory("/", "Web/"));
+            base.ConfigureConventions(nancyConventions);
         }
 
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)
         {
             base.ConfigureApplicationContainer(container);
-            
+
             container.Register<IActivityService, ActivityService>().AsSingleton();
 
             var embeddableDocumentStore = new EmbeddableDocumentStore

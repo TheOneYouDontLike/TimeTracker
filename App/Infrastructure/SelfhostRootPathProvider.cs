@@ -11,7 +11,7 @@ namespace App
             var currentDirectory = new DirectoryInfo(Environment.CurrentDirectory);
 
             var solutionDirectory = currentDirectory.Parent.Parent.Parent.FullName;
-            return solutionDirectory + @"/App/Web";
+            return solutionDirectory + @"\App";
 
             //if (!string.IsNullOrEmpty(_cachedRootPath))
             //    return _cachedRootPath;
