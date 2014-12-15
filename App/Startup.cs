@@ -2,10 +2,12 @@
 {
     using App.Domain;
     using App.Infrastructure;
+    using Microsoft.Owin.Extensions;
     using Nancy;
     using Nancy.Conventions;
     using Nancy.TinyIoc;
     using Owin;
+    using Raven.Abstractions.Extensions;
     using Raven.Client;
     using Raven.Client.Embedded;
 
@@ -14,6 +16,7 @@
         public void Configuration(IAppBuilder app)
         {
             app.UseNancy();
+            app.UseStageMarker(PipelineStage.MapHandler);
         }
 
         protected override IRootPathProvider RootPathProvider
@@ -23,9 +26,14 @@
 
         protected override void ConfigureConventions(NancyConventions nancyConventions)
         {
-            nancyConventions.StaticContentsConventions.Add(
-                StaticContentConventionBuilder.AddDirectory("/", "Web/", new[] { "js" }));
             base.ConfigureConventions(nancyConventions);
+
+            nancyConventions.StaticContentsConventions
+                .AddDirectory("/vendor", "Web/node_modules/bootstrap/dist/css", new[] { "css", "map" });
+
+            nancyConventions.StaticContentsConventions
+                .AddDirectory("/", "Web", new[] {"js"});
+            
         }
 
         protected override void ConfigureApplicationContainer(TinyIoCContainer container)

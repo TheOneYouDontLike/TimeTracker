@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="ActivityTests.cs" />
     <Compile Include="ActivityServiceTests.cs" />
+    <Compile Include="BootstrapperTests.cs" />
     <Compile Include="DateProviderTests.cs" />
     <Compile Include="JsonSerializationTests.cs" />
     <Compile Include="ApiModulesTests.cs" />
