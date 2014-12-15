@@ -189,9 +189,9 @@ UpgradeLog*.htm
 FakesAssemblies/
 
 #bower
-Web/bower_components
-Web/node_modules
+App/Web/bower_components
+App/Web/node_modules
 
 #main bundle file
-Web/bundle.js
-Web/spec.js
+App/Web/bundle.js
+App/Web/spec.js

@@ -100,11 +100,9 @@
     <None Include="Web\tests\suite.jsx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Web\bundle.js" />
     <Content Include="Web\favicon.ico" />
     <Content Include="Web\gruntfile.js" />
     <Content Include="Web\index.html" />
-    <Content Include="Web\spec.js" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

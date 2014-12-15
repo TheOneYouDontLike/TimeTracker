@@ -20,7 +20,6 @@
         private Browser _browser;
         private ActivityService _activityService;
         private EmbeddableDocumentStore _embeddableDocumentStore;
-        private readonly ViewModulesTests _viewModulesTests = new ViewModulesTests();
 
         [SetUp]
         public void Setup()

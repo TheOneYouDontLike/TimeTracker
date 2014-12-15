@@ -1,11 +1,8 @@
 ﻿namespace App
 {
-    using System;
-    using System.Runtime.InteropServices.ComTypes;
     using App.Domain;
     using App.Infrastructure;
     using Nancy;
-    using Nancy.Bootstrapper;
     using Nancy.Conventions;
     using Nancy.TinyIoc;
     using Owin;
@@ -27,7 +24,7 @@
         protected override void ConfigureConventions(NancyConventions nancyConventions)
         {
             nancyConventions.StaticContentsConventions.Add(
-                StaticContentConventionBuilder.AddDirectory("/", "Web/"));
+                StaticContentConventionBuilder.AddDirectory("/", "Web/", new[] { "js" }));
             base.ConfigureConventions(nancyConventions);
         }
 
