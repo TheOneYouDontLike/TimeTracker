@@ -76,7 +76,7 @@
     <Compile Include="ActivityServiceTests.cs" />
     <Compile Include="DateProviderTests.cs" />
     <Compile Include="JsonSerializationTests.cs" />
-    <Compile Include="ModulesTests.cs" />
+    <Compile Include="ApiModulesTests.cs" />
     <Compile Include="StatisticsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModulesTests.cs" />
