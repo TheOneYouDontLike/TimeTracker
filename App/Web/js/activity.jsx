@@ -7,22 +7,22 @@ var Activity = React.createClass({
         return (
         	<div ref='activityRef' className='activity'>
 		        <div>
-		        	{ this.props.data.id }
+		        	{ this.props.data.Id }
 		        </div>
 		        <div>
-		        	{ this.props.data.name }
+		        	{ this.props.data.Name }
 		        </div>
 		        <div>
-		        	{ this.props.data.date }
+		        	{ this.props.data.Date }
 		        </div>
 		        <div>
-		        	{ this.props.data.duration }
+		        	{ this.props.data.Duration }
 		        </div>
 		        <div>
-		        	{ this.props.data.activityType }
+		        	{ this.props.data.ActivityType }
 		        </div>
 		        <div>
-		        	{ this.props.data.watchedInCinema.toString() }
+		        	{ this.props.data.WatchedInCinema.toString() }
 		        </div>
             </div>
         );

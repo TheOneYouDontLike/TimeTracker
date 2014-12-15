@@ -16,25 +16,25 @@ describe('activity', function () {
 	it('should render correctly with passed data', function () {
 		// given
 		var activityData = {
-			id: 1,
-			name: 'Jurassic Park',
-			date: '2014-01-01',
-			duration: 120,
-			activityType: 'Movie',
-			watchedInCinema: false
+			Id: 1,
+			Name: 'Jurassic Park',
+			Date: '2014-01-01',
+			Duration: 120,
+			ActivityType: 'Movie',
+			WatchedInCinema: false
 		};
 
 		// when
-		var renderedActivity = TestUtils.renderIntoDocument(<Activity data={activityData} />);
+		var renderedActivity = TestUtils.renderIntoDocument(<Activity data={ activityData } />);
 		
 		// then
 		var renderedNodes = renderedActivity.getDOMNode().querySelectorAll('div');
-		renderedNodes[0].innerHTML.should.equal(activityData.id.toString());
-		renderedNodes[1].innerHTML.should.equal(activityData.name);
-		renderedNodes[2].innerHTML.should.equal(activityData.date);
-		renderedNodes[3].innerHTML.should.equal(activityData.duration.toString());
-		renderedNodes[4].innerHTML.should.equal(activityData.activityType);
-		renderedNodes[5].innerHTML.should.equal(activityData.watchedInCinema.toString());
+		renderedNodes[0].innerHTML.should.equal(activityData.Id.toString());
+		renderedNodes[1].innerHTML.should.equal(activityData.Name);
+		renderedNodes[2].innerHTML.should.equal(activityData.Date);
+		renderedNodes[3].innerHTML.should.equal(activityData.Duration.toString());
+		renderedNodes[4].innerHTML.should.equal(activityData.ActivityType);
+		renderedNodes[5].innerHTML.should.equal(activityData.WatchedInCinema.toString());
 
 		// for checking props
 		//renderedActivity.props.data.id.should.equal(activityData.id);

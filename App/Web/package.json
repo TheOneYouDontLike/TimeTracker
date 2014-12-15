@@ -16,6 +16,7 @@
     "mocha": "^2.0.1",
     "react": "^0.12.1",
     "reactify": "^0.17.1",
-    "should": "^4.3.0"
+    "should": "^4.3.0",
+    "superagent": "^0.21.0"
   }
 }
