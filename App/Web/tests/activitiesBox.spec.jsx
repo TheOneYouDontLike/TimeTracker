@@ -1,7 +1,7 @@
 'use strict';
 
 var jsdom = require('jsdom').jsdom;
-var should = require('should');
+var assert = require('node-assertthat');
 
 global.document = jsdom('<html><head></head><body></body></html>');
 global.window = document.parentWindow;
@@ -18,19 +18,19 @@ describe('activities-box', function () {
 		var rendered = TestUtils.renderIntoDocument(<ActivitiesBox name="heheszko" />);
 		
 		// then
-		rendered.props.name.should.equal('heheszko');
+		assert.that(rendered.props.name, is.equalTo('heheszko'));
 	});
 
 	it('should increment state.count after clicking', function () {
 		// given
 		var rendered = TestUtils.renderIntoDocument(<ActivitiesBox name="heheszko" />);
-		rendered.state.count.should.equal(0);		
+		assert.that(rendered.state.count, is.equalTo(0));
 
 		// when
 		TestUtils.Simulate.click(rendered.refs.activitiesBoxRef);
 		TestUtils.Simulate.click(rendered.refs.activitiesBoxRef);
 
 		// then
-		rendered.state.count.should.equal(2);
+		assert.that(rendered.state.count, is.equalTo(2));
 	});
 });

@@ -86,6 +86,7 @@
     "globals": {
         "module": false,
         "require": false,
-        "document": false
+        "document": false,
+        "is": false
     }
 }
