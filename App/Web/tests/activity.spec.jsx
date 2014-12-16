@@ -1,7 +1,7 @@
 'use strict';
 
 var jsdom = require('jsdom').jsdom;
-var should = require('should');
+var assert = require('node-assertthat');
 
 global.document = jsdom('<html><head></head><body></body></html>');
 global.window = document.parentWindow;
@@ -29,12 +29,13 @@ describe('activity', function () {
 		
 		// then
 		var renderedNodes = renderedActivity.getDOMNode().querySelectorAll('div');
-		renderedNodes[0].innerHTML.should.equal(activityData.Id.toString());
-		renderedNodes[1].innerHTML.should.equal(activityData.Name);
-		renderedNodes[2].innerHTML.should.equal(activityData.Date);
-		renderedNodes[3].innerHTML.should.equal(activityData.Duration.toString());
-		renderedNodes[4].innerHTML.should.equal(activityData.ActivityType);
-		renderedNodes[5].innerHTML.should.equal(activityData.WatchedInCinema.toString());
+		
+		assert.that(renderedNodes[0].innerHTML, is.equalTo(activityData.Id.toString()));
+		assert.that(renderedNodes[1].innerHTML, is.equalTo(activityData.Name));
+		assert.that(renderedNodes[2].innerHTML, is.equalTo(activityData.Date));
+		assert.that(renderedNodes[3].innerHTML, is.equalTo(activityData.Duration.toString()));
+		assert.that(renderedNodes[4].innerHTML, is.equalTo(activityData.ActivityType));
+		assert.that(renderedNodes[5].innerHTML, is.equalTo(activityData.WatchedInCinema.toString()));
 
 		// for checking props
 		//renderedActivity.props.data.id.should.equal(activityData.id);
