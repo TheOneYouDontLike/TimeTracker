@@ -3,10 +3,8 @@
 var React = require('react');
 var request = require('superagent');
 var ActivitiesBox = require('./js/activitiesBox.jsx');
-var Activity = require('./js/activity.jsx');
 
 var mainContainerDiv = document.getElementById('main-container');
-React.render(<ActivitiesBox name="swagger" />, mainContainerDiv);
 
 request
 	.post('/activities')
@@ -18,11 +16,9 @@ request
 			activityType: 'Movie',
 			watchedInCinema: false
 		})
-	.end(calaReszta);
+	.end(getDataFromApi);
 
-function calaReszta (){
-	console.log('udalo sie');
-
+function getDataFromApi() {
 	request
 	.get('/activities')
 	.accept('application/json')
@@ -32,5 +28,5 @@ function calaReszta (){
 function displayActivities(response) {
 	var activities = response.body;
 	console.log(response.body);
-	React.render(<Activity data={ activities[0] } />, mainContainerDiv);
+	React.render(<ActivitiesBox data={ activities } />, mainContainerDiv);
 }

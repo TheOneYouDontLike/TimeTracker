@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react');
+var Activity = require('./activity.jsx');
 
 var ActivitiesBox = React.createClass({
 	getInitialState: function() {
@@ -14,14 +15,13 @@ var ActivitiesBox = React.createClass({
 	},
 
     render: function() {
+    	var activitiesNodes = this.props.data.map(function (activity){
+    		return (<Activity data={ activity } />);
+    	});
+
         return (
         	<div className='activities-box' ref="activitiesBoxRef" onClick={this._increment}>
-		        <div>
-		            Hello { this.props.name }, do you know that js autocompletion sucks?
-		        </div>
-		        <div>
-		        	{this.state.count}
-		        </div>
+		        { activitiesNodes }
             </div>
         );
     }
