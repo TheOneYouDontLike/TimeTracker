@@ -13,24 +13,29 @@ var TestUtils = require('react/addons').addons.TestUtils;
 var ActivitiesBox = require('../js/activitiesBox.jsx');
 
 describe('activities-box', function () {
-	it('should render correctly with proper prop.name', function () {
+	it('should render correctly with two activities inside', function () {
+		// given
+		var activityData = [{
+			Id: 1,
+			Name: 'Jurassic Park',
+			Date: '2014-01-01',
+			Duration: 120,
+			ActivityType: 'Movie',
+			WatchedInCinema: false
+		},{
+			Id: 1,
+			Name: 'Jurassic Park',
+			Date: '2014-01-01',
+			Duration: 120,
+			ActivityType: 'Movie',
+			WatchedInCinema: false
+		}];
+
 		// when
-		var rendered = TestUtils.renderIntoDocument(<ActivitiesBox name="heheszko" />);
+		var rendered = TestUtils.renderIntoDocument(<ActivitiesBox data={ activityData } />);
 		
 		// then
-		assert.that(rendered.props.name, is.equalTo('heheszko'));
-	});
-
-	it('should increment state.count after clicking', function () {
-		// given
-		var rendered = TestUtils.renderIntoDocument(<ActivitiesBox name="heheszko" />);
-		assert.that(rendered.state.count, is.equalTo(0));
-
-		// when
-		TestUtils.Simulate.click(rendered.refs.activitiesBoxRef);
-		TestUtils.Simulate.click(rendered.refs.activitiesBoxRef);
-
-		// then
-		assert.that(rendered.state.count, is.equalTo(2));
+		var renderedActivities = TestUtils.scryRenderedDOMComponentsWithClass(rendered, 'activity');
+		assert.that(renderedActivities.length, is.equalTo(2));
 	});
 });
