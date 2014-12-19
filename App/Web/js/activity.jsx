@@ -5,26 +5,26 @@ var React = require('react');
 var Activity = React.createClass({
     render: function() {
         return (
-        	<div ref='activityRef' className='activity'>
-		        <div>
+        	<tr ref='activityRef' className='activity'>
+		        <td>
 		        	{ this.props.data.Id }
-		        </div>
-		        <div>
+		        </td>
+		        <td>
 		        	{ this.props.data.Name }
-		        </div>
-		        <div>
+		        </td>
+		        <td>
 		        	{ this.props.data.Date }
-		        </div>
-		        <div>
+		        </td>
+		        <td>
 		        	{ this.props.data.Duration }
-		        </div>
-		        <div>
+		        </td>
+		        <td>
 		        	{ this.props.data.ActivityType }
-		        </div>
-		        <div>
+		        </td>
+		        <td>
 		        	{ this.props.data.WatchedInCinema.toString() }
-		        </div>
-            </div>
+		        </td>
+            </tr>
         );
     }
 });

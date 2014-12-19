@@ -27,6 +27,6 @@ function getDataFromApi() {
 
 function displayActivities(response) {
 	var activities = response.body;
-	console.log(response.body);
+	
 	React.render(<ActivitiesBox data={ activities } />, mainContainerDiv);
 }

@@ -1,6 +1,9 @@
 'use strict';
 
 var React = require('react');
+var ReactAddons = require('react/addons').addons;
+console.log(ReactAddons);
+
 var Activity = require('./activity.jsx');
 
 var ActivitiesBox = React.createClass({
@@ -10,8 +13,10 @@ var ActivitiesBox = React.createClass({
     	});
 
         return (
-        	<div className='activities-box' ref="ActivitiesBox">
-		        { activitiesNodes }
+            <div className='activities-box' ref="ActivitiesBox">
+            	<table className='table'>
+    		        { activitiesNodes }
+                </table>
             </div>
         );
     }
