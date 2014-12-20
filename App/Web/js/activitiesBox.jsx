@@ -9,7 +9,7 @@ var ActivitiesBox = React.createClass({
     render: function() {
         return (
             <div className='activities-box' ref="ActivitiesBox">
-                <ActivitiesTable data={ this.props.tableData } />
+                <ActivitiesTable data={ this.props.activitiesTableData } />
             </div>
         );
     }

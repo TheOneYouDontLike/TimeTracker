@@ -29,7 +29,6 @@ describe('activities-table', function () {
 		
 		// then		
 		var renderedNodes = renderedActivity.getDOMNode().querySelectorAll('tbody > tr > td');
-		console.log(renderedNodes[5].innerHTML);
 		
 		assert.that(renderedNodes[0].innerHTML, is.equalTo(activityData[0].Id.toString()));
 		assert.that(renderedNodes[1].innerHTML, is.equalTo(activityData[0].Name));
