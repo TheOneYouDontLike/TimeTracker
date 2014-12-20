@@ -1,3 +1,3 @@
 'use strict';
 require('./activitiesBox.spec.jsx');
-require('./activity.spec.jsx');
+require('./activitiesTable.spec.jsx');

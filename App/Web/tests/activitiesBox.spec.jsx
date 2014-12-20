@@ -13,7 +13,7 @@ var TestUtils = require('react/addons').addons.TestUtils;
 var ActivitiesBox = require('../js/activitiesBox.jsx');
 
 describe('activities-box', function () {
-	it('should render correctly with two activities inside', function () {
+	it.skip('should render correctly with two activities inside', function () {
 		// given
 		var activityData = [{
 			Id: 1,
