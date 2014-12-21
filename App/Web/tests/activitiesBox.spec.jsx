@@ -13,7 +13,7 @@ var TestUtils = require('react/addons').addons.TestUtils;
 var ActivitiesBox = require('../js/activitiesBox.jsx');
 
 describe('activities-box', function () {
-	it('should render correctly with table inside', function () {
+	it('should render correctly with table and activity form inside', function () {
 		// given
 		var activitiesData = [{
 			Id: 1,
@@ -29,6 +29,8 @@ describe('activities-box', function () {
 		
 		// then
 		var renderedActivities = TestUtils.scryRenderedDOMComponentsWithClass(rendered, 'activities-box');
+		var renderedForm = TestUtils.scryRenderedDOMComponentsWithClass(rendered, 'activity-form');
 		assert.that(renderedActivities.length, is.equalTo(1));
+		assert.that(renderedForm.length, is.equalTo(1));
 	});
 });
