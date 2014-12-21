@@ -3,28 +3,16 @@
 var React = require('react');
 
 var ActivitiesTable = React.createClass({
-    render: function() {
+    render: function () {
         var activitiesNodes = this.props.data.map(function (activity) {
             return (
             <tr>
-                <td>
-                 { activity.Id }
-                </td>
-                <td>
-                 { activity.Name }
-                </td>
-                <td>
-                 { activity.Date }
-                </td>
-                <td>
-                 { activity.Duration }
-                </td>
-                <td>
-                 { activity.ActivityType }
-                </td>
-                <td>
-                 { activity.WatchedInCinema === true ? 'yes' : 'no' }
-                </td>
+                <td>{ activity.Id }</td>
+                <td>{ activity.Name }</td>
+                <td>{ activity.Date }</td>
+                <td>{ activity.Duration }</td>
+                <td>{ activity.ActivityType }</td>
+                <td>{ activity.WatchedInCinema === true ? 'yes' : 'no' }</td>
             </tr>
             );
         });
