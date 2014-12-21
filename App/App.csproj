@@ -93,7 +93,8 @@
     <None Include="Web\.jshintrc" />
     <None Include="Web\app.jsx" />
     <None Include="Web\js\activitiesBox.jsx" />
-    <None Include="Web\js\activity.jsx" />
+    <None Include="Web\js\activitiesTable.jsx" />
+    <None Include="Web\js\activityForm.jsx" />
     <None Include="Web\package.json" />
     <None Include="Web\tests\activitiesBox.spec.jsx" />
     <None Include="Web\tests\activity.spec.jsx" />
