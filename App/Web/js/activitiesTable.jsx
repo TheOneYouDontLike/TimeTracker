@@ -18,22 +18,24 @@ var ActivitiesTable = React.createClass({
         });
 
         return (
-            <div ref='activityRef' className='activities-table'>
-                <table className='table'>
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Name</th>
-                            <th>Date</th>
-                            <th>Duration</th>
-                            <th>Activity Type</th>
-                            <th>Watched In Cinema?</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    { activitiesNodes }
-                    </tbody>
-                </table>
+            <div ref="activityRef" className="activities-table row">
+                <div className="col-xs-12">
+                    <table className='table'>
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Date</th>
+                                <th>Duration</th>
+                                <th>Activity Type</th>
+                                <th>Watched In Cinema?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        { activitiesNodes }
+                        </tbody>
+                    </table>
+                </div>
             </div>
         );
     }
