@@ -4,6 +4,20 @@ var React = require('react');
 
 var ActivityForm = React.createClass(
     {
+        getInitialState: function () {
+            return {
+                Name: '',
+                Date: '',
+                Duration: 0,
+                ActivityType: '',
+                WatchedInCinema: false
+            };
+        },
+        handleChange: function (event) {
+            this.setState({
+                Name: event.target.value
+            }, console.log(this.state));
+        },
         render: function () {
             return (
                 <div className="row">
@@ -11,7 +25,7 @@ var ActivityForm = React.createClass(
                         <form className="activity-form" role="form">
                             <div className="form-group">
                                 <label htmlFor="activity-name">Name:</label>
-                                <input type="text" name="Name" className="form-control" id="activity-name" />
+                                <input type="text" name="Name" className="form-control" id="activity-name" onChange={this.handleChange} />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="activity-date">Date:</label>
