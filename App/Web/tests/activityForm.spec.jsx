@@ -50,10 +50,10 @@ describe('activities-form', function () {
             });
     }
 
-    it('should change checkbox value onChange', function () {
+    it('should change checkbox value onChange event', function () {
         // given
         var watchedInCinemaCheckbox = renderedForm.getDOMNode().querySelectorAll('input[type=checkbox]')[0];
-        
+
         // when
         TestUtils.Simulate.change(watchedInCinemaCheckbox);
 
