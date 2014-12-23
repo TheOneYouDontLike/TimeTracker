@@ -97,7 +97,8 @@
     <None Include="Web\js\activityForm.jsx" />
     <None Include="Web\package.json" />
     <None Include="Web\tests\activitiesBox.spec.jsx" />
-    <None Include="Web\tests\activity.spec.jsx" />
+    <None Include="Web\tests\activitiesTable.spec.jsx" />
+    <None Include="Web\tests\activityForm.spec.jsx" />
     <None Include="Web\tests\suite.jsx" />
   </ItemGroup>
   <ItemGroup>
