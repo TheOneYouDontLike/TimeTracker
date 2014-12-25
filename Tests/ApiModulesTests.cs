@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using App;
+    using App.Domain;
     using App.Infrastructure;
     using App.Modules;
     using Nancy;

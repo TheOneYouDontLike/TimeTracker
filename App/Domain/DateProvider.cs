@@ -1,8 +1,8 @@
-namespace App
+namespace App.Domain
 {
     using System;
 
-    public interface IDateProvider
+    public interface DateProvider
     {
         DateTime GetCurrentDate();
     }

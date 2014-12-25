@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using App;
+    using App.Domain;
     using App.Infrastructure;
     using NUnit.Framework;
     using Raven.Client;

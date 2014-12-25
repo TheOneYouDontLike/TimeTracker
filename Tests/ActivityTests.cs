@@ -2,6 +2,7 @@ namespace Tests
 {
     using System;
     using App;
+    using App.Domain;
     using NUnit.Framework;
 
     [TestFixture]

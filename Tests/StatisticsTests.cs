@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using App;
+    using App.Domain;
     using NUnit.Framework;
     using FakeItEasy;
 

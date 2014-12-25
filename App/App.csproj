@@ -73,12 +73,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\Activity.cs" />
-    <Compile Include="Domain\IActivityService.cs" />
+    <Compile Include="Domain\ActivityService.cs" />
     <Compile Include="Infrastructure\JsonSettings.cs" />
     <Compile Include="Modules\ActivityApiModule.cs" />
     <Compile Include="Domain\ActivityException.cs" />
     <Compile Include="Domain\ActivityType.cs" />
-    <Compile Include="Domain\IDateProvider.cs" />
+    <Compile Include="Domain\DateProvider.cs" />
     <Compile Include="Infrastructure\RavenDbActivityService.cs" />
     <Compile Include="Infrastructure\BasicDateProvider.cs" />
     <Compile Include="Modules\ViewsModule.cs" />
