@@ -7,9 +7,9 @@ namespace App
     public class Statistics
     {
         private readonly List<Activity> _listOfActivities;
-        private readonly IDateProvider _dateProvider;
+        private readonly DateProvider _dateProvider;
 
-        public Statistics(List<Activity> listOfActivities, IDateProvider dateProvider)
+        public Statistics(List<Activity> listOfActivities, DateProvider dateProvider)
         {
             _listOfActivities = listOfActivities;
             _dateProvider = dateProvider;

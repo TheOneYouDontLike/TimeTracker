@@ -5,7 +5,7 @@ namespace App.Infrastructure
     using App.Domain;
     using Raven.Client;
 
-    public class RavenDbActivityService : IActivityService
+    public class RavenDbActivityService : ActivityService
     {
         private readonly IDocumentStore _documentStore;
 

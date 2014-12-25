@@ -2,7 +2,7 @@ namespace App.Domain
 {
     using System.Collections.Generic;
 
-    public interface IActivityService
+    public interface ActivityService
     {
         void AddNew(Activity activity);
         Activity GetById(int id);

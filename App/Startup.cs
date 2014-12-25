@@ -40,7 +40,7 @@
         {
             base.ConfigureApplicationContainer(container);
 
-            container.Register<IActivityService, RavenDbActivityService>().AsSingleton();
+            container.Register<ActivityService, RavenDbActivityService>().AsSingleton();
 
             var embeddableDocumentStore = new EmbeddableDocumentStore
             {

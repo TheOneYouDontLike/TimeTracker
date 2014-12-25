@@ -9,12 +9,12 @@
     [TestFixture]
     public class StatisticsTests
     {
-        private IDateProvider _dateProvider;
+        private DateProvider _dateProvider;
 
         [SetUp]
         public void Setup()
         {
-            _dateProvider = A.Fake<IDateProvider>();
+            _dateProvider = A.Fake<DateProvider>();
         }
 
         [Test]
