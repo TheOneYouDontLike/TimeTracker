@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class DateProvider : IDateProvider
+    public class BasicDateProvider : IDateProvider
     {
         public DateTime GetCurrentDate()
         {

@@ -11,7 +11,7 @@
         public void Should_return_current_date()
         {
             // given
-            var dateProvider = new DateProvider();
+            var dateProvider = new BasicDateProvider();
 
             // when
             var currentDate = dateProvider.GetCurrentDate();

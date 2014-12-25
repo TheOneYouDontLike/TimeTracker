@@ -12,7 +12,7 @@
     public class ActivityServiceTests
     {
         private IDocumentStore _documentStore;
-        private ActivityService _activityService;
+        private RavenDbActivityService _activityService;
 
         [SetUp]
         public void Setup()
@@ -22,7 +22,7 @@
                 RunInMemory = true
             };
             _documentStore.Initialize();
-            _activityService = new ActivityService(_documentStore);
+            _activityService = new RavenDbActivityService(_documentStore);
         }
 
         [Test]

@@ -18,7 +18,7 @@
     {
         private const string ApplicationJson = "application/json";
         private Browser _browser;
-        private ActivityService _activityService;
+        private RavenDbActivityService _activityService;
         private EmbeddableDocumentStore _embeddableDocumentStore;
 
         [SetUp]
@@ -27,7 +27,7 @@
             _embeddableDocumentStore = new EmbeddableDocumentStore { RunInMemory = true };
             _embeddableDocumentStore.Initialize();
 
-            _activityService = new ActivityService(_embeddableDocumentStore);
+            _activityService = new RavenDbActivityService(_embeddableDocumentStore);
 
             _browser = new Browser(
                 with => with.Module(new ActivityApiModule(_activityService)),

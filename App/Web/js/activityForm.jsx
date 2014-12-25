@@ -54,7 +54,7 @@ var ActivityForm = React.createClass(
                                     Watched in cinema ? <input type="checkbox" name="WatchedInCinema" checked={ this.state.WatchedInCinema } onChange={ this.handleCheckBoxInputChange }/>
                                 </label>
                             </div>
-                            <input type="button" value="Submit" className="btn btn-default"/>
+                            <input type="button" value="Add new" className="btn btn-default"/>
                         </form>
                     </div>
                 </div>

@@ -79,8 +79,8 @@
     <Compile Include="Domain\ActivityException.cs" />
     <Compile Include="Domain\ActivityType.cs" />
     <Compile Include="Domain\IDateProvider.cs" />
-    <Compile Include="Infrastructure\ActivityService.cs" />
-    <Compile Include="Infrastructure\DateProvider.cs" />
+    <Compile Include="Infrastructure\RavenDbActivityService.cs" />
+    <Compile Include="Infrastructure\BasicDateProvider.cs" />
     <Compile Include="Modules\ViewsModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
