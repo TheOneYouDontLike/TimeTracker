@@ -1,6 +1,7 @@
 ﻿namespace Tests
 {
     using App;
+    using App.Infrastructure;
     using App.Modules;
     using Nancy;
     using Nancy.Testing;

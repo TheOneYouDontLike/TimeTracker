@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using App;
     using App.Domain;
+    using App.Infrastructure;
     using Newtonsoft.Json;
     using NUnit.Framework;
 

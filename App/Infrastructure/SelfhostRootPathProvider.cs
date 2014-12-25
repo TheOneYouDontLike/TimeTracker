@@ -1,4 +1,4 @@
-namespace App
+namespace App.Infrastructure
 {
     using System;
     using System.IO;

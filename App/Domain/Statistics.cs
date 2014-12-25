@@ -1,9 +1,8 @@
-namespace App
+namespace App.Domain
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using App.Domain;
 
     public class Statistics
     {
