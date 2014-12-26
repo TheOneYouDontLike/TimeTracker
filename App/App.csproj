@@ -95,6 +95,7 @@
     <None Include="Web\js\activitiesBox.jsx" />
     <None Include="Web\js\activitiesTable.jsx" />
     <None Include="Web\js\activityForm.jsx" />
+    <None Include="Web\js\activityService.jsx" />
     <None Include="Web\package.json" />
     <None Include="Web\tests\activitiesBox.spec.jsx" />
     <None Include="Web\tests\activitiesTable.spec.jsx" />

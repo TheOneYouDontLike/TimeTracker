@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react');
+var ActivityService = require('./ActivityService.jsx');
 
 var ActivityForm = React.createClass(
     {
@@ -9,7 +10,7 @@ var ActivityForm = React.createClass(
                 Name: '',
                 Date: '',
                 Duration: 0,
-                ActivityType: '',
+                ActivityType: 'Movie',
                 WatchedInCinema: false
             };
         },
@@ -23,6 +24,10 @@ var ActivityForm = React.createClass(
 
         handleCheckBoxInputChange: function () {
             this.setState({ WatchedInCinema: !this.state.WatchedInCinema }, console.log(this.state));
+        },
+
+        handleSubmit: function () {
+            ActivityService.postActivity(this.state);
         },
 
         render: function () {
@@ -54,7 +59,7 @@ var ActivityForm = React.createClass(
                                     Watched in cinema ? <input type="checkbox" name="WatchedInCinema" checked={ this.state.WatchedInCinema } onChange={ this.handleCheckBoxInputChange }/>
                                 </label>
                             </div>
-                            <input type="button" value="Add new" className="btn btn-default"/>
+                            <input type="button" value="Add new" className="btn btn-default" onClick={ this.handleSubmit }/>
                         </form>
                     </div>
                 </div>
