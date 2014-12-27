@@ -41,6 +41,4 @@ var ActivitiesTable = React.createClass({
     }
 });
 
-
-
 module.exports = ActivitiesTable;

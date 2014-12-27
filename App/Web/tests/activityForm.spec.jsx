@@ -22,7 +22,6 @@ describe('activities-form', function () {
     it('should change input and select values onChange event', function () {
         // given
         var renderedInputs = TestUtils.scryRenderedDOMComponentsWithClass(renderedForm, 'form-control');
-        console.log(renderedInputs);
         var nameInput = renderedInputs[0].getDOMNode();
         var dateInput = renderedInputs[1].getDOMNode();
         var durationInput = renderedInputs[2].getDOMNode();

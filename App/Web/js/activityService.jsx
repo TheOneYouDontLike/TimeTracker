@@ -17,6 +17,13 @@ var ActivityService =  {
         .end(function () {
             console.log("New activity looks like this: " + newActivity);
         });
+    },
+
+    getAllActivities: function (callbackFunction) {
+        request
+        .get('/activities')
+        .accept('application/json')
+        .end(callbackFunction);
     }
 };
 
