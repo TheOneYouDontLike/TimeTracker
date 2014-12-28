@@ -18,6 +18,7 @@
     "node-assertthat": "^0.2.3",
     "react": "^0.12.1",
     "reactify": "^0.17.1",
+    "sinon": "^1.12.2",
     "superagent": "^0.21.0"
   }
 }
