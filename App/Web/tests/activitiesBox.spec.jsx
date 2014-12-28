@@ -2,12 +2,12 @@
 
 var jsdom = require('jsdom').jsdom;
 var assert = require('node-assertthat');
+var sinon = require('sinon');
 
 global.document = jsdom('<html><head></head><body></body></html>');
 global.window = document.parentWindow;
 global.navigator = window.navigator;
-
-//global.window.XMLHttpRequest = new FakeXMLHttpRequest();
+global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();
 
 var React = require('react');
 var TestUtils = require('react/addons').addons.TestUtils;
