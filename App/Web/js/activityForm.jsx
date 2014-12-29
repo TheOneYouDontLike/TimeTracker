@@ -23,13 +23,10 @@ var ActivityForm = React.createClass(
         },
 
         handleCheckBoxInputChange: function () {
-            console.log('before: ' + this.state.WatchedInCinema);
             this.setState({ WatchedInCinema: !this.state.WatchedInCinema });
-            console.log('after: ' + this.state.WatchedInCinema);
         },
 
-        handleSubmit: function (e) {
-            e.preventDefault();
+        handleSubmit: function () {
             ActivityService.postActivity(this.state, this.updateParentComponent);
         },
 

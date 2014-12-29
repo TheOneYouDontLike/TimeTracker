@@ -7,13 +7,15 @@ global.document = jsdom('<html><head></head><body></body></html>');
 global.window = document.parentWindow;
 global.navigator = window.navigator;
 
+var sinon = require('sinon');
+
 var React = require('react');
 var TestUtils = require('react/addons').addons.TestUtils;
 
 var ActivitiesForm = require('../js/activityForm.jsx');
 
 describe('activities-form', function () {
-    var renderedForm;
+    var renderedForm;    
 
     beforeEach(function () {
         renderedForm = TestUtils.renderIntoDocument(<ActivitiesForm />);
@@ -58,5 +60,30 @@ describe('activities-form', function () {
 
         // then
         assert.that(renderedForm.state.WatchedInCinema, is.equalTo(true));
+    });
+
+    it('should send data to api with correct values from state', function () {
+        // given
+        var requests = [];
+        global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();
+        global.XMLHttpRequest.onCreate = function (req) { requests.push(req); };
+
+        var submitButton = renderedForm.getDOMNode().querySelector('input[type=button]');
+
+        var fakeObject = {
+                Name: 'someName',
+                Date: '2014-02-02',
+                Duration: 123,
+                ActivityType: 'Movie',
+                WatchedInCinema: true
+            };
+
+        // when
+        renderedForm.setState(fakeObject);
+        TestUtils.Simulate.click(submitButton);
+
+        // then
+        var parsedBody = JSON.parse(requests[0].requestBody);
+        assert.that(parsedBody, is.equalTo(fakeObject));
     });
 });

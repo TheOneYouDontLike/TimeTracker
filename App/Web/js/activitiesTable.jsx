@@ -6,7 +6,7 @@ var ActivitiesTable = React.createClass({
     render: function () {
         var activitiesNodes = this.props.data.map(function (activity) {
             return (
-            <tr>
+            <tr key={ activity.Id }>
                 <td>{ activity.Id }</td>
                 <td>{ activity.Name }</td>
                 <td>{ activity.Date }</td>

@@ -26,7 +26,6 @@ var ActivitiesBox = React.createClass({
     
     updateEventHandler: function () {
         ActivityService.getAllActivities(this.setActivities);
-        console.log(this.state);
     },
 
     render: function () {

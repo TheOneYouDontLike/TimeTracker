@@ -8,11 +8,11 @@ var ActivityService =  {
         .post('/activities')
         .set('Content-Type', 'application/json')
         .send({
-                name: newActivity.Name,
-                date: newActivity.Date,
-                duration: parseInt(newActivity.Duration),
-                activityType: newActivity.ActivityType,
-                watchedInCinema: newActivity.WatchedInCinema
+                Name: newActivity.Name,
+                Date: newActivity.Date,
+                Duration: parseInt(newActivity.Duration),
+                ActivityType: newActivity.ActivityType,
+                WatchedInCinema: newActivity.WatchedInCinema
             })
         .end(function () {
             console.log("New activity looks like this: " + newActivity);
