@@ -23,10 +23,13 @@ var ActivityForm = React.createClass(
         },
 
         handleCheckBoxInputChange: function () {
+            console.log('before: ' + this.state.WatchedInCinema);
             this.setState({ WatchedInCinema: !this.state.WatchedInCinema });
+            console.log('after: ' + this.state.WatchedInCinema);
         },
 
-        handleSubmit: function () {
+        handleSubmit: function (e) {
+            e.preventDefault();
             ActivityService.postActivity(this.state, this.updateParentComponent);
         },
 
@@ -60,7 +63,7 @@ var ActivityForm = React.createClass(
                             </div>
                             <div className="form-group">
                                 <label>
-                                    Watched in cinema ? <input type="checkbox" name="WatchedInCinema" defaultChecked={ this.state.WatchedInCinema } onChange={ this.handleCheckBoxInputChange }/>
+                                    Watched in cinema ? <input type="checkbox" name="WatchedInCinema" checked={ this.state.WatchedInCinema } onChange={ this.handleCheckBoxInputChange }/>
                                 </label>
                             </div>
                             <input type="button" value="Add new" className="btn btn-default" onClick={ this.handleSubmit }/>

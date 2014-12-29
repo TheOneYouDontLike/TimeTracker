@@ -12,7 +12,7 @@ var ActivityService =  {
                 date: newActivity.Date,
                 duration: parseInt(newActivity.Duration),
                 activityType: newActivity.ActivityType,
-                watchedInCinema: newActivity.WatchedInCinema === 'true' ? true : false
+                watchedInCinema: newActivity.WatchedInCinema
             })
         .end(function () {
             console.log("New activity looks like this: " + newActivity);
