@@ -3,7 +3,7 @@
 var request = require('superagent');
 
 var ActivityService =  {
-    postActivity: function (newActivity) {
+    postActivity: function (newActivity, callbackFunction) {
         request
         .post('/activities')
         .set('Content-Type', 'application/json')
@@ -16,6 +16,7 @@ var ActivityService =  {
             })
         .end(function () {
             console.log("New activity looks like this: " + newActivity);
+            callbackFunction();
         });
     },
 

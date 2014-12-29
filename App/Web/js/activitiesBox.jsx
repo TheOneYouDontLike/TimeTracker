@@ -11,9 +11,11 @@ var ActivitiesBox = React.createClass({
             activitiesTableData: []
         };
     },
+
     componentDidMount: function () {
         ActivityService.getAllActivities(this.setActivities);
     },
+
     setActivities: function (response){
         if(this.isMounted()){
             this.setState({
@@ -21,11 +23,17 @@ var ActivitiesBox = React.createClass({
             });
         }
     },
+    
+    updateEventHandler: function () {
+        ActivityService.getAllActivities(this.setActivities);
+        console.log(this.state);
+    },
+
     render: function () {
         return (
             <div className='activities-box' ref="ActivitiesBox">
                 <ActivitiesTable data={ this.state.activitiesTableData } />
-                <ActivityForm />
+                <ActivityForm updateEventHandler={ this.updateEventHandler } />
             </div>
         );
     }

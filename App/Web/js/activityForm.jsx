@@ -19,15 +19,19 @@ var ActivityForm = React.createClass(
             var newStateValue = {};
             newStateValue[event.target.name] = event.target.value;
 
-            this.setState(newStateValue, console.log(this.state));
+            this.setState(newStateValue);
         },
 
         handleCheckBoxInputChange: function () {
-            this.setState({ WatchedInCinema: !this.state.WatchedInCinema }, console.log(this.state));
+            this.setState({ WatchedInCinema: !this.state.WatchedInCinema });
         },
 
         handleSubmit: function () {
-            ActivityService.postActivity(this.state);
+            ActivityService.postActivity(this.state, this.handleUpdateEvent);
+        },
+
+        handleUpdateEvent: function () {
+            this.props.updateEventHandler();
         },
 
         render: function () {
@@ -49,14 +53,14 @@ var ActivityForm = React.createClass(
                             </div>
                             <div className="form-group">
                                 <label htmlFor="activity-type">Activity type:</label>
-                                <select name="ActivityType" className="form-control" id="activity-type" onChange={ this.handleBasicInputChange }>
+                                <select name="ActivityType" className="form-control" id="activity-type" defaultValue="Movie" onChange={ this.handleBasicInputChange }>
                                     <option value="Movie">Movie</option>
-                                    <option value="Movie">Series</option>
+                                    <option value="Series">Series</option>
                                 </select>
                             </div>
                             <div className="form-group">
                                 <label>
-                                    Watched in cinema ? <input type="checkbox" name="WatchedInCinema" checked={ this.state.WatchedInCinema } onChange={ this.handleCheckBoxInputChange }/>
+                                    Watched in cinema ? <input type="checkbox" name="WatchedInCinema" defaultChecked={ this.state.WatchedInCinema } onChange={ this.handleCheckBoxInputChange }/>
                                 </label>
                             </div>
                             <input type="button" value="Add new" className="btn btn-default" onClick={ this.handleSubmit }/>
