@@ -44,8 +44,8 @@ describe('activities-form', function () {
     function SimulateInputChange (inputNode, value) {
         TestUtils.Simulate.change(inputNode, 
             { 
-                target: { 
-                    value: value, 
+                target: {
+                    value: value,
                     name: inputNode.name
                 }
             });
@@ -62,28 +62,56 @@ describe('activities-form', function () {
         assert.that(renderedForm.state.WatchedInCinema, is.equalTo(true));
     });
 
-    it('should send data to api with correct values from state', function () {
-        // given
-        var requests = [];
+    describe('when sending data to api', function () {
         global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();
-        global.XMLHttpRequest.onCreate = function (req) { requests.push(req); };
 
-        var submitButton = renderedForm.getDOMNode().querySelector('input[type=button]');
+        var initialState = {
+                Name: '',
+                Date: '',
+                Duration: 0,
+                ActivityType: 'Movie',
+                WatchedInCinema: false
+            };
 
-        var fakeObject = {
+        var mockedState = {
                 Name: 'someName',
                 Date: '2014-02-02',
                 Duration: 123,
                 ActivityType: 'Movie',
                 WatchedInCinema: true
             };
+        
+        var submitButton;
 
-        // when
-        renderedForm.setState(fakeObject);
-        TestUtils.Simulate.click(submitButton);
+        beforeEach(function () {
+            submitButton = renderedForm.getDOMNode().querySelector('input[type=button]');
+        });
 
-        // then
-        var parsedBody = JSON.parse(requests[0].requestBody);
-        assert.that(parsedBody, is.equalTo(fakeObject));
+        it('should send correct values from state', function () {
+            // given
+            var requests = [];
+            global.XMLHttpRequest.onCreate = function (req) { requests.push(req); };
+
+            // when
+            renderedForm.setState(mockedState);
+            TestUtils.Simulate.click(submitButton);
+
+            // then
+            var parsedBody = JSON.parse(requests[0].requestBody);
+            assert.that(parsedBody, is.equalTo(mockedState));
+        });
+
+        it('should reset state after sending', function () {
+            // given
+            var requests = [];
+            global.XMLHttpRequest.onCreate = function (req) { requests.push(req); };
+
+            // when
+            renderedForm.setState(mockedState);
+            TestUtils.Simulate.click(submitButton);
+
+            // then
+            assert.that(renderedForm.state, is.equalTo(initialState));
+        });
     });
 });

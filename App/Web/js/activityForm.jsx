@@ -28,6 +28,7 @@ var ActivityForm = React.createClass(
 
         handleSubmit: function () {
             ActivityService.postActivity(this.state, this.updateParentComponent);
+            this.setState(this.getInitialState());
         },
 
         updateParentComponent: function () {
@@ -41,19 +42,19 @@ var ActivityForm = React.createClass(
                         <form className="activity-form" role="form">
                             <div className="form-group">
                                 <label htmlFor="activity-name">Name:</label>
-                                <input type="text" name="Name" className="form-control" id="activity-name" onChange={ this.handleBasicInputChange } />
+                                <input type="text" name="Name" className="form-control" id="activity-name" value={ this.state.Name } onChange={ this.handleBasicInputChange } />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="activity-date">Date:</label>
-                                <input type="date" name="Date" className="form-control" id="activity-date" onChange={ this.handleBasicInputChange }/>
+                                <input type="date" name="Date" className="form-control" id="activity-date" value={ this.state.Date } onChange={ this.handleBasicInputChange }/>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="activity-duration">Duration:</label>
-                                <input type="number" name="Duration" max-length="3" className="form-control" id="activity-duration" onChange={ this.handleBasicInputChange }/>
+                                <input type="number" name="Duration" max-length="3" className="form-control" id="activity-duration" value={ this.state.Duration } onChange={ this.handleBasicInputChange }/>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="activity-type">Activity type:</label>
-                                <select name="ActivityType" className="form-control" id="activity-type" defaultValue="Movie" onChange={ this.handleBasicInputChange }>
+                                <select name="ActivityType" className="form-control" id="activity-type" value={ this.state.ActivityType } onChange={ this.handleBasicInputChange }>
                                     <option value="Movie">Movie</option>
                                     <option value="Series">Series</option>
                                 </select>
