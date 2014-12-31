@@ -14,8 +14,11 @@ var ActivityService =  {
                 ActivityType: newActivity.ActivityType,
                 WatchedInCinema: newActivity.WatchedInCinema
             })
-        .end(function () {
+        .end(function (response) {
             console.log("New activity looks like this: " + newActivity);
+            if(response.badRequest) {
+                alert("There was an error with posting the data.");
+            }
             callbackFunction();
         });
     },

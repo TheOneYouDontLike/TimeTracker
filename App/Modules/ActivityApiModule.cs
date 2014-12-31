@@ -30,7 +30,15 @@ namespace App.Modules
 
             Post["/activities"] = _ =>
             {
-                var deserializedActivity = JsonConvert.DeserializeObject<Activity>(Request.Body.AsString());
+                Activity deserializedActivity;
+                try
+                {
+                    deserializedActivity = JsonConvert.DeserializeObject<Activity>(Request.Body.AsString());
+                }
+                catch(JsonSerializationException exception)
+                {
+                    return HttpStatusCode.BadRequest;
+                }
 
                 _activityService.AddNew(deserializedActivity);
 
