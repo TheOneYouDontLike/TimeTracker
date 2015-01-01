@@ -27,11 +27,11 @@ var ActivityForm = React.createClass(
         },
 
         handleSubmit: function () {
-            ActivityService.postActivity(this.state, this.updateParentComponent);
-            this.setState(this.getInitialState());
+            ActivityService.postActivity(this.state, this.updateParentComponentAndResetCurrentState);
         },
 
-        updateParentComponent: function () {
+        updateParentComponentAndResetCurrentState: function () {
+            this.setState(this.getInitialState());
             this.props.updateEventHandler();
         },
 
