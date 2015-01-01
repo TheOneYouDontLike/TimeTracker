@@ -37,7 +37,10 @@ namespace App.Modules
                 }
                 catch(JsonSerializationException exception)
                 {
-                    return HttpStatusCode.BadRequest;
+                    var response = (Response)exception.InnerException.Message;
+                    response.StatusCode = HttpStatusCode.BadRequest;
+
+                    return response;
                 }
 
                 _activityService.AddNew(deserializedActivity);

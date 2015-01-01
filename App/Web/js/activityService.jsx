@@ -15,10 +15,11 @@ var ActivityService =  {
                 WatchedInCinema: newActivity.WatchedInCinema
             })
         .end(function (response) {
-            console.log("New activity looks like this: " + newActivity);
             if(response.badRequest) {
-                alert("There was an error with posting the data.");
+                alert(response.text);
+                return;
             }
+            console.log("New activity looks like this: " + newActivity);
             callbackFunction();
         });
     },

@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using App;
     using App.Domain;
     using App.Infrastructure;
     using App.Modules;
@@ -85,6 +84,52 @@
             Assert.That(postResponse.StatusCode, Is.EqualTo(HttpStatusCode.Created));
 
             Assert.That(list.Any(a => a.Name == "Kill Bill"));
+        }
+
+        [Test]
+        public void Should_not_deserialize_activity_if_there_was_parsing_error()
+        {
+            // given
+            var notValidActivity = 
+                @"{'Name': 'Name',
+                'Date': '2014-02-02',
+                'Duration': 134,
+                'ActivityType': 'Series',
+                'WatchedInCinema': true}";
+            
+            // when
+
+            var deserializingActivity = new TestDelegate(() =>
+            {
+                JsonConvert.DeserializeObject<Activity>(notValidActivity);
+            });
+
+            // then
+            var exception = Assert.Throws<JsonSerializationException>(deserializingActivity);
+            Assert.That(exception.InnerException.Message, Is.EqualTo("Series cannot be watched in the cinema."));
+        }
+
+        [Test]
+        public void Should_not_add_activity_if_there_was_parsing_error()
+        {
+            // given
+            var notValidActivity = 
+                @"{'Name': 'Name',
+                'Date': '2014-02-02',
+                'Duration': 134,
+                'ActivityType': 'Series',
+                'WatchedInCinema': true}";
+
+            // when
+            var response = _browser.Post("/activities", with => 
+            {
+                with.HttpsRequest();
+                with.Body(notValidActivity, ApplicationJson);
+            });
+
+            // then
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(response.Body.AsString(), Is.EqualTo("Series cannot be watched in the cinema."));
         }
 
         [Test]
