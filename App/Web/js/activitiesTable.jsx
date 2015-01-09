@@ -7,12 +7,12 @@ var ActivitiesTable = React.createClass({
         var activitiesNodes = this.props.data.map(function (activity) {
             return (
             <tr key={ activity.Id }>
-                <td>{ activity.Id }</td>
-                <td>{ activity.Name }</td>
-                <td>{ activity.Date }</td>
-                <td>{ activity.Duration }</td>
-                <td>{ activity.ActivityType }</td>
-                <td>{ activity.WatchedInCinema === true ? 'yes' : 'no' }</td>
+                <td><input type="text" value={ activity.Id } /></td>
+                <td><input type="text" value={ activity.Name } /></td>
+                <td><input type="text" value={ activity.Date } /></td>
+                <td><input type="text" value={ activity.Duration } /></td>
+                <td><input type="text" value={ activity.ActivityType } /></td>
+                <td><input type="text" value={ activity.WatchedInCinema === true ? 'yes' : 'no' } /></td>
             </tr>
             );
         });
