@@ -27,15 +27,16 @@ describe('activities-table', function () {
 		// when
 		var renderedActivity = TestUtils.renderIntoDocument(<ActivitiesTable data={ activityData } />);
 		
-		// then		
-		var renderedNodes = renderedActivity.getDOMNode().querySelectorAll('tbody > tr > td');
+		// then
+		var renderedId = renderedActivity.getDOMNode().querySelectorAll('tbody > tr > td')[0].innerHTML;
+		var renderedNodes = renderedActivity.getDOMNode().querySelectorAll('tbody > tr > td > input');
 		
-		assert.that(renderedNodes[0].innerHTML, is.equalTo(activityData[0].Id.toString()));
-		assert.that(renderedNodes[1].innerHTML, is.equalTo(activityData[0].Name));
-		assert.that(renderedNodes[2].innerHTML, is.equalTo(activityData[0].Date));
-		assert.that(renderedNodes[3].innerHTML, is.equalTo(activityData[0].Duration.toString()));
-		assert.that(renderedNodes[4].innerHTML, is.equalTo(activityData[0].ActivityType));
-		assert.that(renderedNodes[5].innerHTML, is.equalTo('no'));
+		assert.that(renderedId, is.equalTo(activityData[0].Id.toString()));
+		assert.that(renderedNodes[0].value, is.equalTo(activityData[0].Name));
+		assert.that(renderedNodes[1].value, is.equalTo(activityData[0].Date));
+		assert.that(renderedNodes[2].value, is.equalTo(activityData[0].Duration.toString()));
+		assert.that(renderedNodes[3].value, is.equalTo(activityData[0].ActivityType));
+		assert.that(renderedNodes[4].checked, is.equalTo(false));
 
 		// for checking props
 		//renderedActivity.props.data.id.should.equal(activityData.id);
