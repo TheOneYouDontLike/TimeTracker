@@ -13,7 +13,6 @@ var ActivitiesTable = React.createClass({
     },
 
     render: function () {
-        var self = this;
         var activitiesNodes = this.props.data.map(function (activity) {
             return (
             <tr key={ activity.Id }>
@@ -25,7 +24,7 @@ var ActivitiesTable = React.createClass({
                 <td><input type="checkbox" name="Date" checked={ activity.WatchedInCinema } /></td>
             </tr>
             );
-        });
+        }.bind(this));
 
         return (
             <div ref="activityRef" className="activities-table row">
