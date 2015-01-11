@@ -102,7 +102,7 @@ describe('activities-form', function () {
         });
 
         it.skip('should reset state after sending', function () {
-            // right know I don't know how to fix this test
+            // right now I don't know how to fix this test
 
             // given
             var requests = [];
