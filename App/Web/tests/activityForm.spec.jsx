@@ -42,16 +42,6 @@ describe('activities-form', function () {
         assert.that(renderedForm.state.ActivityType, is.equalTo('Movie'));
     });
 
-    function SimulateInputChange (inputNode, value) {
-        TestUtils.Simulate.change(inputNode, 
-            { 
-                target: {
-                    value: value,
-                    name: inputNode.name
-                }
-            });
-    }
-
     it('should change checkbox value onChange event', function () {
         // given
         var watchedInCinemaCheckbox = renderedForm.getDOMNode().querySelectorAll('input[type=checkbox]')[0];
@@ -121,3 +111,13 @@ describe('activities-form', function () {
         });
     });
 });
+
+function SimulateInputChange (inputNode, value) {
+    TestUtils.Simulate.change(inputNode, 
+        { 
+            target: {
+                value: value,
+                name: inputNode.name
+            }
+        });
+}

@@ -2,14 +2,15 @@
 
 var React = require('react');
 
+var ActivityService = require('./activityService.jsx');
+
 var ActivitiesTable = React.createClass({
     onBlurChangeEvent: function (event) {
-        var newStateValue = {};
-        newStateValue[event.target.name] = event.target.value;
-
-        // send update to activityService
-        console.log(newStateValue);
-        console.log(event.target.getAttribute('data-activityid'));
+        ActivityService.updateActivityName(
+        {
+            activityId: event.target.getAttribute('data-activityid'),
+            activityName: event.target.value
+        });
     },
 
     render: function () {

@@ -29,6 +29,19 @@ var ActivityService =  {
         .get('/activities')
         .accept('application/json')
         .end(callbackFunction);
+    },
+
+    updateActivityName: function (activityNameUpdate) {
+        request
+        .post('/activity/updateName')
+        .set('Content-Type', 'application/json')
+        .send(activityNameUpdate)
+        .end(function (response) {
+            if(response.badRequest) {
+                alert(response.text);
+                return;
+            }
+        });
     }
 };
 
