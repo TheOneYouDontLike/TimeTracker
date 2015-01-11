@@ -101,24 +101,23 @@ describe('activities-form', function () {
             assert.that(parsedBody, is.equalTo(mockedState));
         });
 
-        it.skip('should reset state after sending', function () {
-            // right now I don't know how to fix this test
-
+        it('should reset state after sending', function () {
             // given
             var requests = [];
             global.XMLHttpRequest.onCreate = function (req) { requests.push(req); };
 
-            // when
             renderedForm.setState(mockedState);
-            TestUtils.Simulate.click(submitButton);
-            //requests[0].respond(200, { "Content-Type": "application/json", "Content-Length": 2 }, '');
 
-            if(requests.length > 0) {
-                renderedForm.updateParentComponentAndResetCurrentState();
-            }
+            var updateEventHandlerStub = sinon.stub();
+            renderedForm.props.updateEventHandler = updateEventHandlerStub;
+            
+            // when
+            TestUtils.Simulate.click(submitButton);
+            requests[0].respond(200,  { "Content-Type": "application/json" }, '');
 
             // then
             assert.that(renderedForm.state, is.equalTo(initialState));
+            assert.that(updateEventHandlerStub.calledOnce, is.true());
         });
     });
 });
