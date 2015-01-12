@@ -21,8 +21,8 @@ var ActivitiesTable = React.createClass({
             <tr key={ activity.Id }>
                 <td>{ activity.Id }</td>
                 <td><input type="text" name="Name" defaultValue={ activity.Name } onBlur={ this.changeEvent.bind(this, activity.Id, actvityProperties.Name) } /></td>
-                <td><input type="Date" name="Date" defaultValue={ activity.Date.substring(0, 10) } onBlur={ this.changeEvent.bind(this, activity.Id, actvityProperties.Date) } /></td>
-                <td><input type="Number" name="Duration" defaultValue={ activity.Duration } onBlur={ this.changeEvent.bind(this, activity.Id, actvityProperties.Duration) } /></td>
+                <td><input type="date" name="Date" defaultValue={ activity.Date.substring(0, 10) } onBlur={ this.changeEvent.bind(this, activity.Id, actvityProperties.Date) } /></td>
+                <td><input type="number" name="Duration" defaultValue={ activity.Duration } onBlur={ this.changeEvent.bind(this, activity.Id, actvityProperties.Duration) } /></td>
                 <td>
                     <select name="ActivityType" defaultValue={ activity.ActivityType } onChange={ this.changeEvent.bind(this, activity.Id, actvityProperties.ActivityType) }>
                         <option value="Movie">Movie</option>
