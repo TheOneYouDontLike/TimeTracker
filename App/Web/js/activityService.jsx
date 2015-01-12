@@ -31,11 +31,11 @@ var ActivityService =  {
         .end(callbackFunction);
     },
 
-    updateActivityName: function (activityNameUpdate) {
+    updateActivity: function (updatedProperties) {
         request
         .post('/activity/updateName')
         .set('Content-Type', 'application/json')
-        .send(activityNameUpdate)
+        .send(updatedProperties)
         .end(function (response) {
             if(response.badRequest) {
                 alert(response.text);
