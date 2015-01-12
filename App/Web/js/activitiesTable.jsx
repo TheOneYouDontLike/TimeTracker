@@ -7,8 +7,6 @@ var actvityProperties = require('./activityConstants.js');
 
 var ActivitiesTable = React.createClass({
     changeEvent: function (activityId, propertyEnumValue, event) {
-        console.log(event.target.value);
-        console.log(propertyEnumValue);
         ActivityService.updateActivity(
         {
             activityId: activityId,
@@ -32,7 +30,7 @@ var ActivitiesTable = React.createClass({
                     </select>
                 </td>
 
-                <td><input type="checkbox" name="WatchedInCinema" defaultValue={ activity.WatchedInCinema } onChange={ this.changeEvent.bind(this, activity.Id, actvityProperties.WatchedInCinema) } /></td>
+                <td><input type="checkbox" name="WatchedInCinema" defaultChecked={ activity.WatchedInCinema } onChange={ this.changeEvent.bind(this, activity.Id, actvityProperties.WatchedInCinema) } /></td>
             </tr>
             );
         }.bind(this));
