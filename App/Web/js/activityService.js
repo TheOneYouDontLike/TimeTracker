@@ -33,7 +33,7 @@ var ActivityService =  {
 
     updateActivity: function (updatedProperties) {
         request
-        .post('/activity/updateName')
+        .put('/activity/updateActivity/' + updatedProperties.activityId.toString())
         .set('Content-Type', 'application/json')
         .send(updatedProperties)
         .end(function (response) {
@@ -41,6 +41,7 @@ var ActivityService =  {
                 alert(response.text);
                 return;
             }
+            console.log(response);
         });
     }
 };

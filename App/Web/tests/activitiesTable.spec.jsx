@@ -69,7 +69,7 @@ describe('activities-table', function () {
 			// then
 			assert.that(requests.length, is.equalTo(1));
 			var parsedRequestBody = JSON.parse(requests[0].requestBody);
-			assert.that(parsedRequestBody, is.equalTo({ activityId:1, activityProperty: 1, activityName: 'Terminator'}));
+			assert.that(parsedRequestBody, is.equalTo({ activityId:1, activityProperty: 1, activityValue: 'Terminator'}));
 		});
 	});
 });

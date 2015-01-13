@@ -11,7 +11,7 @@ var ActivitiesTable = React.createClass({
         {
             activityId: activityId,
             activityProperty: propertyEnumValue,
-            activityName: event.target.value
+            activityValue: event.target.value
         });
     },
 

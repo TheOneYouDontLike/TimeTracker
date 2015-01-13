@@ -59,11 +59,15 @@ namespace App.Modules
                 return response;
             };
 
-            Put["/activities/changeName/{id}"] = _ =>
+            Put["/activities/updateActivity/{id}"] = _ =>
             {
                 var newName = Request.Body.AsString();
-                var deserializedObject = JsonConvert.DeserializeAnonymousType(newName, new { NewName = "" });
-                _activityService.ChangeActivityName(_.id, deserializedObject.NewName);
+                var deserializedObject = JsonConvert.DeserializeAnonymousType(newName, new { ActivityId = 0, ActivityProperty = "", ActivityValue = "" });
+
+                switch (deserializedObject.ActivityProperty)
+                {
+                    case "Name": _activityService.ChangeActivityName(_.id, deserializedObject.ActivityValue); break;
+                }
 
                 return HttpStatusCode.OK;
             };

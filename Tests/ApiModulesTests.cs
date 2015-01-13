@@ -174,9 +174,12 @@
             _activityService.AddNew(activity);
 
             // when
-            var serializedName = JsonConvert.SerializeObject(new { NewName = "Jurassic Park II" });
+            var serializedName = JsonConvert.SerializeObject(new {
+            activityId = activity.Id,
+            activityProperty = "Name",
+            activityValue = "Jurassic Park II"});
 
-            _browser.Put("/activities/changeName/" + activity.Id, with =>
+            _browser.Put("/activities/updateActivity/" + activity.Id, with =>
             {
                 with.HttpRequest();
                 with.Body(serializedName, ApplicationJson);
