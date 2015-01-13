@@ -3,7 +3,7 @@
 var React = require('react');
 var ActivitiesTable = require('./activitiesTable.jsx');
 var ActivityForm = require('./activityForm.jsx');
-var ActivityService = require('./activityService.jsx');
+var ActivityService = require('./activityService.js');
 
 var ActivitiesBox = React.createClass({
     getInitialState: function () {

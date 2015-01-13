@@ -2,7 +2,7 @@
 
 var React = require('react');
 
-var ActivityService = require('./activityService.jsx');
+var ActivityService = require('./activityService.js');
 var actvityProperties = require('./activityConstants.js');
 
 var ActivitiesTable = React.createClass({
