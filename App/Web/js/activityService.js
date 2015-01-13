@@ -33,7 +33,7 @@ var ActivityService =  {
 
     updateActivity: function (updatedProperties) {
         request
-        .put('/activity/updateActivity/' + updatedProperties.activityId.toString())
+        .put('/activities/updateActivity/' + updatedProperties.activityId.toString())
         .set('Content-Type', 'application/json')
         .send(updatedProperties)
         .end(function (response) {
