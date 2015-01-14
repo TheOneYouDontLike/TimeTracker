@@ -1,11 +1,11 @@
 'use strict';
 
 var activityPropertiesEnum = {
-    Name: 1,
-    Date: 2,
-    Duration: 3,
-    ActivityType: 4,
-    WatchedInCinema: 5
+    Name: "Name",
+    Date: "Date",
+    Duration: "Duration",
+    ActivityType: "ActivityType",
+    WatchedInCinema: "WatchedInCinema"
 };
 
 module.exports = activityPropertiesEnum;

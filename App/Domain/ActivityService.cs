@@ -1,6 +1,7 @@
 namespace App.Domain
 {
     using System.Collections.Generic;
+    using System;
 
     public interface ActivityService
     {
@@ -8,5 +9,6 @@ namespace App.Domain
         Activity GetById(int id);
         List<Activity> GetAll();
         void ChangeActivityName(int id, string newName);
+        void ChangeActivityDate(int id, DateTime newDate);
     }
 }

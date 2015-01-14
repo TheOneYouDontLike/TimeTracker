@@ -5,6 +5,7 @@ namespace App.Modules
     using Nancy;
     using Nancy.Extensions;
     using Newtonsoft.Json;
+    using System;
 
     public class ActivityApiModule : NancyModule
     {
@@ -67,6 +68,7 @@ namespace App.Modules
                 switch (deserializedObject.ActivityProperty)
                 {
                     case "Name": _activityService.ChangeActivityName(_.id, deserializedObject.ActivityValue); break;
+                    case "Date": _activityService.ChangeActivityDate(_.id, Convert.ToDateTime(deserializedObject.ActivityValue)); break;
                 }
 
                 return HttpStatusCode.OK;

@@ -38,5 +38,10 @@ namespace App.Domain
         {
             Name = newName;
         }
+
+        public void ChangeDate(DateTime newDate)
+        {
+            Date = newDate;
+        }
     }
 }

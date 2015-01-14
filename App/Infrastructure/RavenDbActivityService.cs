@@ -4,6 +4,7 @@ namespace App.Infrastructure
     using System.Linq;
     using App.Domain;
     using Raven.Client;
+    using System;    
 
     public class RavenDbActivityService : ActivityService
     {
@@ -45,6 +46,16 @@ namespace App.Infrastructure
             {
                 var activityToUpdate = documentSession.Load<Activity>(id);
                 activityToUpdate.ChangeName(newName);
+                documentSession.SaveChanges();
+            }
+        }
+
+        public void ChangeActivityDate(int id, DateTime newDate)
+        {
+            using (var documentSession = _documentStore.OpenSession())
+            {
+                var activityToUpdate = documentSession.Load<Activity>(id);
+                activityToUpdate.ChangeDate(newDate);
                 documentSession.SaveChanges();
             }
         }

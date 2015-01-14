@@ -63,7 +63,7 @@
         }
 
         [Test]
-        public void Should_update_activity()
+        public void Should_update_activity_name()
         {
             // given
             var activity = new Activity("Dumb and dumber", new DateTime(2013, 01, 01), 120, ActivityType.Movie);
@@ -76,6 +76,23 @@
 
             // then
             Assert.That(updatedActivity.Name, Is.EqualTo("Dumb and dumber II"));
+        }
+
+        [Test]
+        public void Should_update_activity_date()
+        {
+            // given
+            var activity = new Activity("Dumb and dumber", new DateTime(2013, 01, 01), 120, ActivityType.Movie);
+            _activityService.AddNew(activity);
+            var newDate = new DateTime(2014, 01, 01);
+
+            // when
+            _activityService.ChangeActivityDate(activity.Id, newDate);
+
+            var updatedActivity = _activityService.GetById(activity.Id);
+
+            // then
+            Assert.That(updatedActivity.Date.ToString(), Is.EqualTo(newDate.ToString()));
         }
     }
 }
