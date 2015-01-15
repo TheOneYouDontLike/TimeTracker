@@ -207,7 +207,7 @@
             var serializedDate = JsonConvert.SerializeObject(new {
             activityId = activity.Id,
             activityProperty = "Date",
-            activityValue = "2014-02-02"});
+            activityValue = "2014-03-31"});
 
             _browser.Put("/activities/updateActivity/" + activity.Id, with =>
             {
@@ -219,7 +219,7 @@
             var deserializedActivity = JsonConvert.DeserializeObject<Activity>(response.Body.AsString());
 
             // then
-            var newDate = Convert.ToDateTime("2014-02-02").ToString();
+            var newDate = Convert.ToDateTime("2014-03-31").ToString();
             Assert.That(deserializedActivity.Date.ToString(), Is.EqualTo(newDate));
         }
 
