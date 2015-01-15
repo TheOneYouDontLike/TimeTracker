@@ -59,5 +59,15 @@ namespace App.Infrastructure
                 documentSession.SaveChanges();
             }
         }
+
+        public void ChangeActivityDuration(int id, int newDuration)
+        {
+            using (var documentSession = _documentStore.OpenSession())
+            {
+                var activityToUpdate = documentSession.Load<Activity>(id);
+                activityToUpdate.ChangeDuration(newDuration);
+                documentSession.SaveChanges();
+            }
+        }
     }
 }

@@ -204,7 +204,7 @@
             _activityService.AddNew(activity);
 
             // when
-            var serializedName = JsonConvert.SerializeObject(new {
+            var serializedDate = JsonConvert.SerializeObject(new {
             activityId = activity.Id,
             activityProperty = "Date",
             activityValue = "2014-02-02"});
@@ -212,7 +212,7 @@
             _browser.Put("/activities/updateActivity/" + activity.Id, with =>
             {
                 with.HttpRequest();
-                with.Body(serializedName, ApplicationJson);
+                with.Body(serializedDate, ApplicationJson);
             });
 
             var response = _browser.Get("/activities/" + activity.Id);
@@ -221,6 +221,37 @@
             // then
             var newDate = Convert.ToDateTime("2014-02-02").ToString();
             Assert.That(deserializedActivity.Date.ToString(), Is.EqualTo(newDate));
+        }
+
+        [Test]
+        public void Should_update_activity_duration()
+        {
+            // given
+            var activity = new Activity("Jurassic Park", new DateTime(2014, 09, 09), 120, ActivityType.Movie)
+            {
+                WatchedInCinema = true
+            };
+
+            _activityService.AddNew(activity);
+
+            // when
+            var serializedDuration = JsonConvert.SerializeObject(new {
+            activityId = activity.Id,
+            activityProperty = "Duration",
+            activityValue = 200});
+
+            _browser.Put("/activities/updateActivity/" + activity.Id, with =>
+            {
+                with.HttpRequest();
+                with.Body(serializedDuration, ApplicationJson);
+            });
+
+            var response = _browser.Get("/activities/" + activity.Id);
+            var deserializedActivity = JsonConvert.DeserializeObject<Activity>(response.Body.AsString());
+
+            // then
+            var newDuration = 200;
+            Assert.That(deserializedActivity.Duration, Is.EqualTo(newDuration));
         }
 
         [Test]

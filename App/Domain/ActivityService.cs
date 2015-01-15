@@ -10,5 +10,6 @@ namespace App.Domain
         List<Activity> GetAll();
         void ChangeActivityName(int id, string newName);
         void ChangeActivityDate(int id, DateTime newDate);
+        void ChangeActivityDuration(int id, int duration);
     }
 }

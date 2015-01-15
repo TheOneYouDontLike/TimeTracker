@@ -69,6 +69,7 @@ namespace App.Modules
                 {
                     case "Name": _activityService.ChangeActivityName(_.id, deserializedObject.ActivityValue); break;
                     case "Date": _activityService.ChangeActivityDate(_.id, Convert.ToDateTime(deserializedObject.ActivityValue)); break;
+                    case "Duration": _activityService.ChangeActivityDuration(_.id, Convert.ToInt32(deserializedObject.ActivityValue)); break;
                 }
 
                 return HttpStatusCode.OK;

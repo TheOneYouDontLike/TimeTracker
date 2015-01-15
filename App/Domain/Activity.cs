@@ -43,5 +43,10 @@ namespace App.Domain
         {
             Date = newDate;
         }
+
+        public void ChangeDuration(int newDuration)
+        {
+            Duration = newDuration;
+        }
     }
 }

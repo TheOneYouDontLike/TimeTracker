@@ -42,5 +42,46 @@ namespace Tests
             // then
             Assert.That(creatingNewActivity, Throws.TypeOf<ActivityException>());
         }
+
+        [Test]
+        public void Should_be_possible_to_change_the_name()
+        {
+            // given
+            Activity activity = new Activity("Interstellar", new DateTime(), 120, ActivityType.Movie);
+
+            // when
+            activity.ChangeName("Dumb and dumber");
+
+            // then
+            Assert.That(activity.Name, Is.EqualTo("Dumb and dumber"));
+        }
+
+        [Test]
+        public void Should_be_possible_to_change_the_date()
+        {
+            // given
+            Activity activity = new Activity("Interstellar", new DateTime(), 120, ActivityType.Movie);
+            var newDate = new DateTime(2014, 02, 02);
+
+            // when
+            activity.ChangeDate(newDate);
+
+            // then
+            Assert.That(activity.Date.ToString(), Is.EqualTo(newDate.ToString()));
+        }
+
+        [Test]
+        public void Should_be_possible_to_change_the_duration()
+        {
+            // given
+            Activity activity = new Activity("Interstellar", new DateTime(), 120, ActivityType.Movie);
+            var newDuration = 160;
+
+            // when
+            activity.ChangeDuration(newDuration);
+
+            // then
+            Assert.That(activity.Duration, Is.EqualTo(newDuration));
+        }
     }
 }

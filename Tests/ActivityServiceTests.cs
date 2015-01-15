@@ -94,5 +94,22 @@
             // then
             Assert.That(updatedActivity.Date.ToString(), Is.EqualTo(newDate.ToString()));
         }
+
+        [Test]
+        public void Should_update_activity_duration()
+        {
+            // given
+            var activity = new Activity("Dumb and dumber", new DateTime(2013, 01, 01), 120, ActivityType.Movie);
+            _activityService.AddNew(activity);
+            var newDuration = 160;
+
+            // when
+            _activityService.ChangeActivityDuration(activity.Id, newDuration);
+
+            var updatedActivity = _activityService.GetById(activity.Id);
+
+            // then
+            Assert.That(updatedActivity.Duration, Is.EqualTo(newDuration));
+        }
     }
 }
