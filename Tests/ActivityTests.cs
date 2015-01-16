@@ -97,5 +97,21 @@ namespace Tests
             // then
             Assert.That(activity.ActivityType, Is.EqualTo(newType));
         }
+
+        [Test]
+        public void Should_be_possible_to_change_if_was_watched_in_cinema()
+        {
+            // given
+            Activity activity = new Activity("Interstellar", new DateTime(), 120, ActivityType.Movie){
+                WatchedInCinema = false
+            };
+            var wasWatchedInCinema = true;
+
+            // when
+            activity.SetAsWatchedInCinema(wasWatchedInCinema);
+
+            // then
+            Assert.That(activity.WatchedInCinema, Is.EqualTo(true));
+        }
     }
 }

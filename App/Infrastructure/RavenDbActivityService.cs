@@ -79,5 +79,15 @@ namespace App.Infrastructure
                 documentSession.SaveChanges();
             }
         }
+
+        public void SetAsWatchedInCinema(int id, bool wasWatchedInCinema)
+        {
+            using (var documentSession = _documentStore.OpenSession())
+            {
+                var activityToUpdate = documentSession.Load<Activity>(id);
+                activityToUpdate.SetAsWatchedInCinema(wasWatchedInCinema);
+                documentSession.SaveChanges();
+            }
+        }
     }
 }

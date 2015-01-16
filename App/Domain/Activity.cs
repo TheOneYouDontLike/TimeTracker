@@ -53,5 +53,10 @@ namespace App.Domain
         {
             ActivityType = newType;
         }
+
+        public void SetAsWatchedInCinema(bool wasWatchedInCinema)
+        {
+            WatchedInCinema = wasWatchedInCinema;
+        }
     }
 }

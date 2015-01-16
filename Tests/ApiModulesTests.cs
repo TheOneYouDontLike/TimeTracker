@@ -283,6 +283,37 @@
         }
 
         [Test]
+        public void Should_set_as_watched_in_cinema()
+        {
+            // given
+            var activity = new Activity("Simpsons", new DateTime(2014, 09, 09), 120, ActivityType.Movie)
+            {
+                WatchedInCinema = false
+            };
+
+            _activityService.AddNew(activity);
+
+            // when
+            var serializedDuration = JsonConvert.SerializeObject(new {
+            activityId = activity.Id,
+            activityProperty = "WatchedInCinema",
+            activityValue = true});
+
+            _browser.Put("/activities/updateActivity/" + activity.Id, with =>
+            {
+                with.HttpRequest();
+                with.Body(serializedDuration, ApplicationJson);
+            });
+
+            var response = _browser.Get("/activities/" + activity.Id);
+            var deserializedActivity = JsonConvert.DeserializeObject<Activity>(response.Body.AsString());
+
+            // then
+            var wasWatchedInCinema = true;
+            Assert.That(deserializedActivity.WatchedInCinema, Is.EqualTo(wasWatchedInCinema));
+        }
+
+        [Test]
         public void Should_return_activity_with_type_as_type_name_not_number()
         {
             // should be:

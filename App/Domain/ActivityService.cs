@@ -12,5 +12,6 @@ namespace App.Domain
         void ChangeActivityDate(int id, DateTime newDate);
         void ChangeActivityDuration(int id, int duration);
         void ChangeActivityType(int id, ActivityType activityType);
+        void SetAsWatchedInCinema(int id, bool wasWatchedInCinema);
     }
 }

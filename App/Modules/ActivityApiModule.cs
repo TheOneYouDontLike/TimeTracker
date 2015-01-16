@@ -71,6 +71,7 @@ namespace App.Modules
                     case "Date": _activityService.ChangeActivityDate(_.id, Convert.ToDateTime(deserializedObject.ActivityValue)); break;
                     case "Duration": _activityService.ChangeActivityDuration(_.id, Convert.ToInt32(deserializedObject.ActivityValue)); break;
                     case "ActivityType": _activityService.ChangeActivityType(_.id, (ActivityType)Enum.Parse(typeof(ActivityType), deserializedObject.ActivityValue)); break;
+                    case "WatchedInCinema": _activityService.SetAsWatchedInCinema(_.id, Boolean.Parse(deserializedObject.ActivityValue)); break;
                 }
 
                 return HttpStatusCode.OK;

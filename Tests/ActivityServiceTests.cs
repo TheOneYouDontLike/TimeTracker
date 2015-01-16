@@ -128,5 +128,25 @@
             // then
             Assert.That(updatedActivity.ActivityType, Is.EqualTo(newType));
         }
+
+        [Test]
+        public void Should_set_as_watched_in_cinema()
+        {
+            // given
+            var activity = new Activity("Simpsons", new DateTime(2013, 01, 01), 120, ActivityType.Movie)
+            {
+                WatchedInCinema = false
+            };
+            _activityService.AddNew(activity);
+            var wasWatchedInCinema = true;
+
+            // when
+            _activityService.SetAsWatchedInCinema(activity.Id, wasWatchedInCinema);
+
+            var updatedActivity = _activityService.GetById(activity.Id);
+
+            // then
+            Assert.That(updatedActivity.WatchedInCinema, Is.EqualTo(wasWatchedInCinema));
+        }
     }
 }
