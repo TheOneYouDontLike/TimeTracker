@@ -11,5 +11,6 @@ namespace App.Domain
         void ChangeActivityName(int id, string newName);
         void ChangeActivityDate(int id, DateTime newDate);
         void ChangeActivityDuration(int id, int duration);
+        void ChangeActivityType(int id, ActivityType activityType);
     }
 }

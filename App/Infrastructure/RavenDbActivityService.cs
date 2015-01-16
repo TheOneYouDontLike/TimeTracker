@@ -69,5 +69,15 @@ namespace App.Infrastructure
                 documentSession.SaveChanges();
             }
         }
+
+        public void ChangeActivityType(int id, ActivityType newType)
+        {
+            using (var documentSession = _documentStore.OpenSession())
+            {
+                var activityToUpdate = documentSession.Load<Activity>(id);
+                activityToUpdate.ChangeType(newType);
+                documentSession.SaveChanges();
+            }
+        }
     }
 }

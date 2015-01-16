@@ -111,5 +111,22 @@
             // then
             Assert.That(updatedActivity.Duration, Is.EqualTo(newDuration));
         }
+
+        [Test]
+        public void Should_update_activity_type()
+        {
+            // given
+            var activity = new Activity("Simpsons", new DateTime(2013, 01, 01), 120, ActivityType.Movie);
+            _activityService.AddNew(activity);
+            var newType = ActivityType.Series;
+
+            // when
+            _activityService.ChangeActivityType(activity.Id, newType);
+
+            var updatedActivity = _activityService.GetById(activity.Id);
+
+            // then
+            Assert.That(updatedActivity.ActivityType, Is.EqualTo(newType));
+        }
     }
 }

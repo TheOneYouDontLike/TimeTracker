@@ -41,6 +41,9 @@ var ActivityService =  {
                 alert(response.text);
                 return;
             }
+            else if(response.serverError) {
+                alert("Server error");
+            }
             console.log(response);
         });
     }

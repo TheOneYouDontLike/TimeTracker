@@ -48,5 +48,10 @@ namespace App.Domain
         {
             Duration = newDuration;
         }
+
+        public void ChangeType(ActivityType newType)
+        {
+            ActivityType = newType;
+        }
     }
 }

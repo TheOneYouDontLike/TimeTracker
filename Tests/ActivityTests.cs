@@ -83,5 +83,19 @@ namespace Tests
             // then
             Assert.That(activity.Duration, Is.EqualTo(newDuration));
         }
+
+        [Test]
+        public void Should_be_possible_to_change_the_type()
+        {
+            // given
+            Activity activity = new Activity("Interstellar", new DateTime(), 120, ActivityType.Series);
+            var newType = ActivityType.Movie;
+
+            // when
+            activity.ChangeType(newType);
+
+            // then
+            Assert.That(activity.ActivityType, Is.EqualTo(newType));
+        }
     }
 }
