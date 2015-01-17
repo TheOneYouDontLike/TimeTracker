@@ -10,10 +10,12 @@ namespace App.Modules
     public class ActivityApiModule : NancyModule
     {
         private readonly ActivityService _activityService;
+        private readonly DateProvider _basicDateProvider;
 
-        public ActivityApiModule(ActivityService activityService)
+        public ActivityApiModule(ActivityService activityService, DateProvider basicDateProvider)
         {
             _activityService = activityService;
+            _basicDateProvider = basicDateProvider;
 
             JsonConvert.DefaultSettings += JsonSettings.GlobalJsonSerializerSettings;
 
@@ -81,7 +83,7 @@ namespace App.Modules
             {
                 var activities = _activityService.GetAll();
 
-                var statistics = new Statistics(activities, new BasicDateProvider());
+                var statistics = new Statistics(activities, _basicDateProvider);
 
                 var serializedStatistics = JsonConvert.SerializeObject(statistics);
 

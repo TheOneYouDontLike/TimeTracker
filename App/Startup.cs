@@ -41,6 +41,7 @@
             base.ConfigureApplicationContainer(container);
 
             container.Register<ActivityService, RavenDbActivityService>().AsSingleton();
+            container.Register<DateProvider, BasicDateProvider>().AsSingleton();
 
             var embeddableDocumentStore = new EmbeddableDocumentStore
             {
