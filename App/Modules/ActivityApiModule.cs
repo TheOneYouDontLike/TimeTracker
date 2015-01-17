@@ -76,6 +76,20 @@ namespace App.Modules
 
                 return HttpStatusCode.OK;
             };
+
+            Get["/activities/statistics"] = _ =>
+            {
+                var activities = _activityService.GetAll();
+
+                var statistics = new Statistics(activities, new BasicDateProvider());
+
+                var serializedStatistics = JsonConvert.SerializeObject(statistics);
+
+                var response = (Response)serializedStatistics;
+                PrepareOkResponseForGetMethod(response);
+
+                return response;
+            };
         }
 
         private static void PrepareOkResponseForGetMethod(Response response)

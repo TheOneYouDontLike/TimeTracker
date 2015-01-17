@@ -342,5 +342,44 @@
             var wasWatchedInCinema = true;
             Assert.That(deserializedActivity.WatchedInCinema, Is.EqualTo(wasWatchedInCinema));
         }
+
+        [Test]
+        public void Should_return_statistics()
+        {
+            // given
+            ThereAreSomeActivitiesInDb();
+
+            // when
+            var response = _browser.Get("/activities/statistics");
+            Console.WriteLine(response.Body.AsString());
+
+            // then
+            Assert.That(response.Body.AsString(), Is.Not.Empty);
+        }
+
+        private void ThereAreSomeActivitiesInDb()
+        {
+            var simpsons = new Activity("Simpsons", new DateTime(2013, 09, 09), 120, ActivityType.Movie)
+            {
+                WatchedInCinema = false
+            };
+
+            var simpsonsSeries = new Activity("Simpsons", new DateTime(2014, 09, 09), 500, ActivityType.Series);
+
+            var jurassicPark = new Activity("Jurassic Park", new DateTime(2014, 09, 09), 120, ActivityType.Movie)
+            {
+                WatchedInCinema = true
+            };
+
+            var killBill2 = new Activity("Kill Bill II", new DateTime(2014, 09, 12), 150, ActivityType.Movie)
+            {
+                WatchedInCinema = true
+            };
+
+            _activityService.AddNew(simpsons);
+            _activityService.AddNew(simpsonsSeries);
+            _activityService.AddNew(jurassicPark);
+            _activityService.AddNew(killBill2);
+        }
     }
 }
