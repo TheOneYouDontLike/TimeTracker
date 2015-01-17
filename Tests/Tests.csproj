@@ -80,6 +80,7 @@
     <Compile Include="StatisticsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModulesTests.cs" />
+    <Compile Include="RavenDbActivityServiceTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

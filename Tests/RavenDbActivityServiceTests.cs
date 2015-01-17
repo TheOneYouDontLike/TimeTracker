@@ -9,7 +9,7 @@
     using Raven.Client.Embedded;
 
     [TestFixture]
-    public class RavenDbServiceTests
+    public class RavenDbActivityServiceTests
     {
         private IDocumentStore _documentStore;
         private RavenDbActivityService _activityService;
