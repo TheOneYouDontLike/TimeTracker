@@ -1,6 +1,5 @@
 ﻿namespace Tests
 {
-    using System;
     using App;
     using Nancy;
     using Nancy.Testing;

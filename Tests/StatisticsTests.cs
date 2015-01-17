@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using App;
     using App.Domain;
     using NUnit.Framework;
     using FakeItEasy;
@@ -30,7 +29,7 @@
             };
 
             // when
-            var duration = new Statistics(listOfActivities, _dateProvider).TotalDurationOfActivities();
+            var duration = new Statistics(listOfActivities, _dateProvider).TotalDurationOfActivities;
 
             // then
             Assert.That(duration, Is.EqualTo(300));
@@ -50,7 +49,7 @@
             A.CallTo(() => _dateProvider.GetCurrentDate()).Returns(new DateTime(2014, 10, 21));
 
             // when
-            var statiscticsTime = new Statistics(listOfActivities, _dateProvider).TotalTimeSpan();
+            var statiscticsTime = new Statistics(listOfActivities, _dateProvider).TotalTimeSpan;
 
             // then
             const int expectedDays = 293;
@@ -69,7 +68,7 @@
             };
 
             // when
-            var totalDurationOfMovies = new Statistics(listOfActivities, _dateProvider).TotalDurationOfActivities(ActivityType.Movie);
+            var totalDurationOfMovies = new Statistics(listOfActivities, _dateProvider).TotalDurationOfMovies;
 
             // then
             Assert.That(totalDurationOfMovies, Is.EqualTo(220));
@@ -88,7 +87,7 @@
             };
 
             // when
-            var totalDurationOfMovies = new Statistics(listOfActivities, _dateProvider).TotalDurationOfActivities(ActivityType.Series);
+            var totalDurationOfMovies = new Statistics(listOfActivities, _dateProvider).TotalDurationOfSeries;
 
             // then
             Assert.That(totalDurationOfMovies, Is.EqualTo(160));

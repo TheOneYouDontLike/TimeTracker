@@ -15,20 +15,35 @@ namespace App.Domain
             _dateProvider = dateProvider;
         }
 
-        public int TotalTimeSpan()
+        public int TotalTimeSpan
         {
-            var smallestDate = _listOfActivities.Min(activity => activity.Date);
-            var totalDays = _dateProvider.GetCurrentDate().Subtract(smallestDate).TotalDays;
+            get
+            {
+                var smallestDate = _listOfActivities.Min(activity => activity.Date);
+                var totalDays = _dateProvider.GetCurrentDate().Subtract(smallestDate).TotalDays;
 
-            return Convert.ToInt32(Math.Floor(totalDays));
+                return Convert.ToInt32(Math.Floor(totalDays));
+            }
         }
 
-        public int TotalDurationOfActivities()
+        public int TotalDurationOfActivities
         {
-            return _listOfActivities.Sum(activity => activity.Duration);
+            get {
+                return _listOfActivities.Sum(activity => activity.Duration);
+            }
         }
 
-        public int TotalDurationOfActivities(ActivityType activityType)
+        public int TotalDurationOfMovies
+        {
+            get { return TotalDurationOfActivity(ActivityType.Movie); }
+        }
+
+        public int TotalDurationOfSeries
+        {
+            get { return TotalDurationOfActivity(ActivityType.Series); }
+        }
+
+        private int TotalDurationOfActivity(ActivityType activityType)
         {
             return _listOfActivities.Where(activity => activity.ActivityType == activityType).Sum(activity => activity.Duration);
         }
