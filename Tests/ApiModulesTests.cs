@@ -133,6 +133,36 @@
         }
 
         [Test]
+        public void Should_return_activity_with_type_as_type_name_not_number()
+        {
+            // should be:
+            // { 
+            //  ...
+            //  "ActivityType": "Movie"
+            //  ...
+            // }
+            // not:
+            // { 
+            //  ...
+            //  "ActivityType": 0
+            //  ...
+            // }
+
+            // given
+            _activityService.AddNew(
+                new Activity("Matrix", new DateTime(2008, 12, 12), 200, ActivityType.Movie));
+
+            // when
+            var response = _browser.Get("/activities");
+
+            // then
+            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+            var asString = response.Body.AsString();
+
+            Assert.That(asString, Contains.Substring("Movie"));
+        }
+
+        [Test]
         public void Should_return_single_activity()
         {
             // given
@@ -263,7 +293,7 @@
             _activityService.AddNew(activity);
 
             // when
-            var serializedDuration = JsonConvert.SerializeObject(new {
+            var serializedActivityType = JsonConvert.SerializeObject(new {
             activityId = activity.Id,
             activityProperty = "ActivityType",
             activityValue = "Series"});
@@ -271,7 +301,7 @@
             _browser.Put("/activities/updateActivity/" + activity.Id, with =>
             {
                 with.HttpRequest();
-                with.Body(serializedDuration, ApplicationJson);
+                with.Body(serializedActivityType, ApplicationJson);
             });
 
             var response = _browser.Get("/activities/" + activity.Id);
@@ -294,7 +324,7 @@
             _activityService.AddNew(activity);
 
             // when
-            var serializedDuration = JsonConvert.SerializeObject(new {
+            var serializedWatchedInCinema = JsonConvert.SerializeObject(new {
             activityId = activity.Id,
             activityProperty = "WatchedInCinema",
             activityValue = true});
@@ -302,7 +332,7 @@
             _browser.Put("/activities/updateActivity/" + activity.Id, with =>
             {
                 with.HttpRequest();
-                with.Body(serializedDuration, ApplicationJson);
+                with.Body(serializedWatchedInCinema, ApplicationJson);
             });
 
             var response = _browser.Get("/activities/" + activity.Id);
@@ -311,36 +341,6 @@
             // then
             var wasWatchedInCinema = true;
             Assert.That(deserializedActivity.WatchedInCinema, Is.EqualTo(wasWatchedInCinema));
-        }
-
-        [Test]
-        public void Should_return_activity_with_type_as_type_name_not_number()
-        {
-            // should be:
-            // { 
-            //  ...
-            //  "ActivityType": "Movie"
-            //  ...
-            // }
-            // not:
-            // { 
-            //  ...
-            //  "ActivityType": 0
-            //  ...
-            // }
-
-            // given
-            _activityService.AddNew(
-                new Activity("Matrix", new DateTime(2008, 12, 12), 200, ActivityType.Movie));
-
-            // when
-            var response = _browser.Get("/activities");
-
-            // then
-            Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
-            var asString = response.Body.AsString();
-
-            Assert.That(asString, Contains.Substring("Movie"));
         }
     }
 }
