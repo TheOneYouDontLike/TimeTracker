@@ -37,6 +37,7 @@ var ActivitiesBox = React.createClass({
     
     updateEventHandler: function() {
         ActivityService.getAllActivities(this.setActivities);
+        ActivityService.getStatistics(this.setStatistics);
     },
 
     render: function() {
