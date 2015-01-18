@@ -2,6 +2,16 @@
 
 var request = require('superagent');
 
+function handleErrors(response) {
+    if(response.badRequest) {
+        alert(response.text);
+        return;
+    }
+    else if(response.serverError) {
+        alert("Server error");
+    }
+}
+
 var ActivityService =  {
     postActivity: function(newActivity, callbackFunction) {
         request
@@ -15,10 +25,7 @@ var ActivityService =  {
                 WatchedInCinema: newActivity.WatchedInCinema
             })
         .end(function(response) {
-            if(response.badRequest) {
-                alert(response.text);
-                return;
-            }
+            handleErrors(response);
             console.log("New activity looks like this: " + newActivity);
             callbackFunction();
         });
@@ -37,14 +44,7 @@ var ActivityService =  {
             .set('Content-Type', 'application/json')
             .send(updatedProperties)
             .end(function(response) {
-                if(response.badRequest) {
-                    alert(response.text);
-                    return;
-                }
-                else if(response.serverError) {
-                    alert("Server error");
-                }
-                console.log(response);
+                handleErrors(response);
             });
     },
 

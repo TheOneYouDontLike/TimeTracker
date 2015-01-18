@@ -10,7 +10,12 @@ var ActivitiesBox = React.createClass({
     getInitialState: function() {
         return {
             activitiesTableData: [],
-            statisticsData: {}
+            statisticsData: {},
+            tabs: {
+                table: 'active',
+                form: '',
+                stats: ''
+            }
         };
     },
 
@@ -40,12 +45,37 @@ var ActivitiesBox = React.createClass({
         ActivityService.getStatistics(this.setStatistics);
     },
 
+    activateTab: function(tabName) {
+        var newTabState = {
+            table: '',
+            form: '',
+            stats: ''
+        };
+
+        for(var propertyName in newTabState) {
+           if(propertyName === tabName){
+                newTabState[propertyName] = 'active';
+           }
+        }
+
+        this.setState({
+            tabs: newTabState
+        });
+    },
+
     render: function() {
         return (
             <div className='activities-box' ref="ActivitiesBox">
-                <ActivitiesTable data={ this.state.activitiesTableData } />
-                <ActivityForm updateEventHandler={ this.updateEventHandler } />
-                <ActivityStatistics data={ this.state.statisticsData } />
+                <ul className="nav nav-tabs">
+                    <li role="presentation" className={ this.state.tabs.table }><a href="#table" onClick={ this.activateTab.bind(this, "table") }>List of Activities</a></li>
+                    <li role="presentation" className={ this.state.tabs.form }><a href="#form" onClick={ this.activateTab.bind(this, "form") }>Add new activity</a></li>
+                    <li role="presentation" className={ this.state.tabs.stats }><a href="#stats" onClick={ this.activateTab.bind(this, "stats") }>Statistics</a></li>
+                </ul>
+                <div className="tab-content">
+                    <div id="table" className={ "tab-pane " + this.state.tabs.table }><ActivitiesTable data={ this.state.activitiesTableData } /></div>
+                    <div id="form" className={ "tab-pane " + this.state.tabs.form }><ActivityForm updateEventHandler={ this.updateEventHandler } /></div>
+                    <div id="stats" className={ "tab-pane " + this.state.tabs.stats }><ActivityStatistics data={ this.state.statisticsData } /></div>
+                </div>
             </div>
         );
     }
