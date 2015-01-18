@@ -3,7 +3,7 @@
 var request = require('superagent');
 
 var ActivityService =  {
-    postActivity: function (newActivity, callbackFunction) {
+    postActivity: function(newActivity, callbackFunction) {
         request
         .post('/activities')
         .set('Content-Type', 'application/json')
@@ -14,7 +14,7 @@ var ActivityService =  {
                 ActivityType: newActivity.ActivityType,
                 WatchedInCinema: newActivity.WatchedInCinema
             })
-        .end(function (response) {
+        .end(function(response) {
             if(response.badRequest) {
                 alert(response.text);
                 return;
@@ -24,29 +24,37 @@ var ActivityService =  {
         });
     },
 
-    getAllActivities: function (callbackFunction) {
+    getAllActivities: function(callbackFunction) {
         request
-        .get('/activities')
-        .accept('application/json')
-        .end(callbackFunction);
+            .get('/activities')
+            .accept('application/json')
+            .end(callbackFunction);
     },
 
-    updateActivity: function (updatedProperties) {
+    updateActivity: function(updatedProperties) {
         request
-        .put('/activities/updateActivity/' + updatedProperties.activityId.toString())
-        .set('Content-Type', 'application/json')
-        .send(updatedProperties)
-        .end(function (response) {
-            if(response.badRequest) {
-                alert(response.text);
-                return;
-            }
-            else if(response.serverError) {
-                alert("Server error");
-            }
-            console.log(response);
-        });
+            .put('/activities/updateActivity/' + updatedProperties.activityId.toString())
+            .set('Content-Type', 'application/json')
+            .send(updatedProperties)
+            .end(function(response) {
+                if(response.badRequest) {
+                    alert(response.text);
+                    return;
+                }
+                else if(response.serverError) {
+                    alert("Server error");
+                }
+                console.log(response);
+            });
+    },
+
+    getStatistics: function(callbackFunction) {
+        request
+            .get('/activities/statistics')
+            .accept('application/json')
+            .end(callbackFunction);
     }
+
 };
 
 module.exports = ActivityService;

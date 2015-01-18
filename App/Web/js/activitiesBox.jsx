@@ -3,36 +3,48 @@
 var React = require('react');
 var ActivitiesTable = require('./activitiesTable.jsx');
 var ActivityForm = require('./activityForm.jsx');
+var ActivityStatistics = require('./activityStatistics.jsx');
 var ActivityService = require('./activityService.js');
 
 var ActivitiesBox = React.createClass({
-    getInitialState: function () {
+    getInitialState: function() {
         return {
-            activitiesTableData: []
+            activitiesTableData: [],
+            statisticsData: {}
         };
     },
 
-    componentDidMount: function () {
+    componentDidMount: function() {
         ActivityService.getAllActivities(this.setActivities);
+        ActivityService.getStatistics(this.setStatistics);
     },
 
-    setActivities: function (response){
+    setActivities: function(response){
         if(this.isMounted()){
             this.setState({
                 activitiesTableData: response.body
             });
         }
     },
+
+    setStatistics: function(response) {
+        if(this.isMounted()){
+            this.setState({
+                statisticsData: response.body
+            });
+        }
+    },
     
-    updateEventHandler: function () {
+    updateEventHandler: function() {
         ActivityService.getAllActivities(this.setActivities);
     },
 
-    render: function () {
+    render: function() {
         return (
             <div className='activities-box' ref="ActivitiesBox">
                 <ActivitiesTable data={ this.state.activitiesTableData } />
                 <ActivityForm updateEventHandler={ this.updateEventHandler } />
+                <ActivityStatistics data={ this.state.statisticsData } />
             </div>
         );
     }

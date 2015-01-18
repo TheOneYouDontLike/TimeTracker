@@ -14,12 +14,21 @@ var TestUtils = require('react/addons').addons.TestUtils;
 var ActivitiesBox = require('../js/activitiesBox.jsx');
 
 describe('activities-box', function () {
-	it('should render correctly with table and activity form inside', function () {
-		// given
-		var requests = [];
 
+	var requests = [];
+
+	beforeEach(function() {
 		global.XMLHttpRequest = sinon.useFakeXMLHttpRequest();
 		global.XMLHttpRequest.onCreate = function (req) { requests.push(req); };
+	});
+
+	afterEach(function() {
+		requests = [];
+		global.XMLHttpRequest.restore();
+	});
+
+	it('should render correctly with table and activity form inside', function () {
+		// given
 
 		// when
 		var rendered = TestUtils.renderIntoDocument(<ActivitiesBox />);
@@ -31,7 +40,18 @@ describe('activities-box', function () {
 		assert.that(renderedForm.length, is.equalTo(1));
 		assert.that(requests[0].url, is.equalTo('/activities'));
 		assert.that(requests[0].method.toLowerCase(), is.equalTo('get'));
+	});
 
-		global.XMLHttpRequest.restore();
+	it('should get statistics data and render statistics component', function() {
+		// given
+
+		// when
+		var renderedActivtiesBox = TestUtils.renderIntoDocument(<ActivitiesBox />);
+
+		// then
+		assert.that(requests[1].url, is.equalTo('/activities/statistics'));
+
+		var renderedStatistics = TestUtils.findRenderedDOMComponentWithClass(renderedActivtiesBox, 'activities-statistics');
+		assert.that(renderedStatistics, is.not.null());
 	});
 });
