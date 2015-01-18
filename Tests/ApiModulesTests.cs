@@ -12,6 +12,7 @@
     using Raven.Client.Embedded;
     using Newtonsoft.Json;
     using Browser = Nancy.Testing.Browser;
+    using FakeItEasy;
 
     [TestFixture]
     public class ApiModulesTests
@@ -30,7 +31,7 @@
             _activityService = new RavenDbActivityService(_embeddableDocumentStore);
 
             _browser = new Browser(
-                with => with.Module(new ActivityApiModule(_activityService)),
+                with => with.Module(new ActivityApiModule(_activityService, A.Dummy<DateProvider>())),
                 context => context.Accept(ApplicationJson));
 
             JsonConvert.DefaultSettings += JsonSettings.GlobalJsonSerializerSettings;

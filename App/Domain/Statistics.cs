@@ -82,6 +82,11 @@ namespace App.Domain
 
         private static double CalculateAverageIntervalBetweenSortedActivities(List<Activity> sortedListOfActivities)
         {
+            if(sortedListOfActivities.Count == 1)
+            {
+                return 0.0;
+            }
+
             var totalDays = 0.0;
 
             for (var i = 0; i < sortedListOfActivities.Count - 1; i++)
