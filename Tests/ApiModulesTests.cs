@@ -204,12 +204,12 @@
 
             _activityService.AddNew(activity);
 
-            // when
             var serializedName = JsonConvert.SerializeObject(new {
-            activityId = activity.Id,
-            activityProperty = "Name",
-            activityValue = "Jurassic Park II"});
+                activityId = activity.Id,
+                activityProperty = "Name",
+                activityValue = "Jurassic Park II"});
 
+            // when
             _browser.Put("/activities/updateActivity/" + activity.Id, with =>
             {
                 with.HttpRequest();
@@ -234,12 +234,12 @@
 
             _activityService.AddNew(activity);
 
-            // when
             var serializedDate = JsonConvert.SerializeObject(new {
-            activityId = activity.Id,
-            activityProperty = "Date",
-            activityValue = "2014-03-31"});
+                activityId = activity.Id,
+                activityProperty = "Date",
+                activityValue = "2014-03-31"});
 
+            // when
             _browser.Put("/activities/updateActivity/" + activity.Id, with =>
             {
                 with.HttpRequest();
@@ -265,12 +265,12 @@
 
             _activityService.AddNew(activity);
 
-            // when
             var serializedDuration = JsonConvert.SerializeObject(new {
-            activityId = activity.Id,
-            activityProperty = "Duration",
-            activityValue = 200});
+                activityId = activity.Id,
+                activityProperty = "Duration",
+                activityValue = 200});
 
+            // when
             _browser.Put("/activities/updateActivity/" + activity.Id, with =>
             {
                 with.HttpRequest();
@@ -281,7 +281,7 @@
             var deserializedActivity = JsonConvert.DeserializeObject<Activity>(response.Body.AsString());
 
             // then
-            var newDuration = 200;
+            const int newDuration = 200;
             Assert.That(deserializedActivity.Duration, Is.EqualTo(newDuration));
         }
 
@@ -293,12 +293,12 @@
 
             _activityService.AddNew(activity);
 
-            // when
             var serializedActivityType = JsonConvert.SerializeObject(new {
-            activityId = activity.Id,
-            activityProperty = "ActivityType",
-            activityValue = "Series"});
+                activityId = activity.Id,
+                activityProperty = "ActivityType",
+                activityValue = "Series"});
 
+            // when
             _browser.Put("/activities/updateActivity/" + activity.Id, with =>
             {
                 with.HttpRequest();
@@ -324,12 +324,14 @@
 
             _activityService.AddNew(activity);
 
-            // when
-            var serializedWatchedInCinema = JsonConvert.SerializeObject(new {
-            activityId = activity.Id,
-            activityProperty = "WatchedInCinema",
-            activityValue = true});
+            var serializedWatchedInCinema = JsonConvert.SerializeObject(new
+            {
+                activityId = activity.Id,
+                activityProperty = "WatchedInCinema",
+                activityValue = true
+            });
 
+            // when
             _browser.Put("/activities/updateActivity/" + activity.Id, with =>
             {
                 with.HttpRequest();
@@ -340,8 +342,54 @@
             var deserializedActivity = JsonConvert.DeserializeObject<Activity>(response.Body.AsString());
 
             // then
-            var wasWatchedInCinema = true;
+            const bool wasWatchedInCinema = true;
             Assert.That(deserializedActivity.WatchedInCinema, Is.EqualTo(wasWatchedInCinema));
+        }
+
+        [Test]
+        public void Should_return_bad_request_if_you_are_sending_request_with_retarded_property_to_update()
+        {
+            // given
+            var serializedWatchedInCinema = JsonConvert.SerializeObject(new
+            {
+                activityId = 0,
+                activityProperty = "RetardedUnicorn",
+                activityValue = true
+            });
+
+            // when
+            var browserResponse = _browser.Put("/activities/updateActivity/" + 1, with =>
+            {
+                with.HttpRequest();
+                with.Body(serializedWatchedInCinema, ApplicationJson);
+            });
+
+            // then
+            Assert.That(browserResponse.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(browserResponse.Body.AsString(), Is.EqualTo("Invalid update request"));
+        }
+
+        [Test]
+        public void Should_return_bad_request_if_you_are_sending_request_with_retarded_property_value_to_update()
+        {
+            // given
+            var serializedWatchedInCinema = JsonConvert.SerializeObject(new
+            {
+                activityId = 0,
+                activityProperty = "WatchedInCinema",
+                activityValue = "AnotherRetardedUnicorn"
+            });
+
+            // when
+            var browserResponse = _browser.Put("/activities/updateActivity/" + 1, with =>
+            {
+                with.HttpRequest();
+                with.Body(serializedWatchedInCinema, ApplicationJson);
+            });
+
+            // then
+            Assert.That(browserResponse.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+            Assert.That(browserResponse.Body.AsString(), Contains.Substring("Invalid update request, probably sth with js but it is possible that you are trying to sabotage this defenseless app. \n Additional info:"));
         }
 
         [Test]

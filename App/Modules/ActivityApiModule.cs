@@ -67,13 +67,35 @@ namespace App.Modules
                 var newName = Request.Body.AsString();
                 var deserializedObject = JsonConvert.DeserializeAnonymousType(newName, new { ActivityId = 0, ActivityProperty = "", ActivityValue = "" });
 
-                switch (deserializedObject.ActivityProperty)
+                try
                 {
-                    case "Name": _activityService.ChangeActivityName(_.id, deserializedObject.ActivityValue); break;
-                    case "Date": _activityService.ChangeActivityDate(_.id, Convert.ToDateTime(deserializedObject.ActivityValue)); break;
-                    case "Duration": _activityService.ChangeActivityDuration(_.id, Convert.ToInt32(deserializedObject.ActivityValue)); break;
-                    case "ActivityType": _activityService.ChangeActivityType(_.id, (ActivityType)Enum.Parse(typeof(ActivityType), deserializedObject.ActivityValue)); break;
-                    case "WatchedInCinema": _activityService.SetAsWatchedInCinema(_.id, Boolean.Parse(deserializedObject.ActivityValue)); break;
+                    switch (deserializedObject.ActivityProperty)
+                    {
+                        case "Name":
+                            _activityService.ChangeActivityName(_.id, deserializedObject.ActivityValue);
+                            break;
+                        case "Date":
+                            _activityService.ChangeActivityDate(_.id,
+                                Convert.ToDateTime(deserializedObject.ActivityValue));
+                            break;
+                        case "Duration":
+                            _activityService.ChangeActivityDuration(_.id,
+                                Convert.ToInt32(deserializedObject.ActivityValue));
+                            break;
+                        case "ActivityType":
+                            _activityService.ChangeActivityType(_.id,
+                                (ActivityType) Enum.Parse(typeof (ActivityType), deserializedObject.ActivityValue));
+                            break;
+                        case "WatchedInCinema":
+                            _activityService.SetAsWatchedInCinema(_.id, Boolean.Parse(deserializedObject.ActivityValue));
+                            break;
+                        default:
+                            return PrepareBadRequestResponse("Invalid update request");
+                    }
+                }
+                catch (Exception exception)
+                {
+                    return PrepareBadRequestResponse(string.Format("Invalid update request, probably sth with js but it is possible that you are trying to sabotage this defenseless app. \n Additional info: {0}", exception.Message));
                 }
 
                 return HttpStatusCode.OK;
@@ -92,6 +114,14 @@ namespace App.Modules
 
                 return response;
             };
+        }
+
+        private static dynamic PrepareBadRequestResponse(string message)
+        {
+            var response = (Response)message;
+            response.StatusCode = HttpStatusCode.BadRequest;
+
+            return response;
         }
 
         private static void PrepareOkResponseForGetMethod(Response response)
