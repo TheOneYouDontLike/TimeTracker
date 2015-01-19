@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using App.Domain;
     using App.Infrastructure;
@@ -38,7 +39,7 @@
         }
 
         [Test]
-        public void Should_return_all_activities()
+        public void Should_return_all_activities_if_there_are_any()
         {
             // given
             _activityService.AddNew(
@@ -61,7 +62,7 @@
         }
 
         [Test]
-        public void Should_add_activity()
+        public void Should_add_activity_when_you_are_politely_sending_correct_request()
         {
             // given
             var activity = new Activity("Kill Bill", new DateTime(2014, 09, 09), 150, ActivityType.Movie)
@@ -91,7 +92,7 @@
         public void Should_not_deserialize_activity_if_there_was_parsing_error()
         {
             // given
-            var notValidActivity = 
+            const string notValidActivityBecauseItIsNotPossibleThatSeriesWasWatchedInCinema = 
                 @"{'Name': 'Name',
                 'Date': '2014-02-02',
                 'Duration': 134,
@@ -101,9 +102,8 @@
             // when
 
             var deserializingActivity = new TestDelegate(() =>
-            {
-                JsonConvert.DeserializeObject<Activity>(notValidActivity);
-            });
+                JsonConvert.DeserializeObject<Activity>(notValidActivityBecauseItIsNotPossibleThatSeriesWasWatchedInCinema)
+            );
 
             // then
             var exception = Assert.Throws<JsonSerializationException>(deserializingActivity);
@@ -114,7 +114,7 @@
         public void Should_not_add_activity_if_there_was_parsing_error()
         {
             // given
-            var notValidActivity = 
+            const string notValidActivityBecauseItIsNotPossibleThatSeriesWasWatchedInCinema = 
                 @"{'Name': 'Name',
                 'Date': '2014-02-02',
                 'Duration': 134,
@@ -125,7 +125,7 @@
             var response = _browser.Post("/activities", with => 
             {
                 with.HttpsRequest();
-                with.Body(notValidActivity, ApplicationJson);
+                with.Body(notValidActivityBecauseItIsNotPossibleThatSeriesWasWatchedInCinema, ApplicationJson);
             });
 
             // then
@@ -164,7 +164,7 @@
         }
 
         [Test]
-        public void Should_return_single_activity()
+        public void Should_return_single_activity_if_it_does_exist()
         {
             // given
             var activity = new Activity("Kill Bill II", new DateTime(2014, 09, 09), 150, ActivityType.Movie)
@@ -250,8 +250,8 @@
             var deserializedActivity = JsonConvert.DeserializeObject<Activity>(response.Body.AsString());
 
             // then
-            var newDate = Convert.ToDateTime("2014-03-31").ToString();
-            Assert.That(deserializedActivity.Date.ToString(), Is.EqualTo(newDate));
+            var newDate = Convert.ToDateTime("2014-03-31").ToString(CultureInfo.InvariantCulture);
+            Assert.That(deserializedActivity.Date.ToString(CultureInfo.InvariantCulture), Is.EqualTo(newDate));
         }
 
         [Test]
