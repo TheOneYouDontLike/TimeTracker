@@ -13,5 +13,6 @@ namespace App.Domain
         void ChangeActivityDuration(int id, int duration);
         void ChangeActivityType(int id, ActivityType activityType);
         void SetAsWatchedInCinema(int id, bool wasWatchedInCinema);
+        void Delete(int activityId);
     }
 }

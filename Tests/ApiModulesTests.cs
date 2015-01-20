@@ -6,6 +6,7 @@
     using System.Linq;
     using App.Domain;
     using App.Infrastructure;
+    using App.Infrastructure.Exceptions;
     using App.Modules;
     using Nancy;
     using Nancy.Testing;
@@ -390,6 +391,39 @@
             // then
             Assert.That(browserResponse.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
             Assert.That(browserResponse.Body.AsString(), Contains.Substring("Invalid update request, probably sth with js but it is possible that you are trying to sabotage this defenseless app. \n Additional info:"));
+        }
+
+        [Test]
+        public void Should_delete_existing_activity()
+        {
+            // given
+            var simpsons = new Activity("Simpsons", new DateTime(2013, 09, 09), 120, ActivityType.Movie)
+            {
+                WatchedInCinema = false
+            };
+
+            _activityService.AddNew(simpsons);
+
+            // when
+            var browserResponse = _browser.Delete("/activities/1", with => with.HttpRequest());
+
+            // then
+            Assert.That(browserResponse.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+        }
+
+        [Test]
+        public void Should_return_not_found_and_not_delete_when_activity_does_not_exist()
+        {
+            // given
+            // there is no such activity in db
+
+            // when
+            var browserResponse = _browser.Delete("/activities/1", with => with.HttpRequest());
+
+            // then
+            Assert.That(browserResponse.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+            string message = new ActivityDoesNotExist().Message;
+            Assert.That(browserResponse.Body.AsString(), Is.EqualTo(message));
         }
 
         [Test]

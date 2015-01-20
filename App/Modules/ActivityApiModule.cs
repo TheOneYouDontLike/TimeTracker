@@ -2,6 +2,7 @@ namespace App.Modules
 {
     using App.Domain;
     using App.Infrastructure;
+    using App.Infrastructure.Exceptions;
     using Nancy;
     using Nancy.Extensions;
     using Newtonsoft.Json;
@@ -113,6 +114,23 @@ namespace App.Modules
                 PrepareOkResponseForGetMethod(response);
 
                 return response;
+            };
+
+            Delete["/activities/{id}"] = _ =>
+            {
+                try
+                {
+                    _activityService.Delete(_.id);
+                }
+                catch (ActivityDoesNotExist exception)
+                {
+                    var response = (Response) exception.Message;
+                    response.StatusCode = HttpStatusCode.NotFound;
+
+                    return response;
+                }
+
+                return HttpStatusCode.OK;
             };
         }
 
