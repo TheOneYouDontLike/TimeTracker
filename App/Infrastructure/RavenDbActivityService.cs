@@ -3,6 +3,7 @@ namespace App.Infrastructure
     using System.Collections.Generic;
     using System.Linq;
     using App.Domain;
+    using App.Infrastructure.Exceptions;
     using Raven.Client;
     using System;    
 
@@ -28,7 +29,10 @@ namespace App.Infrastructure
         {
             using (var session = _documentStore.OpenSession())
             {
-                return session.Load<Activity>(id);
+                var activity = session.Load<Activity>(id);
+                CheckIfDoesExist(activity);
+
+                return activity;
             }
         }
 
@@ -45,6 +49,8 @@ namespace App.Infrastructure
             using (var documentSession = _documentStore.OpenSession())
             {
                 var activityToUpdate = documentSession.Load<Activity>(id);
+                CheckIfDoesExist(activityToUpdate);
+                
                 activityToUpdate.ChangeName(newName);
                 documentSession.SaveChanges();
             }
@@ -55,6 +61,8 @@ namespace App.Infrastructure
             using (var documentSession = _documentStore.OpenSession())
             {
                 var activityToUpdate = documentSession.Load<Activity>(id);
+                CheckIfDoesExist(activityToUpdate);
+
                 activityToUpdate.ChangeDate(newDate);
                 documentSession.SaveChanges();
             }
@@ -65,6 +73,8 @@ namespace App.Infrastructure
             using (var documentSession = _documentStore.OpenSession())
             {
                 var activityToUpdate = documentSession.Load<Activity>(id);
+                CheckIfDoesExist(activityToUpdate);
+
                 activityToUpdate.ChangeDuration(newDuration);
                 documentSession.SaveChanges();
             }
@@ -75,6 +85,8 @@ namespace App.Infrastructure
             using (var documentSession = _documentStore.OpenSession())
             {
                 var activityToUpdate = documentSession.Load<Activity>(id);
+                CheckIfDoesExist(activityToUpdate);
+
                 activityToUpdate.ChangeType(newType);
                 documentSession.SaveChanges();
             }
@@ -85,8 +97,30 @@ namespace App.Infrastructure
             using (var documentSession = _documentStore.OpenSession())
             {
                 var activityToUpdate = documentSession.Load<Activity>(id);
+                CheckIfDoesExist(activityToUpdate);
+
                 activityToUpdate.SetAsWatchedInCinema(wasWatchedInCinema);
                 documentSession.SaveChanges();
+            }
+        }
+
+        public void Delete(int activityId)
+        {
+            using (var documentSession = _documentStore.OpenSession())
+            {
+                var activity = documentSession.Load<Activity>(activityId);
+                CheckIfDoesExist(activity);
+
+                documentSession.Delete<Activity>(activityId);
+                documentSession.SaveChanges();
+            }
+        }
+
+        private static void CheckIfDoesExist(Activity activityToUpdate)
+        {
+            if (activityToUpdate == null)
+            {
+                throw new ActivityDoesNotExist();
             }
         }
     }
