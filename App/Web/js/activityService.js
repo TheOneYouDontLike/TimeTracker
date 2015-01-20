@@ -45,7 +45,16 @@ var ActivityService =  {
             .send(updatedProperties)
             .end(function(response) {
                 handleErrors(response);
-            });
+        });
+    },
+
+    deleteActivity: function(activityId, callbackFunction) {
+        request
+            .delete('/activities/' + activityId)
+            .end(function(response) {
+                handleErrors(response);
+                callbackFunction();
+        });
     },
 
     getStatistics: function(callbackFunction) {

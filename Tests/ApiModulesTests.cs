@@ -422,6 +422,7 @@
 
             // then
             Assert.That(browserResponse.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
+            
             string message = new ActivityDoesNotExist().Message;
             Assert.That(browserResponse.Body.AsString(), Is.EqualTo(message));
         }
