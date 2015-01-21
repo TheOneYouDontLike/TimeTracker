@@ -57,6 +57,19 @@
         }
 
         [Test]
+        public void Should_return_new_activity_id_after_storing_in_db()
+        {
+            // given
+            var activity = new Activity("Interstellar", new DateTime(2014, 10, 12), 120, ActivityType.Movie);
+
+            // when
+            var newActivityId = _activityService.AddNew(activity);
+
+            // then
+            Assert.That(newActivityId, Is.GreaterThan(0));
+        }
+
+        [Test]
         public void Should_return_all_activities()
         {
             // given

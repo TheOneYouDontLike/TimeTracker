@@ -27,6 +27,7 @@ var ActivityService =  {
         .end(function(response) {
             handleErrors(response);
             console.log("New activity looks like this: " + newActivity);
+            
             callbackFunction();
         });
     },
@@ -35,7 +36,14 @@ var ActivityService =  {
         request
             .get('/activities')
             .accept('application/json')
-            .end(callbackFunction);
+            .end(function(response) {
+                if(response.ok){
+                    callbackFunction(response);
+                }
+                else{
+                    handleErrors(response);
+                }
+            });
     },
 
     updateActivity: function(updatedProperties) {
@@ -61,7 +69,14 @@ var ActivityService =  {
         request
             .get('/activities/statistics')
             .accept('application/json')
-            .end(callbackFunction);
+            .end(function(response) {
+                if(response.ok){
+                    callbackFunction(response);
+                }
+                else{
+                    handleErrors(response);
+                }
+            });
     }
 
 };

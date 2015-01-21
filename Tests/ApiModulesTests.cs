@@ -85,6 +85,7 @@
 
             // then
             Assert.That(postResponse.StatusCode, Is.EqualTo(HttpStatusCode.Created));
+            Assert.That(postResponse.Body.AsString(), Is.EqualTo("1"));
 
             Assert.That(list.Any(a => a.Name == "Kill Bill"));
         }

@@ -1,5 +1,6 @@
 namespace App.Modules
 {
+    using System.Globalization;
     using App.Domain;
     using App.Infrastructure;
     using App.Infrastructure.Exceptions;
@@ -47,9 +48,11 @@ namespace App.Modules
                     return response;
                 }
 
-                _activityService.AddNew(deserializedActivity);
+                var activityId = _activityService.AddNew(deserializedActivity);
+                var responseWithActivityId = (Response) activityId.ToString(CultureInfo.InvariantCulture);
+                responseWithActivityId.StatusCode = HttpStatusCode.Created;
 
-                return HttpStatusCode.Created;
+                return responseWithActivityId;
             };
 
             Get["/activities/{id}"] = _ =>

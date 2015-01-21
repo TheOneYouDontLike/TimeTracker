@@ -5,7 +5,7 @@ namespace App.Domain
 
     public interface ActivityService
     {
-        void AddNew(Activity activity);
+        int AddNew(Activity activity);
         Activity GetById(int id);
         List<Activity> GetAll();
         void ChangeActivityName(int id, string newName);

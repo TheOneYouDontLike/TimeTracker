@@ -16,13 +16,15 @@ namespace App.Infrastructure
             _documentStore = documentStore;
         }
 
-        public void AddNew(Activity activity)
+        public int AddNew(Activity activity)
         {
             using (var session = _documentStore.OpenSession())
             {
                 session.Store(activity);
                 session.SaveChanges();
             }
+
+            return activity.Id;
         }
 
         public Activity GetById(int id)
