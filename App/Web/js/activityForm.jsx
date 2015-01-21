@@ -30,9 +30,9 @@ var ActivityForm = React.createClass(
             ActivityService.postActivity(this.state, this.updateParentComponentAndResetCurrentState);
         },
 
-        updateParentComponentAndResetCurrentState: function () {
+        updateParentComponentAndResetCurrentState: function (newActivityId) {
             this.setState(this.getInitialState());
-            this.props.updateEventHandler();
+            this.props.updateEventHandler(newActivityId);
         },
 
         render: function () {

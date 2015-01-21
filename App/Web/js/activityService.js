@@ -26,9 +26,9 @@ var ActivityService =  {
             })
         .end(function(response) {
             handleErrors(response);
-            console.log("New activity looks like this: " + newActivity);
             
-            callbackFunction();
+            var newActivityId = response.text;
+            callbackFunction(newActivityId);
         });
     },
 
@@ -39,6 +39,20 @@ var ActivityService =  {
             .end(function(response) {
                 if(response.ok){
                     callbackFunction(response);
+                }
+                else{
+                    handleErrors(response);
+                }
+            });
+    },
+
+    getActivity: function(activityId, callbackFunction) {
+        request
+            .get('/activities/' + activityId.toString())
+            .accept('application/json')
+            .end(function(response) {
+                if(response.ok){
+                    callbackFunction(response.body);
                 }
                 else{
                     handleErrors(response);

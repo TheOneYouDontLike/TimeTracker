@@ -39,9 +39,17 @@ var ActivitiesBox = React.createClass({
             });
         }
     },
+
+    addActivityToState: function(newActivity){
+        var activities = this.state.activitiesTableData;
+        activities.push(newActivity);
+        this.setState({
+            activitiesTableData: activities
+        });
+    },
     
-    updateEventHandler: function() {
-        ActivityService.getAllActivities(this.setActivities);
+    updateEventHandler: function(newActivityId) {
+        ActivityService.getActivity(newActivityId, this.addActivityToState);
         ActivityService.getStatistics(this.setStatistics);
     },
 
