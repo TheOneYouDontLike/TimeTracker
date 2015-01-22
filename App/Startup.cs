@@ -21,11 +21,6 @@
             app.UseStageMarker(PipelineStage.MapHandler);
         }
 
-        protected override IRootPathProvider RootPathProvider
-        {
-            get { return new SelfhostRootPathProvider(); }
-        }
-
         protected override void ConfigureConventions(NancyConventions nancyConventions)
         {
             base.ConfigureConventions(nancyConventions);
