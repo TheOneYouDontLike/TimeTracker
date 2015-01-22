@@ -17,7 +17,7 @@
             var browser = new Browser(with =>
             {
                 with.Module(new ViewsModule());
-                with.RootPathProvider<SelfhostRootPathProvider>();
+                //with.RootPathProvider<SelfhostRootPathProvider>();
             });
 
             // when
