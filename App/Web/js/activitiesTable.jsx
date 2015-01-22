@@ -18,6 +18,10 @@ var ActivitiesTable = React.createClass({
         });
     },
 
+    deleteActivity: function (activityId, event) {
+        this.props.deleteActivity(activityId);
+    },
+
     render: function () {
         var activitiesNodes = this.props.data.map(function (activity) {
             return (
@@ -34,6 +38,7 @@ var ActivitiesTable = React.createClass({
                 </td>
 
                 <td><input type="checkbox" className="form-control" name="WatchedInCinema" defaultChecked={ activity.WatchedInCinema } onChange={ this.changeEvent.bind(this, activity.Id, actvityProperties.WatchedInCinema) } /></td>
+                <td><button className="delete-button btn btn-danger" onClick={this.deleteActivity.bind(this, activity.Id)}>Delete</button></td>
             </tr>
             );
         }.bind(this));
@@ -50,6 +55,7 @@ var ActivitiesTable = React.createClass({
                                 <th>Duration</th>
                                 <th>Activity Type</th>
                                 <th>Watched In Cinema?</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>

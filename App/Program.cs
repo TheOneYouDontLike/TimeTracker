@@ -13,6 +13,9 @@
             {
                 Console.WriteLine("Running on {0}", url);
                 Console.WriteLine("Press enter to exit");
+
+                System.Diagnostics.Process.Start("http://localhost:8080");
+
                 Console.ReadLine();
             }
         }

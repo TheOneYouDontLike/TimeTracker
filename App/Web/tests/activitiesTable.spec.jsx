@@ -26,9 +26,11 @@ describe('activities-table', function () {
 	}];
 
 	var renderedActivity;
+	var deleteCallback;
 
 	beforeEach(function () {
-		renderedActivity = TestUtils.renderIntoDocument(<ActivitiesTable data={ activityData } />);
+		deleteCallback = sinon.spy();
+		renderedActivity = TestUtils.renderIntoDocument(<ActivitiesTable data={ activityData } deleteActivity= { deleteCallback }/>);
 	});
 
 	it('should render correctly with passed data', function () {
@@ -70,6 +72,20 @@ describe('activities-table', function () {
 			assert.that(requests.length, is.equalTo(1));
 			var parsedRequestBody = JSON.parse(requests[0].requestBody);
 			assert.that(parsedRequestBody, is.equalTo({ activityId:1, activityProperty: 'Name', activityValue: 'Terminator'}));
+		});
+
+		it('should be deleted when clicking on delete button', function() {
+			// given
+			var requests = [];
+            global.XMLHttpRequest.onCreate = function (req) { requests.push(req); };
+			
+			var nameInput = renderedActivity.getDOMNode().querySelectorAll('tbody > tr > td > button[class=delete-button]')[0];
+
+			// when
+			TestUtils.Simulate.click(nameInput);
+
+			// then
+			assert.that(deleteCallback.calledWith(1), is.true());
 		});
 	});
 });

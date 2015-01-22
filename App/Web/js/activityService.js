@@ -72,10 +72,10 @@ var ActivityService =  {
 
     deleteActivity: function(activityId, callbackFunction) {
         request
-            .delete('/activities/' + activityId)
+            .del('/activities/' + activityId)
             .end(function(response) {
                 handleErrors(response);
-                callbackFunction();
+                callbackFunction(activityId);
         });
     },
 

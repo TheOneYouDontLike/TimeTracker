@@ -71,6 +71,20 @@ var ActivitiesBox = React.createClass({
         });
     },
 
+    deleteEventHandler: function(activityId) {
+        ActivityService.deleteActivity(activityId, this.removeActivityFromState);
+    },
+
+    removeActivityFromState: function(activityIdToDelete){
+        var activities = this.state.activitiesTableData;
+        var filteredActivities = activities.filter(function (activity){
+            return activity.Id !== activityIdToDelete;
+        });
+        this.setState({
+            activitiesTableData: filteredActivities
+        });
+    },
+
     render: function() {
         return (
             <div className='activities-box' ref="ActivitiesBox">
@@ -80,7 +94,7 @@ var ActivitiesBox = React.createClass({
                     <li role="presentation" className={ this.state.tabs.stats }><a href="#stats" onClick={ this.activateTab.bind(this, "stats") }>Statistics</a></li>
                 </ul>
                 <div className="tab-content">
-                    <div id="table" className={ "tab-pane " + this.state.tabs.table }><ActivitiesTable data={ this.state.activitiesTableData } /></div>
+                    <div id="table" className={ "tab-pane " + this.state.tabs.table }><ActivitiesTable data={ this.state.activitiesTableData } deleteActivity={ this.deleteEventHandler }/></div>
                     <div id="form" className={ "tab-pane " + this.state.tabs.form }><ActivityForm updateEventHandler={ this.updateEventHandler } /></div>
                     <div id="stats" className={ "tab-pane " + this.state.tabs.stats }><ActivityStatistics data={ this.state.statisticsData } /></div>
                 </div>
