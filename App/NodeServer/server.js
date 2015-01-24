@@ -21,24 +21,24 @@ var activityData = [
 http.createServer(function(request, response) {
     switch(true){
         case /^\/activities\/[0-9]+/.test(request.url):
+            logRequestToConsole(request);
             response.writeHead(200, {"Content-Type": "application/json"});        
             response.end(JSON.stringify(activityData[0]));
             break;
         case /^\/activities/.test(request.url):
+            logRequestToConsole(request);
             response.writeHead(200, {"Content-Type": "application/json"});        
             response.end(JSON.stringify(activityData));
             break;
         default:
+            console.log('not found route: ');
+            logRequestToConsole(request);
             response.writeHead(404);
             response.end();    
     }
-    // if (/^\/activities/.test(request.url)){
-    //     response.writeHead(200, {"Content-Type": "application/json"});        
-    //     response.end(JSON.stringify(activityData));
-    // }
-
-    // else {
-    //     response.writeHead(404);
-    //     response.end();
-    // }
 }).listen(8888);
+
+function logRequestToConsole(request){
+    console.log(request.method);
+    console.log(request.url);
+}
