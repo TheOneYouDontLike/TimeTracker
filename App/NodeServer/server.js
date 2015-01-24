@@ -19,13 +19,26 @@ var activityData = [
     }];
 
 http.createServer(function(request, response) {
-    if (/^\/activities/.test(request.url)){
-        response.writeHead(200, {"Content-Type": "application/json"});
-        //response.write("Hello World");
-        response.end(JSON.stringify(activityData));
+    switch(true){
+        case /^\/activities\/[0-9]+/.test(request.url):
+            response.writeHead(200, {"Content-Type": "application/json"});        
+            response.end(JSON.stringify(activityData[0]));
+            break;
+        case /^\/activities/.test(request.url):
+            response.writeHead(200, {"Content-Type": "application/json"});        
+            response.end(JSON.stringify(activityData));
+            break;
+        default:
+            response.writeHead(404);
+            response.end();    
     }
-    else {
-        response.writeHead(404);
-        response.end();
-    }
+    // if (/^\/activities/.test(request.url)){
+    //     response.writeHead(200, {"Content-Type": "application/json"});        
+    //     response.end(JSON.stringify(activityData));
+    // }
+
+    // else {
+    //     response.writeHead(404);
+    //     response.end();
+    // }
 }).listen(8888);
