@@ -27,6 +27,7 @@ var bootstrap = fs.readFileSync('../Web/node_modules/bootstrap/dist/css/bootstra
 var bootstrapMap = fs.readFileSync('../Web/node_modules/bootstrap/dist/css/bootstrap.css.map');
 
 http.createServer(function(request, response) {
+    route(request, response);
     switch(true){
         case request.url === '/':
             response.writeHead(200, {'Content-Type': 'text/html'});
