@@ -144,4 +144,25 @@ describe('router', function(){
         assert.that(callbackSpyMrBean.calledWith(requestPut, {}), is.true());
         assert.that(callbackSpyMrBean.calledWith(requestDelete, {}), is.true());
     });
+
+    it('should invoke callback with response when routing', function() {
+        // given
+        var callbackSpy = sinon.spy();
+        router.httpGet('/highwayToHell', callbackSpy);
+
+        var requestGet = {
+            url: '/highwayToHell',
+            method: 'GET'
+        };
+
+        var response = {
+            helloIAmResponseObject: {}
+        };
+
+        // when
+        router.route(requestGet, response);
+
+        // then
+        assert.that(callbackSpy.calledWith(requestGet, response), is.true());
+    });
 });
