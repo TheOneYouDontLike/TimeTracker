@@ -3,25 +3,36 @@ var _ = require('lodash');
 
 var router = function() {
     var unicorn = {};
-
     var routingBoard = [];
 
-    unicorn.get = function(route, callback) {
-        var destination = {
-            method: 'GET',
+    var createDestination = function(method, route, callback) {
+        return {
+            method: method,
             path: route,
             callback: callback
         };
+    };
+
+    unicorn.httpGet = function(route, callback) {
+        var destination = createDestination('GET', route, callback);
 
         routingBoard.push(destination);
     };
 
-    unicorn.post = function(route, callback) {
-        var destination = {
-            method: 'POST',
-            path: route,
-            callback: callback
-        };
+    unicorn.httpPost = function(route, callback) {
+        var destination = createDestination('POST', route, callback);
+
+        routingBoard.push(destination);
+    };
+
+    unicorn.httpDelete = function(route, callback) {
+        var destination = createDestination('DELETE', route, callback);
+
+        routingBoard.push(destination);
+    };
+
+    unicorn.httpPut = function(route, callback) {
+        var destination = createDestination('PUT', route, callback);
 
         routingBoard.push(destination);
     };
@@ -36,7 +47,7 @@ var router = function() {
             console.log('path does not exist: ' + request.url);
             return;
         }
-        
+
         route.callback();
     };
 
