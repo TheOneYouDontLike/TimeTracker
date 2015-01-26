@@ -19,7 +19,6 @@ describe('router', function(){
         };
 
         var callbackSpy = sinon.spy();
-
         router.httpGet('/path', callbackSpy);
 
         // when
@@ -37,9 +36,9 @@ describe('router', function(){
         };
 
         var callbackSpyGet = sinon.spy();
-        var callbackSpyPost = sinon.spy();
-
         router.httpGet('/path', callbackSpyGet);
+
+        var callbackSpyPost = sinon.spy();
         router.httpPost('/path', callbackSpyPost);
 
         // when
@@ -58,7 +57,6 @@ describe('router', function(){
         };
 
         var callbackSpy = sinon.spy();
-
         router.httpDelete('/path', callbackSpy);
 
         // when
@@ -76,7 +74,6 @@ describe('router', function(){
         };
 
         var callbackSpy = sinon.spy();
-
         router.httpPut('/path', callbackSpy);
 
         // when
@@ -94,7 +91,6 @@ describe('router', function(){
         };
 
         var callbackSpy = sinon.spy();
-
         router.httpGet('/', callbackSpy);
 
         // when
@@ -102,5 +98,50 @@ describe('router', function(){
 
         // then
         assert.that(callbackSpy.calledOnce, is.false());
+    });
+
+    it('should override existing GET route if specified again', function() {
+        // given
+        var callbackSpyMrBond = sinon.spy();
+        router.httpGet('/', callbackSpyMrBond);
+        router.httpPost('/', callbackSpyMrBond);
+        router.httpPut('/', callbackSpyMrBond);
+        router.httpDelete('/', callbackSpyMrBond);
+
+        var callbackSpyMrBean = sinon.spy();
+        router.httpGet('/', callbackSpyMrBean);
+        router.httpPost('/', callbackSpyMrBean);
+        router.httpPut('/', callbackSpyMrBean);
+        router.httpDelete('/', callbackSpyMrBean);
+
+        var requestGet = {
+            url: '/',
+            method: 'GET'
+        };
+        var requestPost = {
+            url: '/',
+            method: 'POST'
+        };
+        var requestPut = {
+            url: '/',
+            method: 'PUT'
+        };
+        var requestDelete = {
+            url: '/',
+            method: 'DELETE'
+        };
+
+        // when
+        router.route(requestGet, {});
+        router.route(requestPost, {});
+        router.route(requestPut, {});
+        router.route(requestDelete, {});
+
+        // then
+        assert.that(callbackSpyMrBean.callCount, is.equalTo(4));
+        assert.that(callbackSpyMrBean.calledWith(requestGet, {}), is.true());
+        assert.that(callbackSpyMrBean.calledWith(requestPost, {}), is.true());  
+        assert.that(callbackSpyMrBean.calledWith(requestPut, {}), is.true());
+        assert.that(callbackSpyMrBean.calledWith(requestDelete, {}), is.true());
     });
 });
