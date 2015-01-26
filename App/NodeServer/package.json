@@ -11,5 +11,8 @@
     "mocha": "^2.0.1",
     "node-assertthat": "^0.2.3",
     "sinon": "^1.12.2"
+  },
+  "dependencies": {
+    "lodash": "^3.0.0"
   }
 }
