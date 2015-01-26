@@ -61,6 +61,8 @@ var router = function() {
 
         if(_.isUndefined(route)){
             console.log('path does not exist: ' + request.url);
+            response.writeHead(404);
+            response.end();
             return;
         }
 

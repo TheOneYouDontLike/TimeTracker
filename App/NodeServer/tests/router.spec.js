@@ -90,14 +90,46 @@ describe('router', function(){
             method: 'GET'
         };
 
+        var fakeEmptyResponseObject = {
+            writeHead: function(){},
+            end: function(){}
+        };
+
         var callbackSpy = sinon.spy();
         router.httpGet('/', callbackSpy);
 
         // when
-        router.route(request, {});
+        router.route(request, fakeEmptyResponseObject);
 
         // then
         assert.that(callbackSpy.calledOnce, is.false());
+    });
+
+    it('should end response with 404 if path route does not exist', function() {
+       // given
+        var request = {
+            url: '/somefancypath',
+            method: 'GET'
+        };
+
+        var writeHeadSpy = sinon.spy();
+        var endSpy = sinon.spy();
+
+        var response = {
+            writeHead: writeHeadSpy,
+            end: endSpy
+        };
+
+        var callbackSpy = sinon.spy();
+        router.httpGet('/', callbackSpy);
+
+        // when
+        router.route(request, response);
+
+        // then
+        assert.that(callbackSpy.calledOnce, is.false());
+        assert.that(writeHeadSpy.calledWith(404), is.true());
+        assert.that(endSpy.calledOnce, is.true());
     });
 
     it('should override existing GET route if specified again', function() {

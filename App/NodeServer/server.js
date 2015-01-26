@@ -2,6 +2,8 @@
 
 var http = require('http');
 var fs = require('fs');
+var Router = require('./router');
+var router = new Router();
 
 var activityData = [
     {
@@ -21,52 +23,58 @@ var activityData = [
         WatchedInCinema: true
     }];
 
-var indexPage = fs.readFileSync('../Web/index.html');
+
 var bundleJs = fs.readFileSync('../Web/bundle.js');
 var bootstrap = fs.readFileSync('../Web/node_modules/bootstrap/dist/css/bootstrap.css');
 var bootstrapMap = fs.readFileSync('../Web/node_modules/bootstrap/dist/css/bootstrap.css.map');
 
+router.httpGet('/', function(request, response) {
+    var indexPage = fs.readFileSync('../Web/index.html');
+    response.writeHead(200, {'Content-Type': 'text/html'});
+    response.end(indexPage);
+});
+
 http.createServer(function(request, response) {
-    route(request, response);
-    switch(true){
-        case request.url === '/':
-            response.writeHead(200, {'Content-Type': 'text/html'});
-            response.end(indexPage);
-            break;
+    router.route(request, response);
+    // switch(true){
+    //     case request.url === '/':
+    //         response.writeHead(200, {'Content-Type': 'text/html'});
+    //         response.end(indexPage);
+    //         break;
 
-        case request.url === '/bundle.js':
-            response.writeHead(200, {'Content-Type': 'application/javascript'});
-            response.end(bundleJs);
-            break;
+    //     case request.url === '/bundle.js':
+    //         response.writeHead(200, {'Content-Type': 'application/javascript'});
+    //         response.end(bundleJs);
+    //         break;
 
-        case request.url === '/vendor/bootstrap.css':
-            response.writeHead(200, {'Content-Type': 'text/css'});
-            response.end(bootstrap);
-            break;
+    //     case request.url === '/vendor/bootstrap.css':
+    //         response.writeHead(200, {'Content-Type': 'text/css'});
+    //         response.end(bootstrap);
+    //         break;
 
-        case request.url === '/vendor/bootstrap.css.map':
-            response.writeHead(200, {'Content-Type': 'text/plain'});
-            response.end(bootstrapMap);
-            break;
+    //     case request.url === '/vendor/bootstrap.css.map':
+    //         response.writeHead(200, {'Content-Type': 'text/plain'});
+    //         response.end(bootstrapMap);
+    //         break;
 
-        case /^\/activities\/[0-9]+/.test(request.url):
-            logRequestToConsole(request);
-            response.writeHead(200, {"Content-Type": "application/json"});
-            response.end(JSON.stringify(activityData[0]));
-            break;
+    //     case /^\/activities\/[0-9]+/.test(request.url):
+    //         logRequestToConsole(request);
+    //         response.writeHead(200, {"Content-Type": "application/json"});
+    //         response.end(JSON.stringify(activityData[0]));
+    //         break;
         
-        case /^\/activities/.test(request.url):
-            logRequestToConsole(request);
-            response.writeHead(200, {"Content-Type": "application/json"});        
-            response.end(JSON.stringify(activityData));
-            break;
+    //     case /^\/activities/.test(request.url):
+    //         logRequestToConsole(request);
+    //         response.writeHead(200, {"Content-Type": "application/json"});        
+    //         response.end(JSON.stringify(activityData));
+    //         break;
         
-        default:
-            console.log('not found route: ');
-            logRequestToConsole(request);
-            response.writeHead(404);
-            response.end();    
-    }
+    //     default:
+    //         console.log('not found route: ');
+    //         logRequestToConsole(request);
+    //         response.writeHead(404);
+    //         response.end();    
+    // }
 }).listen(8888);
 
 console.log('Starting localhost:8888');
