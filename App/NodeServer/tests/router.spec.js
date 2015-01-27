@@ -197,4 +197,25 @@ describe('router', function(){
         // then
         assert.that(callbackSpy.calledWith(requestGet, response), is.true());
     });
+
+    it('should route to restful content by using wildcard', function() {
+        // given
+        var callbackSpy = sinon.spy();
+        router.httpGet('/movies/{id}', callbackSpy);
+
+        var request = {
+            url: '/movies/1',
+            method: 'GET'
+        };
+
+        var response = {
+            helloIAmResponseObject: {}
+        };
+
+        // when
+        router.route(request, response);
+
+        // then
+        assert.that(callbackSpy.calledWith(request), is.true());
+    });
 });

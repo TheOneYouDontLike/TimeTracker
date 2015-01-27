@@ -23,63 +23,42 @@ var activityData = [
         WatchedInCinema: true
     }];
 
-
-var bundleJs = fs.readFileSync('../Web/bundle.js');
-var bootstrap = fs.readFileSync('../Web/node_modules/bootstrap/dist/css/bootstrap.css');
-var bootstrapMap = fs.readFileSync('../Web/node_modules/bootstrap/dist/css/bootstrap.css.map');
-
 router.httpGet('/', function(request, response) {
     var indexPage = fs.readFileSync('../Web/index.html');
     response.writeHead(200, {'Content-Type': 'text/html'});
     response.end(indexPage);
 });
 
+router.httpGet('/activities', function(request, response) {
+    response.writeHead(200, {"Content-Type": "application/json"});        
+    response.end(JSON.stringify(activityData));
+});
+
+// router.httpGet('/activities/{id}', function(request, response) {
+//     response.writeHead(200, {"Content-Type": "application/json"});
+//     response.end(JSON.stringify(activityData[0]));
+// });
+
+router.httpGet('/bundle.js', function(request, response) {
+    var bundleJs = fs.readFileSync('../Web/bundle.js');
+    response.writeHead(200, {'Content-Type': 'application/javascript'});
+    response.end(bundleJs);
+});
+
+router.httpGet('/vendor/bootstrap.css', function(request, response){
+    var bootstrap = fs.readFileSync('../Web/node_modules/bootstrap/dist/css/bootstrap.css');
+    response.writeHead(200, {'Content-Type': 'text/css'});
+    response.end(bootstrap);
+});
+
+router.httpGet('/vendor/bootstrap.css.map', function(request, response){
+    var bootstrapMap = fs.readFileSync('../Web/node_modules/bootstrap/dist/css/bootstrap.css.map');
+    response.writeHead(200, {'Content-Type': 'text/css'});
+    response.end(bootstrapMap);
+});
+
 http.createServer(function(request, response) {
     router.route(request, response);
-    // switch(true){
-    //     case request.url === '/':
-    //         response.writeHead(200, {'Content-Type': 'text/html'});
-    //         response.end(indexPage);
-    //         break;
-
-    //     case request.url === '/bundle.js':
-    //         response.writeHead(200, {'Content-Type': 'application/javascript'});
-    //         response.end(bundleJs);
-    //         break;
-
-    //     case request.url === '/vendor/bootstrap.css':
-    //         response.writeHead(200, {'Content-Type': 'text/css'});
-    //         response.end(bootstrap);
-    //         break;
-
-    //     case request.url === '/vendor/bootstrap.css.map':
-    //         response.writeHead(200, {'Content-Type': 'text/plain'});
-    //         response.end(bootstrapMap);
-    //         break;
-
-    //     case /^\/activities\/[0-9]+/.test(request.url):
-    //         logRequestToConsole(request);
-    //         response.writeHead(200, {"Content-Type": "application/json"});
-    //         response.end(JSON.stringify(activityData[0]));
-    //         break;
-        
-    //     case /^\/activities/.test(request.url):
-    //         logRequestToConsole(request);
-    //         response.writeHead(200, {"Content-Type": "application/json"});        
-    //         response.end(JSON.stringify(activityData));
-    //         break;
-        
-    //     default:
-    //         console.log('not found route: ');
-    //         logRequestToConsole(request);
-    //         response.writeHead(404);
-    //         response.end();    
-    // }
 }).listen(8888);
 
 console.log('Starting localhost:8888');
-
-function logRequestToConsole(request){
-    console.log(request.method);
-    console.log(request.url + '\n');
-}
