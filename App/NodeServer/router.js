@@ -5,6 +5,13 @@ var router = function() {
     var unicorn = {};
     var _routingBoard = [];
 
+    unicorn.routingBoard = _routingBoard;
+    unicorn.httpGet = httpGet;
+    unicorn.httpPost = httpPost;
+    unicorn.httpPut = httpPut;
+    unicorn.httpDelete = httpDelete;
+    unicorn.route = route;
+
     var _createDestination = function(method, route, callback) {
         return {
             method: method,
@@ -31,38 +38,38 @@ var router = function() {
         return foundElement;
     };
 
-    unicorn.httpGet = function(route, callback) {
+    function httpGet(route, callback) {
         _removeDuplicatesInRoutingBoard('GET', route);
 
         var destination = _createDestination('GET', route, callback);
         _routingBoard.push(destination);
-    };
+    }
 
-    unicorn.httpPost = function(route, callback) {
+    function httpPost(route, callback) {
         _removeDuplicatesInRoutingBoard('POST', route);
 
         var destination = _createDestination('POST', route, callback);
 
         _routingBoard.push(destination);
-    };
+    }
 
-    unicorn.httpPut = function(route, callback) {
+    function httpPut(route, callback) {
         _removeDuplicatesInRoutingBoard('PUT', route);
 
         var destination = _createDestination('PUT', route, callback);
 
         _routingBoard.push(destination);
-    };
+    }
 
-    unicorn.httpDelete = function(route, callback) {
+    function httpDelete(route, callback) {
         _removeDuplicatesInRoutingBoard('DELETE', route);
 
         var destination = _createDestination('DELETE', route, callback);
 
         _routingBoard.push(destination);
-    };
+    }
 
-    unicorn.route = function(request, response) {        
+    function route(request, response) {        
         var route = _findRoute(request);
 
         if(_.isUndefined(route)){
@@ -74,9 +81,7 @@ var router = function() {
 
         console.log('routing with route: ' + route.method + ' ' + route.path);
         route.callback(request, response);
-    };
-
-    unicorn.routingBoard = _routingBoard;
+    }
 
     return unicorn;
 };
