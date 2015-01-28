@@ -94,20 +94,19 @@ var router = function() {
     function _findWildcardRoute(requestMethod, requestUrl) {
         if(!_.endsWith(requestUrl, '/')) {
             var indexOfLastSlash = _.lastIndexOf(requestUrl, '/');
-            var lastSliceOfUrlLength = _.slice(requestUrl, indexOfLastSlash).length;
+            var lastSliceOfUrlLengthBeforeLastSlash = _.slice(requestUrl, indexOfLastSlash).length;
 
-            var url = _.dropRight(requestUrl, lastSliceOfUrlLength);
-            var urlString = '';
-            _.forEach(url, function(element) {
-                urlString += element;
+            var urlWithoutLastSliceArray = _.dropRight(requestUrl, lastSliceOfUrlLengthBeforeLastSlash);
+            var urlWithoutLastSlice = '';
+            _.forEach(urlWithoutLastSliceArray, function(element) {
+                urlWithoutLastSlice += element;
             });
 
-            var urlToSearch = urlString + '/' + '{id}';
+            var urlToSearch = new RegExp('^' + urlWithoutLastSlice + '\/{[a-zA-Z]+}');
             
             return _.find(_routingBoard, function(element) {
-                return element.method === requestMethod && element.path === urlToSearch;
+                return element.method === requestMethod && urlToSearch.test(element.path);
             });
-
         }
     }
 
