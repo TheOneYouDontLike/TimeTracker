@@ -208,12 +208,13 @@ describe('router', function(){
             method: 'GET'
         };
 
-        var response = {
-            helloIAmResponseObject: {}
+        var fakeEmptyResponse = {
+            end: function(){},
+            writeHead: function(){}
         };
 
         // when
-        router.route(request, response);
+        router.route(request, fakeEmptyResponse);
 
         // then
         assert.that(callbackSpy.calledWith(request), is.true());

@@ -21,7 +21,7 @@ var router = function() {
     };
 
     var _removeDuplicatesInRoutingBoard = function(method, route) {
-        var thereAreSomeDuplicates = _.some(_routingBoard, { method: method, path: route});
+        var thereAreSomeDuplicates = _.some(_routingBoard, { method: method, path: route });
 
         if(thereAreSomeDuplicates) {
             _.remove(_routingBoard, function(element) {
@@ -31,9 +31,40 @@ var router = function() {
     };
 
     var _findRoute = function(request) {
-        var foundElement = _.find(_routingBoard, function(element){
+        var foundElement = _.find(_routingBoard, function(element) {
             return element.method === request.method && element.path === request.url;
         });
+
+        if(_.isUndefined(foundElement)) {
+            if(!_.endsWith(request.url, '/')) {
+                var indexOfLastSlash = _.lastIndexOf(request.url, '/');
+                var lastSliceOfUrlLength = _.slice(request.url, indexOfLastSlash).length;
+
+                var url = _.dropRight(request.url, lastSliceOfUrlLength);
+                var urlString = '';
+                _.forEach(url, function(element) {
+                    urlString += element;
+                });
+
+                var urlToSearch = urlString + '/' + '{id}';
+                console.log(urlToSearch);
+                foundElement = _.find(_routingBoard, function(element) {
+                    return element.method === request.method && element.path === urlToSearch;
+                });
+
+            }
+            // var indexOfLastSlash = _.lastIndexOf(request.url, '/');
+            // var lastSliceOfUrl = _.slice(request.url, indexOfLastSlash);
+            // var urlWithoutLastSlice = _.
+
+            // if(!_.isEmpty(lastSliceOfUrl)) {
+
+            //     foundElement = _.find(_routingBoard, function(element) {
+            //         return element.method === request.method && element.path === request.url;
+            //     });
+
+            // }
+        }
 
         return foundElement;
     };
@@ -79,7 +110,7 @@ var router = function() {
             return;
         }
 
-        console.log('routing with route: ' + route.method + ' ' + route.path);
+        console.log('routing with route: ' + request.method + ' ' + request.url);
         route.callback(request, response);
     }
 
