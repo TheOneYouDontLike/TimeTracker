@@ -96,11 +96,7 @@ var router = function() {
             var indexOfLastSlash = _.lastIndexOf(requestUrl, '/');
             var lastSliceOfUrlLengthBeforeLastSlash = _.slice(requestUrl, indexOfLastSlash).length;
 
-            var urlWithoutLastSliceArray = _.dropRight(requestUrl, lastSliceOfUrlLengthBeforeLastSlash);
-            var urlWithoutLastSlice = '';
-            _.forEach(urlWithoutLastSliceArray, function(element) {
-                urlWithoutLastSlice += element;
-            });
+            var urlWithoutLastSlice = _.dropRight(requestUrl, lastSliceOfUrlLengthBeforeLastSlash).join('');
 
             var urlToSearch = new RegExp('^' + urlWithoutLastSlice + '\/{[a-zA-Z]+}');
             
