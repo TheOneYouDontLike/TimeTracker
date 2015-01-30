@@ -15,7 +15,7 @@ var activityData = [
         WatchedInCinema: false
     },
     {
-        Id: 1,
+        Id: 2,
         Name: 'Jurassic Park II',
         Date: '2014-01-02',
         Duration: 130,
@@ -35,16 +35,24 @@ router.httpGet('/activities', function(request, response) {
 });
 
 router.httpGet('/activities/{id}', function(request, response, params) {
-    console.log(params);
+    var activity = activityData.filter(function(element) {
+        return element.Id.toString() === params.id;
+    })[0];
+
     response.writeHead(200, {"Content-Type": "application/json"});
-    response.end(JSON.stringify(activityData[0]));
+    response.end(JSON.stringify(activity));
 });
 
-router.httpDelete('/activities/{id}', function(request, response) {
-    console.log(request.params);
-    // activityData.filter(function(element) {
-    //     return element.Id === wildcardValue;
-    // });
+router.httpDelete('/activities/{id}', function(request, response, params) {
+    var activity = activityData.filter(function(element) {
+        return element.Id.toString() === params.id;
+    })[0];
+
+    var indexOfActivity = activityData.indexOf(activity);
+    activityData.splice(indexOfActivity, 1);
+
+    response.writeHead(200, {"Content-Type": "application/json"});
+    response.end();
 });
 
 router.httpGet('/bundle.js', function(request, response) {
