@@ -97,7 +97,6 @@ var router = function() {
             var lastSliceOfUrlLengthBeforeLastSlash = _.slice(requestUrl, indexOfLastSlash).length;
 
             var urlWithoutLastSlice = _.dropRight(requestUrl, lastSliceOfUrlLengthBeforeLastSlash).join('');
-
             var urlToSearch = new RegExp('^' + urlWithoutLastSlice + '\/{[a-zA-Z]+}');
             
             return _.find(_routingBoard, function(element) {

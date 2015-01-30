@@ -34,10 +34,10 @@ router.httpGet('/activities', function(request, response) {
     response.end(JSON.stringify(activityData));
 });
 
-// router.httpGet('/activities/{id}', function(request, response) {
-//     response.writeHead(200, {"Content-Type": "application/json"});
-//     response.end(JSON.stringify(activityData[0]));
-// });
+router.httpGet('/activities/{id}', function(request, response) {
+    response.writeHead(200, {"Content-Type": "application/json"});
+    response.end(JSON.stringify(activityData[0]));
+});
 
 router.httpGet('/bundle.js', function(request, response) {
     var bundleJs = fs.readFileSync('../Web/bundle.js');

@@ -7,6 +7,11 @@ var assert = require('node-assertthat');
 describe('router', function(){
     var router = {};
 
+    var fakeEmptyResponse = {
+        end: function(){},
+        writeHead: function(){}
+    };
+
     beforeEach(function() {
         router = new Router();
     });
@@ -22,7 +27,7 @@ describe('router', function(){
         router.httpGet('/path', callbackSpy);
 
         // when
-        router.route(request, {});
+        router.route(request, fakeEmptyResponse);
 
         // then
         assert.that(callbackSpy.calledOnce, is.true());
@@ -42,7 +47,7 @@ describe('router', function(){
         router.httpPost('/path', callbackSpyPost);
 
         // when
-        router.route(request, {});
+        router.route(request, fakeEmptyResponse);
 
         // then
         assert.that(callbackSpyPost.calledOnce, is.true());
@@ -60,7 +65,7 @@ describe('router', function(){
         router.httpDelete('/path', callbackSpy);
 
         // when
-        router.route(request, {});
+        router.route(request, fakeEmptyResponse);
 
         // then
         assert.that(callbackSpy.calledOnce, is.true());
@@ -77,7 +82,7 @@ describe('router', function(){
         router.httpPut('/path', callbackSpy);
 
         // when
-        router.route(request, {});
+        router.route(request, fakeEmptyResponse);
 
         // then
         assert.that(callbackSpy.calledOnce, is.true());
@@ -90,16 +95,11 @@ describe('router', function(){
             method: 'GET'
         };
 
-        var fakeEmptyResponseObject = {
-            writeHead: function(){},
-            end: function(){}
-        };
-
         var callbackSpy = sinon.spy();
         router.httpGet('/', callbackSpy);
 
         // when
-        router.route(request, fakeEmptyResponseObject);
+        router.route(request, fakeEmptyResponse);
 
         // then
         assert.that(callbackSpy.calledOnce, is.false());
@@ -187,15 +187,11 @@ describe('router', function(){
             method: 'GET'
         };
 
-        var response = {
-            helloIAmResponseObject: {}
-        };
-
         // when
-        router.route(requestGet, response);
+        router.route(requestGet, fakeEmptyResponse);
 
         // then
-        assert.that(callbackSpy.calledWith(requestGet, response), is.true());
+        assert.that(callbackSpy.calledWith(requestGet, fakeEmptyResponse), is.true());
     });
 
     it('should route to restful content by using wildcard', function() {
@@ -208,15 +204,31 @@ describe('router', function(){
             method: 'GET'
         };
 
-        var fakeEmptyResponse = {
-            end: function(){},
-            writeHead: function(){}
-        };
-
         // when
         router.route(request, fakeEmptyResponse);
 
         // then
         assert.that(callbackSpy.calledWith(request), is.true());
+    });
+
+    it('should route to restful content by using wildcard for different http methods', function() {
+        // given
+        var callbackSpyForGet = sinon.spy();
+        router.httpGet('/movies/{id}', callbackSpyForGet);
+
+        var callbackSpyForDelete = sinon.spy();
+        router.httpDelete('/movies/{id}', callbackSpyForDelete);
+
+        var requestDelete = {
+            url: '/movies/1',
+            method: 'DELETE'
+        };
+
+        // when
+        router.route(requestDelete, fakeEmptyResponse);
+
+        // then
+        assert.that(callbackSpyForDelete.calledOnce, is.true());
+        assert.that(callbackSpyForGet.calledOnce, is.false());
     });
 });
