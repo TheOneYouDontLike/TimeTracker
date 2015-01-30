@@ -110,21 +110,21 @@ var router = function() {
                 return wildcardRoute;
             }
 
-            assignWildcardToParams(wildcardRoute, indexOfLastSlash, requestUrl);
+            _assignWildcardToParams(wildcardRoute, indexOfLastSlash, requestUrl);
 
             return wildcardRoute;
         }
     }
 
-    function assignWildcardToParams(wildcardRoute, indexOfLastSlash, requestUrl) {
-        var wildcard = getWildcard(wildcardRoute, indexOfLastSlash);
+    function _assignWildcardToParams(wildcardRoute, indexOfLastSlash, requestUrl) {
+        var wildcard = _getWildcard(wildcardRoute, indexOfLastSlash);
         
         var params = {};
         params[wildcard] = _.slice(requestUrl, indexOfLastSlash + 1).join('');
         wildcardRoute.params = params;
     }
 
-    function getWildcard(wildcardRoute, indexOfLastSlash) {
+    function _getWildcard(wildcardRoute, indexOfLastSlash) {
         var lastSliceOfWildcardRoutePathStartingAtLastSlash = _.slice(wildcardRoute.path, indexOfLastSlash + 1).join('');
         var wildcard = _.trim(lastSliceOfWildcardRoutePathStartingAtLastSlash, '{}');
 
