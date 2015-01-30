@@ -34,9 +34,17 @@ router.httpGet('/activities', function(request, response) {
     response.end(JSON.stringify(activityData));
 });
 
-router.httpGet('/activities/{id}', function(request, response) {
+router.httpGet('/activities/{id}', function(request, response, params) {
+    console.log(params);
     response.writeHead(200, {"Content-Type": "application/json"});
     response.end(JSON.stringify(activityData[0]));
+});
+
+router.httpDelete('/activities/{id}', function(request, response) {
+    console.log(request.params);
+    // activityData.filter(function(element) {
+    //     return element.Id === wildcardValue;
+    // });
 });
 
 router.httpGet('/bundle.js', function(request, response) {

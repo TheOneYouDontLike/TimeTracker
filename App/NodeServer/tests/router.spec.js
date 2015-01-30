@@ -231,4 +231,26 @@ describe('router', function(){
         assert.that(callbackSpyForDelete.calledOnce, is.true());
         assert.that(callbackSpyForGet.calledOnce, is.false());
     });
+
+    it('should pass params object to callback', function() {
+        // given
+        var callbackSpy = sinon.spy();
+        router.httpGet('/movies/{id}', callbackSpy);
+
+        var request = {
+            url: '/movies/1',
+            method: 'GET'
+        };
+
+        var params = {
+            id: '1'
+        };
+
+        // when
+        router.route(request, fakeEmptyResponse);
+
+        // then
+        assert.that(callbackSpy.calledWith(request, fakeEmptyResponse, params), is.true());
+    });
+
 });

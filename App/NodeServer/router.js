@@ -72,7 +72,8 @@ var router = function() {
         }
 
         console.log('routing with route: ' + request.method + ' ' + request.url);
-        routeFromRoutingBoard.callback(request, response);
+        
+        routeFromRoutingBoard.callback(request, response, routeFromRoutingBoard.params);
     }
 
     function _findRoute(request) {
@@ -94,14 +95,30 @@ var router = function() {
     function _findWildcardRoute(requestMethod, requestUrl) {
         if(!_.endsWith(requestUrl, '/')) {
             var indexOfLastSlash = _.lastIndexOf(requestUrl, '/');
-            var lastSliceOfUrlLengthBeforeLastSlash = _.slice(requestUrl, indexOfLastSlash).length;
+            var lastSliceOfUrlLengthStartingAtLastSlash = _.slice(requestUrl, indexOfLastSlash).length;
 
-            var urlWithoutLastSlice = _.dropRight(requestUrl, lastSliceOfUrlLengthBeforeLastSlash).join('');
+            var urlWithoutLastSlice = _.dropRight(requestUrl, lastSliceOfUrlLengthStartingAtLastSlash).join('');
             var urlToSearch = new RegExp('^' + urlWithoutLastSlice + '\/{[a-zA-Z]+}');
             
-            return _.find(_routingBoard, function(element) {
+            var wildcardRoute = _.find(_routingBoard, function(element) {
                 return element.method === requestMethod && urlToSearch.test(element.path);
             });
+
+            if(_.isUndefined(wildcardRoute)){
+                return wildcardRoute;
+            }
+
+            // get wildcard...
+            var lastSliceOfWildcardRoutePathStartingAtLastSlash = _.slice(wildcardRoute.path, indexOfLastSlash + 1).join('');
+            var wildcard = _.trim(lastSliceOfWildcardRoutePathStartingAtLastSlash, '{}');
+
+            // ...and add to params
+            var params = {};
+            params[wildcard] = _.slice(requestUrl, indexOfLastSlash + 1).join('');
+            wildcardRoute.params = params;
+
+
+            return wildcardRoute;
         }
     }
 
