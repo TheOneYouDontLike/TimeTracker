@@ -253,4 +253,21 @@ describe('router', function(){
         assert.that(callbackSpy.calledWith(request, fakeEmptyResponse, params), is.true());
     });
 
+    it('should have emtpy params object for non-wildcard routes', function() {
+        // given
+        var callbackSpy = sinon.spy();
+
+        router.httpGet('/movies', callbackSpy);
+        
+        var request = {
+            url: '/movies',
+            method: 'GET'
+        };
+
+        // when
+        router.route(request, fakeEmptyResponse);
+
+        // then
+        assert.that(callbackSpy.calledWith(request, fakeEmptyResponse, {}), is.true());
+    });
 });

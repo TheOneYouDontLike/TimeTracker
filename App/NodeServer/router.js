@@ -73,7 +73,9 @@ var router = function() {
 
         console.log('routing with route: ' + request.method + ' ' + request.url);
         
-        routeFromRoutingBoard.callback(request, response, routeFromRoutingBoard.params);
+        var params = _.isUndefined(routeFromRoutingBoard.params) ? {} : routeFromRoutingBoard.params;
+        
+        routeFromRoutingBoard.callback(request, response, params);
     }
 
     function _findRoute(request) {
@@ -108,18 +110,25 @@ var router = function() {
                 return wildcardRoute;
             }
 
-            // get wildcard...
-            var lastSliceOfWildcardRoutePathStartingAtLastSlash = _.slice(wildcardRoute.path, indexOfLastSlash + 1).join('');
-            var wildcard = _.trim(lastSliceOfWildcardRoutePathStartingAtLastSlash, '{}');
-
-            // ...and add to params
-            var params = {};
-            params[wildcard] = _.slice(requestUrl, indexOfLastSlash + 1).join('');
-            wildcardRoute.params = params;
-
+            assignWildcardToParams(wildcardRoute, indexOfLastSlash, requestUrl);
 
             return wildcardRoute;
         }
+    }
+
+    function assignWildcardToParams(wildcardRoute, indexOfLastSlash, requestUrl) {
+        var wildcard = getWildcard(wildcardRoute, indexOfLastSlash);
+        
+        var params = {};
+        params[wildcard] = _.slice(requestUrl, indexOfLastSlash + 1).join('');
+        wildcardRoute.params = params;
+    }
+
+    function getWildcard(wildcardRoute, indexOfLastSlash) {
+        var lastSliceOfWildcardRoutePathStartingAtLastSlash = _.slice(wildcardRoute.path, indexOfLastSlash + 1).join('');
+        var wildcard = _.trim(lastSliceOfWildcardRoutePathStartingAtLastSlash, '{}');
+
+        return wildcard;
     }
 
     return unicorn;
