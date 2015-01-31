@@ -162,6 +162,7 @@ var router = function() {
                 if (wildcardType === 'string') {
                     if (_.isString(matchedWildcardValue)) {
                         wildcardRoute = element;
+                        alreadyFound = true;
                         return;
                     }
                 }
