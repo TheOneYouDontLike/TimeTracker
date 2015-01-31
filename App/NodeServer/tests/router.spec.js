@@ -271,7 +271,7 @@ describe('router', function(){
         assert.that(callbackSpy.calledWith(request, fakeEmptyResponse, {}), is.true());
     });
 
-    it('should differ paths by wildcard type constraints', function() {
+    it('should differentiate paths by wildcard type constraints', function() {
         // given
         var callbackSpyMrBond = sinon.spy();
         router.httpGet('/movies/{id:number}', callbackSpyMrBond);

@@ -81,7 +81,7 @@ var router = function() {
     function _findRoute(request) {
         var foundElement = _findRegularRoute(request.method, request.url);
 
-        if(_.isUndefined(foundElement)) {
+        if (_.isUndefined(foundElement)) {
             foundElement = _findWildcardRoute(request.method, request.url);
         }
 
@@ -89,9 +89,15 @@ var router = function() {
     }
 
     function _findRegularRoute(requestMethod, requestUrl) {
-        return _.find(_routingBoard, function(element) {
+        var regularRoute = _.find(_routingBoard, function(element) {
             return element.method === requestMethod && element.path === requestUrl;
         });
+
+        if (_.isUndefined(regularRoute)) {
+            return undefined;
+        }
+
+        return regularRoute;
     }
 
     function _findWildcardRoute(requestMethod, requestUrl) {
@@ -100,26 +106,56 @@ var router = function() {
             var lastSliceOfUrlStartingAtLastSlash = _.slice(requestUrl, indexOfLastSlash);
 
             var urlWithoutLastSlice = _.dropRight(requestUrl, lastSliceOfUrlStartingAtLastSlash.length).join('');
-            var urlToSearch = new RegExp('^' + urlWithoutLastSlice + '\/{[a-zA-Z]+}');
+            var urlToSearch = new RegExp('^' + urlWithoutLastSlice + '\/{[a-zA-Z:]+}');
             
-            var wildcardRoute = _.find(_routingBoard, function(element) {
+            var wildcardRoutes = _.filter(_routingBoard, function(element) {
                 return element.method === requestMethod && urlToSearch.test(element.path);
             });
 
-            if(_.isUndefined(wildcardRoute)){
+            // no wildcard path
+            if (wildcardRoutes.length === 0) {
+                return undefined;
+            }
+
+            var wildcardRoute = undefined;
+            var wildcard = '';
+            var wildcardName = '';
+
+            // one wildcard path
+            if (wildcardRoutes.length === 1) {
+                wildcardRoute = wildcardRoutes[0];
+
+                wildcard = _getWildcard(wildcardRoute, indexOfLastSlash);
+                wildcardName = _getWildcardName(wildcard);
+
+                var matchedWildcardValue = _.slice(requestUrl, indexOfLastSlash + 1).join('');
+                _assignWildcardToParams(wildcardRoute, wildcardName, matchedWildcardValue);
+
                 return wildcardRoute;
             }
 
-            // check if passes constraints check
-            // var wildcard = _getWildcard(wildcardRoute, indexOfLastSlash);
-            // console.log(wildcard);
+            // two or more wildcard path
 
-            var wildcard = _getWildcard(wildcardRoute, indexOfLastSlash);
-            var wildcardName = _getWildcardName(wildcard);
+            _.forEach(wildcardRoutes, function(element) {
+                wildcard = _getWildcard(element, indexOfLastSlash);
+                wildcardName = _getWildcardName(wildcard);
+                // check if passes constraints check
+                var wildcardType = wildcardName.split(':')[1];
+                var matchedWildcardValue = _.slice(requestUrl, indexOfLastSlash + 1).join('');
+
+                if (wildcardType === 'number') {
+                    if (!isNaN(parseInt(matchedWildcardValue))) {
+                        wildcardRoute = element;
+                    }
+                }
+
+                if (wildcardType === 'string') {
+                    if (_.isString(matchedWildcardValue)) {
+                        wildcardRoute = element;
+                    }
+                }
+            });
             
-            var matchedWildcardValue = _.slice(requestUrl, indexOfLastSlash + 1).join('');
-            _assignWildcardToParams(wildcardRoute, wildcardName, matchedWildcardValue);
-
             return wildcardRoute;
         }
     }
