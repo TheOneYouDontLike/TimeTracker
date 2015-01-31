@@ -312,4 +312,26 @@ describe('router', function(){
         assert.that(callbackSpyMrBean.calledOnce, is.false());
         assert.that(callbackSpyMrBond.calledOnce, is.true());
     });
+
+    it('should do sth clever if router has ambiguous wildcards', function() {
+        // given
+        var callbackSpyMrBond = sinon.spy();
+        router.httpGet('/movies/{id:string}', callbackSpyMrBond);
+
+        var callbackSpyMrBean = sinon.spy();
+        router.httpGet('/movies/{name:string}', callbackSpyMrBean);
+        
+        var request = {
+            url: '/movies/trololo',
+            method: 'GET'
+        };
+
+        // when
+        router.route(request, fakeEmptyResponse);
+
+        var sthCelverWasDone = false;
+
+        // then
+        assert.that(sthCleverWasDone, is.true());
+    });
 });
