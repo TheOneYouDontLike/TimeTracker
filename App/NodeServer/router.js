@@ -46,7 +46,7 @@ var router = function() {
     function _removeDuplicatesInRoutingBoard(method, route) {
         var thereAreSomeDuplicates = _.some(_routingBoard, { method: method, path: route });
 
-        if(thereAreSomeDuplicates) {
+        if (thereAreSomeDuplicates) {
             _.remove(_routingBoard, function(element) {
                 return element.method === method && element.path === route;
             });
@@ -64,7 +64,7 @@ var router = function() {
     function route(request, response) {        
         var routeFromRoutingBoard = _findRoute(request);
 
-        if(_.isUndefined(routeFromRoutingBoard)){
+        if (_.isUndefined(routeFromRoutingBoard)){
             console.log('path does not exist: ' + request.url);
             response.writeHead(404);
             response.end();
@@ -101,7 +101,7 @@ var router = function() {
     }
 
     function _findWildcardRoute(requestMethod, requestUrl) {
-        if(!_.endsWith(requestUrl, '/')) {
+        if (!_.endsWith(requestUrl, '/')) {
             var indexOfLastSlash = _.lastIndexOf(requestUrl, '/');
             var lastSliceOfUrlStartingAtLastSlash = _.slice(requestUrl, indexOfLastSlash);
 
@@ -117,7 +117,7 @@ var router = function() {
                 return undefined;
             }
 
-            var wildcardRoute = undefined;
+            var wildcardRoute;
             var wildcard = '';
             var wildcardName = '';
 
@@ -136,7 +136,13 @@ var router = function() {
 
             // two or more wildcard path
 
+            var alreadyFound = false;
+
             _.forEach(wildcardRoutes, function(element) {
+                if (alreadyFound) {
+                    return;
+                }
+
                 wildcard = _getWildcard(element, indexOfLastSlash);
                 wildcardName = _getWildcardName(wildcard);
                 // check if passes constraints check
@@ -144,18 +150,24 @@ var router = function() {
                 var matchedWildcardValue = _.slice(requestUrl, indexOfLastSlash + 1).join('');
 
                 if (wildcardType === 'number') {
-                    if (!isNaN(parseInt(matchedWildcardValue))) {
+                    var isMatchedValueNaN = isNaN(parseInt(matchedWildcardValue));
+
+                    if (!isMatchedValueNaN) {
                         wildcardRoute = element;
+                        alreadyFound = true;
+                        return;
                     }
                 }
 
                 if (wildcardType === 'string') {
                     if (_.isString(matchedWildcardValue)) {
                         wildcardRoute = element;
+                        return;
                     }
                 }
             });
             
+            //console.log('routing with wildcard: ' + wildcard);
             return wildcardRoute;
         }
     }
