@@ -270,4 +270,25 @@ describe('router', function(){
         // then
         assert.that(callbackSpy.calledWith(request, fakeEmptyResponse, {}), is.true());
     });
+
+    it('should differ paths by wildcard type constraints', function() {
+        // given
+        var callbackSpyMrBond = sinon.spy();
+        router.httpGet('/movies/{id:number}', callbackSpyMrBond);
+
+        var callbackSpyMrBean = sinon.spy();
+        router.httpGet('/movies/{name:string}', callbackSpyMrBean);
+        
+        var request = {
+            url: '/movies/lotr',
+            method: 'GET'
+        };
+
+        // when
+        router.route(request, fakeEmptyResponse);
+
+        // then
+        assert.that(callbackSpyMrBean.calledOnce, is.true());
+        assert.that(callbackSpyMrBond.calledOnce, is.false());
+    });
 });

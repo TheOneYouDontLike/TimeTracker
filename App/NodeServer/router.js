@@ -97,9 +97,9 @@ var router = function() {
     function _findWildcardRoute(requestMethod, requestUrl) {
         if(!_.endsWith(requestUrl, '/')) {
             var indexOfLastSlash = _.lastIndexOf(requestUrl, '/');
-            var lastSliceOfUrlLengthStartingAtLastSlash = _.slice(requestUrl, indexOfLastSlash).length;
+            var lastSliceOfUrlStartingAtLastSlash = _.slice(requestUrl, indexOfLastSlash);
 
-            var urlWithoutLastSlice = _.dropRight(requestUrl, lastSliceOfUrlLengthStartingAtLastSlash).join('');
+            var urlWithoutLastSlice = _.dropRight(requestUrl, lastSliceOfUrlStartingAtLastSlash.length).join('');
             var urlToSearch = new RegExp('^' + urlWithoutLastSlice + '\/{[a-zA-Z]+}');
             
             var wildcardRoute = _.find(_routingBoard, function(element) {
@@ -110,25 +110,36 @@ var router = function() {
                 return wildcardRoute;
             }
 
-            _assignWildcardToParams(wildcardRoute, indexOfLastSlash, requestUrl);
+            // check if passes constraints check
+            // var wildcard = _getWildcard(wildcardRoute, indexOfLastSlash);
+            // console.log(wildcard);
+
+            var wildcard = _getWildcard(wildcardRoute, indexOfLastSlash);
+            var wildcardName = _getWildcardName(wildcard);
+            
+            var matchedWildcardValue = _.slice(requestUrl, indexOfLastSlash + 1).join('');
+            _assignWildcardToParams(wildcardRoute, wildcardName, matchedWildcardValue);
 
             return wildcardRoute;
         }
     }
 
-    function _assignWildcardToParams(wildcardRoute, indexOfLastSlash, requestUrl) {
-        var wildcard = _getWildcard(wildcardRoute, indexOfLastSlash);
-        
-        var params = {};
-        params[wildcard] = _.slice(requestUrl, indexOfLastSlash + 1).join('');
-        wildcardRoute.params = params;
-    }
-
     function _getWildcard(wildcardRoute, indexOfLastSlash) {
-        var lastSliceOfWildcardRoutePathStartingAtLastSlash = _.slice(wildcardRoute.path, indexOfLastSlash + 1).join('');
-        var wildcard = _.trim(lastSliceOfWildcardRoutePathStartingAtLastSlash, '{}');
+        var wildcard = _.slice(wildcardRoute.path, indexOfLastSlash + 1).join('');
 
         return wildcard;
+    }
+
+    function _getWildcardName(wildcard) {
+        var wildcardName = _.trim(wildcard, '{}');
+
+        return wildcardName;
+    }
+
+    function _assignWildcardToParams(wildcardRoute, wildcardName, matchedWildcardValue) {
+        var params = {};
+        params[wildcardName] = matchedWildcardValue;
+        wildcardRoute.params = params;
     }
 
     return unicorn;
