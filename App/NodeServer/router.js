@@ -14,32 +14,29 @@ var router = function() {
 
     function httpGet(route, callback) {
         _removeDuplicatesInRoutingBoard('GET', route);
-
+        
         var destination = _createDestination('GET', route, callback);
         _routingBoard.push(destination);
     }
 
     function httpPost(route, callback) {
         _removeDuplicatesInRoutingBoard('POST', route);
-
+        
         var destination = _createDestination('POST', route, callback);
-
         _routingBoard.push(destination);
     }
 
     function httpPut(route, callback) {
         _removeDuplicatesInRoutingBoard('PUT', route);
-
+        
         var destination = _createDestination('PUT', route, callback);
-
         _routingBoard.push(destination);
     }
 
     function httpDelete(route, callback) {
         _removeDuplicatesInRoutingBoard('DELETE', route);
-
+        
         var destination = _createDestination('DELETE', route, callback);
-
         _routingBoard.push(destination);
     }
 

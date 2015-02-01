@@ -313,7 +313,7 @@ describe('router', function(){
         assert.that(callbackSpyMrBond.calledOnce, is.true());
     });
 
-    it('should do sth clever if router has ambiguous wildcards', function() {
+    it('should take the firstly declared route it finds when the routes are ambiguous', function() {
         // given
         var callbackSpyMrBond = sinon.spy();
         router.httpGet('/movies/{id:string}', callbackSpyMrBond);
@@ -329,9 +329,7 @@ describe('router', function(){
         // when
         router.route(request, fakeEmptyResponse);
 
-        var sthCelverWasDone = false;
-
         // then
-        assert.that(sthCleverWasDone, is.true());
-    });
+        assert.that(callbackSpyMrBond.calledOnce, is.true());
+        assert.that(callbackSpyMrBean.calledOnce, is.false()); });
 });
