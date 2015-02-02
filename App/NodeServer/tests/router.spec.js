@@ -343,12 +343,42 @@ describe('router', function(){
         assert.that(true, is.false());
     });
 
-    it('should do sth clever if requestUrl ends with / and there is no regular path', function() {
-       // given
-        
+    it('should route if request url ends with / and there is regular path for it after trimming this /', function() {
+        // given
+        var callbackSpy = sinon.spy();
+        router.httpGet('/movies', callbackSpy);
+
+        var request = {
+            url: '/movies/',
+            method: 'GET'
+        };
+
         // when
+        router.route(request, fakeEmptyResponse);
         
         // then
-        assert.that(true, is.false()); 
+        assert.that(callbackSpy.calledOnce, is.true());
+    });
+
+    it('should not route if request url ends with / and there is no regular path for it', function() {
+        // given
+        // there are no paths in system
+        var writeHeadSpy = sinon.spy();
+
+        var request = {
+            url: '/movies/',
+            method: 'GET'
+        };
+
+        var response = {
+            end: function(){},
+            writeHead: writeHeadSpy
+        };
+
+        // when
+        router.route(request, response);
+        
+        // then
+        assert.that(writeHeadSpy.calledWith(404), is.true()); 
     });
 });
