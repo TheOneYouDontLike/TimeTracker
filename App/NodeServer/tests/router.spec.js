@@ -334,13 +334,25 @@ describe('router', function(){
         assert.that(callbackSpyMrBean.calledOnce, is.false()); 
     });
 
-    it('should set params if route with wildcard was used', function() {
+    it('should set params from the first route it finds if route with wildcard was used and there are two routes to choose', function() {
         // given
+        var callbackSpyMrBond = sinon.spy();
+        router.httpGet('/movies/{id:string}', callbackSpyMrBond);
+
+        var callbackSpyMrBean = sinon.spy();
+        router.httpGet('/movies/{name:string}', callbackSpyMrBean);
         
+        var request = {
+            url: '/movies/trololo',
+            method: 'GET'
+        };
+
         // when
-        
+        router.route(request, fakeEmptyResponse);
+
         // then
-        assert.that(true, is.false());
+        assert.that(callbackSpyMrBond.calledWith(request, fakeEmptyResponse, { id: 'trololo' }), is.true());
+        assert.that(callbackSpyMrBean.calledOnce, is.false()); 
     });
 
     it('should route if request url ends with / and there is regular path for it after trimming this /', function() {
