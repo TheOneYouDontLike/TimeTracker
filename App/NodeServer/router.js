@@ -54,14 +54,15 @@ var router = function() {
         return {
             method: method,
             path: route,
-            callback: callback
+            callback: callback,
+            params: {}
         };
     }
 
     function route(request, response) {        
         var routeFromRoutingBoard = _findRoute(request);
 
-        if (_.isUndefined(routeFromRoutingBoard)){
+        if (_.isNull(routeFromRoutingBoard)){
             console.log('path does not exist: ' + request.url);
             response.writeHead(404);
             response.end();
@@ -70,7 +71,7 @@ var router = function() {
 
         console.log('routing with route: ' + request.method + ' ' + request.url);
         
-        var params = _.isUndefined(routeFromRoutingBoard.params) ? {} : routeFromRoutingBoard.params;
+        var params = routeFromRoutingBoard.params;
         
         routeFromRoutingBoard.callback(request, response, params);
     }
@@ -78,7 +79,7 @@ var router = function() {
     function _findRoute(request) {
         var foundElement = _findRegularRoute(request.method, request.url);
 
-        if (_.isUndefined(foundElement)) {
+        if (_.isNull(foundElement)) {
             foundElement = _findWildcardRoute(request.method, request.url);
         }
 
@@ -91,7 +92,7 @@ var router = function() {
         });
 
         if (_.isUndefined(regularRoute)) {
-            return undefined;
+            return null;
         }
 
         return regularRoute;
@@ -111,7 +112,7 @@ var router = function() {
 
             // no wildcard path
             if (wildcardRoutes.length === 0) {
-                return undefined;
+                return null;
             }
 
             var wildcardRoute;
@@ -165,7 +166,6 @@ var router = function() {
                 }
             });
             
-            //console.log('routing with wildcard: ' + wildcard);
             return wildcardRoute;
         }
     }
@@ -183,9 +183,7 @@ var router = function() {
     }
 
     function _assignWildcardToParams(wildcardRoute, wildcardName, matchedWildcardValue) {
-        var params = {};
-        params[wildcardName] = matchedWildcardValue;
-        wildcardRoute.params = params;
+        wildcardRoute.params[wildcardName] = matchedWildcardValue;
     }
 
     return unicorn;

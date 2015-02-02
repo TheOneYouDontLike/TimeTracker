@@ -253,7 +253,7 @@ describe('router', function(){
         assert.that(callbackSpy.calledWith(request, fakeEmptyResponse, params), is.true());
     });
 
-    it('should have emtpy params object for non-wildcard routes', function() {
+    it('should have empty params object for non-wildcard routes', function() {
         // given
         var callbackSpy = sinon.spy();
 
@@ -331,5 +331,24 @@ describe('router', function(){
 
         // then
         assert.that(callbackSpyMrBond.calledOnce, is.true());
-        assert.that(callbackSpyMrBean.calledOnce, is.false()); });
+        assert.that(callbackSpyMrBean.calledOnce, is.false()); 
+    });
+
+    it('should set params if route with wildcard was used', function() {
+        // given
+        
+        // when
+        
+        // then
+        assert.that(true, is.false());
+    });
+
+    it('should do sth clever if requestUrl ends with / and there is no regular path', function() {
+       // given
+        
+        // when
+        
+        // then
+        assert.that(true, is.false()); 
+    });
 });
