@@ -59,7 +59,7 @@ var router = function() {
         };
     }
 
-    function route(request, response) {        
+    function route(request, response) {
         var routeFromRoutingBoard = _findRoute(request);
 
         if (_.isNull(routeFromRoutingBoard)){
