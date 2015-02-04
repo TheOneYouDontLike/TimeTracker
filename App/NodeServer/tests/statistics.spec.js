@@ -40,50 +40,32 @@ var activitiesData = [
     }];
 
 describe('statistics', function() {
-    it('should count activities total duration', function() {
-        // given
-        // list of activities
+    describe('when generating', function() {
+        var statistics;
 
-        // when
-        var statistics = new Statistics(activitiesData);
+        before(function() {
+            statistics = new Statistics(activitiesData);
+        });
 
-        // then
-        assert.that(statistics.totalDurationOfActivities, is.equalTo(290));
-    });
+        it('should count activities total duration', function() {
+            assert.that(statistics.totalDurationOfActivities, is.equalTo(290));
+        });
 
-    it('should determine statistics time span', function() {
-        // given
-        var activityWithMinDate = activitiesData[0];
-        var minDate = moment(activityWithMinDate.Date);
-        var expectedDays = moment().diff(minDate, 'days');
+        it('should determine statistics time span', function() {
+            var activityWithMinDate = activitiesData[0];
+            var minDate = moment(activityWithMinDate.Date);
+            var expectedDays = moment().diff(minDate, 'days');
 
-        // when
-        var statistics = new Statistics(activitiesData);
+            assert.that(statistics.totalTimeSpan, is.equalTo(expectedDays));
+        });
 
-        // then
-        assert.that(statistics.totalTimeSpan, is.equalTo(expectedDays));
-    });
+        it('should calculate movies total duration', function() {
+            assert.that(statistics.moviesTotalDuration, is.equalTo(250));
+        });
 
-    it('should calculate movies total duration', function() {
-        // given
-        // listOfActivities
-
-        // when
-        var statistics = new Statistics(activitiesData);
-
-        // then
-        assert.that(statistics.moviesTotalDuration, is.equalTo(250));
-    });
-
-    it('should calculate series total duration', function() {
-        // given
-        // listOfActivities
-
-        // when
-        var statistics = new Statistics(activitiesData);
-
-        // then
-        assert.that(statistics.seriesTotalDuration, is.equalTo(40));
+        it('should calculate series total duration', function() {
+            assert.that(statistics.seriesTotalDuration, is.equalTo(40));
+        });
     });
 });
 
