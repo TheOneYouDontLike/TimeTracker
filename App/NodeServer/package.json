@@ -9,6 +9,7 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-mocha-test": "^0.12.4",
     "mocha": "^2.0.1",
+    "moment": "^2.9.0",
     "node-assertthat": "^0.2.3",
     "sinon": "^1.12.2"
   },

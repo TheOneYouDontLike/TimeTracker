@@ -3,6 +3,7 @@
 var Statistics = require('../statistics.js');
 var sinon = require('sinon');
 var assert = require('node-assertthat');
+var moment = require('moment');
 
 var activitiesData = [
     {
@@ -24,7 +25,7 @@ var activitiesData = [
     {
         Id: 3,
         Name: 'Futurama S01E01',
-        Date: '2014-02-28',
+        Date: '2014-10-01',
         Duration: 20,
         ActivityType: 'Series',
         WatchedInCinema: false
@@ -41,28 +42,20 @@ describe('statistics', function() {
         // then
         assert.that(statistics.totalDurationOfActivities, is.equalTo(270));
     });
+
+    it('should determine statistics time span', function() {
+        // given
+        var activityWithMinDate = activitiesData[0];
+        var minDate = moment(activityWithMinDate.Date);
+        var expectedDays = moment().diff(minDate, 'days');
+
+        // when
+        var statistics = new Statistics(activitiesData);
+
+        // then
+        assert.that(statistics.totalTimeSpan, is.equalTo(expectedDays));
+    });
 });
-
-//         [Test]
-//         public void Should_determine_statistics_time_span()
-//         {
-//             // given
-//             var listOfActivities = new List<Activity>
-//             {
-//                 new Activity("Interstellar", new DateTime(2014, 01, 01), 100, ActivityType.Movie),
-//                 new Activity("The Dark Knight", new DateTime(2014, 05, 01), 120, ActivityType.Movie),
-//                 new Activity("The Prestige", new DateTime(2014, 10, 01), 80, ActivityType.Movie)
-//             };
-
-//             A.CallTo(() => _dateProvider.GetCurrentDate()).Returns(new DateTime(2014, 10, 21));
-
-//             // when
-//             var statiscticsTime = new Statistics(listOfActivities, _dateProvider).TotalTimeSpan;
-
-//             // then
-//             const int expectedDays = 293;
-//             Assert.That(statiscticsTime, Is.EqualTo(expectedDays));
-//         }
 
 //         [Test]
 //         public void Should_calculate_movies_total_duration()
