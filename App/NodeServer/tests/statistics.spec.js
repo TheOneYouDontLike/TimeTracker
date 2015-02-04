@@ -29,6 +29,14 @@ var activitiesData = [
         Duration: 20,
         ActivityType: 'Series',
         WatchedInCinema: false
+    },
+    {
+        Id: 4,
+        Name: 'Futurama S01E02',
+        Date: '2014-10-01',
+        Duration: 20,
+        ActivityType: 'Series',
+        WatchedInCinema: false
     }];
 
 describe('statistics', function() {
@@ -40,7 +48,7 @@ describe('statistics', function() {
         var statistics = new Statistics(activitiesData);
 
         // then
-        assert.that(statistics.totalDurationOfActivities, is.equalTo(270));
+        assert.that(statistics.totalDurationOfActivities, is.equalTo(290));
     });
 
     it('should determine statistics time span', function() {
@@ -55,25 +63,30 @@ describe('statistics', function() {
         // then
         assert.that(statistics.totalTimeSpan, is.equalTo(expectedDays));
     });
+
+    it('should calculate movies total duration', function() {
+        // given
+        // listOfActivities
+
+        // when
+        var statistics = new Statistics(activitiesData);
+
+        // then
+        assert.that(statistics.moviesTotalDuration, is.equalTo(250));
+    });
+
+    it('should calculate series total duration', function() {
+        // given
+        // listOfActivities
+
+        // when
+        var statistics = new Statistics(activitiesData);
+
+        // then
+        assert.that(statistics.seriesTotalDuration, is.equalTo(40));
+    });
 });
 
-//         [Test]
-//         public void Should_calculate_movies_total_duration()
-//         {
-//             // given
-//             var listOfActivities = new List<Activity>
-//             {
-//                 new Activity("Interstellar", new DateTime(2014, 01, 01), 100, ActivityType.Movie),
-//                 new Activity("The Dark Knight", new DateTime(2014, 05, 01), 120, ActivityType.Movie),
-//                 new Activity("Family Guy", new DateTime(2014, 10, 01), 80, ActivityType.Series)
-//             };
-
-//             // when
-//             var totalDurationOfMovies = new Statistics(listOfActivities, _dateProvider).TotalDurationOfMovies;
-
-//             // then
-//             Assert.That(totalDurationOfMovies, Is.EqualTo(220));
-//         }
 
 //         [Test]
 //         public void Should_calculate_series_total_duration()

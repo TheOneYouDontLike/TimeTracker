@@ -7,6 +7,8 @@ var statistics = function(activities) {
 
     unicorn.totalDurationOfActivities = totalDuration();
     unicorn.totalTimeSpan = totalTimeSpan();
+    unicorn.moviesTotalDuration = moviesTotalDuration();
+    unicorn.seriesTotalDuration = seriesTotalDuration();
 
     function totalDuration() { 
         return _.reduce(activities, function(totalDuration, n) {
@@ -25,6 +27,18 @@ var statistics = function(activities) {
         var differenceInDays = now.diff(minDate, 'days');
 
         return differenceInDays;
+    }
+
+    function moviesTotalDuration() {
+        return _.reduce(activities, function(totalDuration, n) {
+            return (n.ActivityType === 'Movie') ? totalDuration + n.Duration : totalDuration;
+        }, 0);
+    }
+
+    function seriesTotalDuration() {
+        return _.reduce(activities, function(totalDuration, n) {
+            return (n.ActivityType === 'Series') ? totalDuration + n.Duration : totalDuration;
+        }, 0);
     }
 
     return unicorn;
