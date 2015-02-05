@@ -11,6 +11,8 @@ var statistics = function(activities) {
     unicorn.seriesTotalDuration = seriesTotalDuration();
     unicorn.averageIntervalBetweenActivities = averageIntervalBetweenActivities();
     unicorn.averageIntervalBetweenCinemaVisits = averageIntervalBetweenCinemaVisits();
+    unicorn.totalNumberOfMovies = totalNumberOfMovies();
+    unicorn.totalNumberOfSeries = totalNumberOfSeries();
 
     function totalDuration() { 
         return _.reduce(activities, function(totalDuration, n) {
@@ -47,7 +49,7 @@ var statistics = function(activities) {
         if (activities.length <= 1) {
             return 0;
         }
-        
+
         var sortedActivities = _.chain(activities)
             .uniq(function(activity) { return activity.Date })
             .sortBy(function(activity) { return new Date(activity.Date); })
@@ -83,6 +85,22 @@ var statistics = function(activities) {
         }
 
         return totalDays / numberOfIntervals;
+    }
+
+    function totalNumberOfMovies() {
+        return _calculateTotalNumberOfActities('movie');
+    }
+
+    function totalNumberOfSeries() {
+        return _calculateTotalNumberOfActities('series');
+    }
+
+    function _calculateTotalNumberOfActities(type) {
+        var activitiesCount = _.filter(activities, function(activity) {
+            return activity.ActivityType.toLowerCase() === type;
+        }).length;
+
+        return activitiesCount;
     }
 
     return unicorn;

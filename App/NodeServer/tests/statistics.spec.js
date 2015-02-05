@@ -90,6 +90,11 @@ describe('statistics', function() {
         it('should calculate average interval between cinema visits', function() {
             assert.that(statistics.averageIntervalBetweenCinemaVisits, is.equalTo(5.5));
         });
+
+        it('should calculate total number of activities', function() {
+            assert.that(statistics.totalNumberOfMovies, is.equalTo(3));
+            assert.that(statistics.totalNumberOfSeries, is.equalTo(3));
+        });
     });
 
     describe('when there is only one activity', function() {
@@ -109,41 +114,3 @@ describe('statistics', function() {
         });
     });
 });
-
-//         [Test]
-//         public void Should_calculate_total_number_of_watched_activities()
-//         {
-//             // given
-//             var listOfActivities = new List<Activity>
-//             {
-//                 new Activity("Bringing Up Baby", new DateTime(2014, 01, 01), 100, ActivityType.Movie),
-//                 new Activity("Vertigo", new DateTime(2014, 01, 04), 120, ActivityType.Movie),
-//                 new Activity("True Detective", new DateTime(2014, 01, 04), 120, ActivityType.Series)
-//             };
-
-//             // when
-//             var statistics = new Statistics(listOfActivities, _dateProvider);
-
-//             var totalNumberOfWatchedMovies = statistics.TotalNumberOfMovies;
-//             var totalNumberOfWatchedSeries = statistics.TotalNumberOfSeries;
-
-//             // then
-//             Assert.That(totalNumberOfWatchedMovies, Is.EqualTo(2));
-//             Assert.That(totalNumberOfWatchedSeries, Is.EqualTo(1));
-//         }
-
-//         [Test]
-//         public void Should_set_average_interval_between_cinema_visits_to_0_if_there_is_only_one_activity()
-//         {
-//             // given
-//             var activities = new List<Activity>
-//             {
-//                 new Activity("Interstellar", new DateTime(2014, 01, 01), 100, ActivityType.Movie){ WatchedInCinema = true }
-//             };
-
-//             // when
-//             var averageIntervalBetweenCinemaVisits = new Statistics(activities, _dateProvider).AverageIntervalBetweenCinemaVisits;
-
-//             // then
-//             Assert.That(averageIntervalBetweenCinemaVisits, Is.EqualTo(0));
-//         }
