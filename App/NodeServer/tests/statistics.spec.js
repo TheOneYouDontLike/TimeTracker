@@ -21,7 +21,15 @@ var activitiesData = [
         Date: '2014-09-20',
         Duration: 120,
         ActivityType: 'Movie',
-        WatchedInCinema: false
+        WatchedInCinema: true
+    },
+    {
+        Id: 6,
+        Name: 'Jurassic Park',
+        Date: '2014-10-01',
+        Duration: 120,
+        ActivityType: 'Movie',
+        WatchedInCinema: true
     },
     {
         Id: 3,
@@ -57,7 +65,7 @@ describe('statistics', function() {
         });
 
         it('should count activities total duration', function() {
-            assert.that(statistics.totalDurationOfActivities, is.equalTo(310));
+            assert.that(statistics.totalDurationOfActivities, is.equalTo(430));
         });
 
         it('should determine statistics time span', function() {
@@ -69,15 +77,19 @@ describe('statistics', function() {
         });
 
         it('should calculate movies total duration', function() {
-            assert.that(statistics.moviesTotalDuration, is.equalTo(250));
+            assert.that(statistics.moviesTotalDuration, is.equalTo(370));
         });
 
         it('should calculate series total duration', function() {
             assert.that(statistics.seriesTotalDuration, is.equalTo(60));
         });
 
-        it('should average interval between activities', function() {
+        it('should calculate average interval between activities', function() {
             assert.that(statistics.averageIntervalBetweenActivities, is.equalTo(6.75));
+        });
+
+        it('should calculate average interval between cinema visits', function() {
+            assert.that(statistics.averageIntervalBetweenCinemaVisits, is.equalTo(5.5));
         });
     });
 });
