@@ -6,7 +6,6 @@ var assert = require('node-assertthat');
 var moment = require('moment');
 
 var activitiesData = [
-    
     {
         Id: 2,
         Name: 'Jurassic Park II',
@@ -57,7 +56,7 @@ var activitiesData = [
     }];
 
 describe('statistics', function() {
-    describe('when generating', function() {
+    describe('when there is a lot of activities', function() {
         var statistics;
 
         before(function() {
@@ -92,6 +91,23 @@ describe('statistics', function() {
             assert.that(statistics.averageIntervalBetweenCinemaVisits, is.equalTo(5.5));
         });
     });
+
+    describe('when there is only one activity', function() {
+        var statistics;
+
+        before(function() {
+            var activitiesDataWithOnlyOneActivity = [activitiesData[0]];
+            statistics = new Statistics(activitiesDataWithOnlyOneActivity);
+        });
+
+        it('should set average interval between activities to 0 if there is only one activity', function() {
+            assert.that(statistics.averageIntervalBetweenActivities, is.equalTo(0));
+        });
+
+        it('should set average interval between cinema visits to 0 if there is only one activity', function() {
+            assert.that(statistics.averageIntervalBetweenCinemaVisits, is.equalTo(0));
+        });
+    });
 });
 
 //         [Test]
@@ -114,25 +130,6 @@ describe('statistics', function() {
 //             // then
 //             Assert.That(totalNumberOfWatchedMovies, Is.EqualTo(2));
 //             Assert.That(totalNumberOfWatchedSeries, Is.EqualTo(1));
-//         }
-
-//         [Test]
-//         public void Should_calculate_average_interval_between_visits_in_the_cinema()
-//         {
-//             // given
-//             var activities = new List<Activity>
-//             {
-//                 new Activity("Interstellar", new DateTime(2014, 01, 01), 100, ActivityType.Movie){ WatchedInCinema = true },
-//                 new Activity("Transformers", new DateTime(2014, 01, 04), 120, ActivityType.Movie){ WatchedInCinema = true },
-//                 new Activity("Jurassic Park", new DateTime(2014, 01, 08), 120, ActivityType.Movie){ WatchedInCinema = true },
-//                 new Activity("Roman Holiday", new DateTime(2014, 01, 20), 120, ActivityType.Movie)
-//             };
-
-//             // when
-//             var averageIntervalBetweenCinemaVisits = new Statistics(activities, _dateProvider).AverageIntervalBetweenCinemaVisits;
-
-//             // then
-//             Assert.That(averageIntervalBetweenCinemaVisits, Is.EqualTo(3.5));
 //         }
 
 //         [Test]

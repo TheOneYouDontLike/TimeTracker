@@ -44,6 +44,10 @@ var statistics = function(activities) {
     }
 
     function averageIntervalBetweenActivities() {
+        if (activities.length <= 1) {
+            return 0;
+        }
+        
         var sortedActivities = _.chain(activities)
             .uniq(function(activity) { return activity.Date })
             .sortBy(function(activity) { return new Date(activity.Date); })
@@ -53,6 +57,10 @@ var statistics = function(activities) {
     }
 
     function averageIntervalBetweenCinemaVisits() {
+        if (activities.length <= 1) {
+            return 0;
+        }
+
         var sortedActivities = _.chain(activities)
             .uniq(function(activity) { return activity.Date })
             .sortBy(function(activity) { return new Date(activity.Date); })
