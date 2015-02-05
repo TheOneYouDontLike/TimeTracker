@@ -6,21 +6,22 @@ var assert = require('node-assertthat');
 var moment = require('moment');
 
 var activitiesData = [
-    {
-        Id: 1,
-        Name: 'Jurassic Park',
-        Date: '2014-01-01',
-        Duration: 120,
-        ActivityType: 'Movie',
-        WatchedInCinema: false
-    },
+    
     {
         Id: 2,
         Name: 'Jurassic Park II',
-        Date: '2014-01-31',
+        Date: '2014-09-25',
         Duration: 130,
         ActivityType: 'Movie',
         WatchedInCinema: true
+    },
+    {
+        Id: 1,
+        Name: 'Jurassic Park',
+        Date: '2014-09-20',
+        Duration: 120,
+        ActivityType: 'Movie',
+        WatchedInCinema: false
     },
     {
         Id: 3,
@@ -33,7 +34,15 @@ var activitiesData = [
     {
         Id: 4,
         Name: 'Futurama S01E02',
-        Date: '2014-10-01',
+        Date: '2014-10-10',
+        Duration: 20,
+        ActivityType: 'Series',
+        WatchedInCinema: false
+    },
+    {
+        Id: 5,
+        Name: 'Futurama S01E03',
+        Date: '2014-10-17',
         Duration: 20,
         ActivityType: 'Series',
         WatchedInCinema: false
@@ -48,11 +57,11 @@ describe('statistics', function() {
         });
 
         it('should count activities total duration', function() {
-            assert.that(statistics.totalDurationOfActivities, is.equalTo(290));
+            assert.that(statistics.totalDurationOfActivities, is.equalTo(310));
         });
 
         it('should determine statistics time span', function() {
-            var activityWithMinDate = activitiesData[0];
+            var activityWithMinDate = activitiesData[1];
             var minDate = moment(activityWithMinDate.Date);
             var expectedDays = moment().diff(minDate, 'days');
 
@@ -64,50 +73,14 @@ describe('statistics', function() {
         });
 
         it('should calculate series total duration', function() {
-            assert.that(statistics.seriesTotalDuration, is.equalTo(40));
+            assert.that(statistics.seriesTotalDuration, is.equalTo(60));
+        });
+
+        it('should average interval between activities', function() {
+            assert.that(statistics.averageIntervalBetweenActivities, is.equalTo(6.75));
         });
     });
 });
-
-
-//         [Test]
-//         public void Should_calculate_series_total_duration()
-//         {
-//             // given
-//             var listOfActivities = new List<Activity>
-//             {
-//                 new Activity("Interstellar", new DateTime(2014, 01, 01), 100, ActivityType.Movie),
-//                 new Activity("The Dark Knight", new DateTime(2014, 05, 01), 120, ActivityType.Movie),
-//                 new Activity("Dexter", new DateTime(2014, 10, 01), 80, ActivityType.Series),
-//                 new Activity("Breaking Bad", new DateTime(2014, 10, 01), 80, ActivityType.Series)
-//             };
-
-//             // when
-//             var totalDurationOfMovies = new Statistics(listOfActivities, _dateProvider).TotalDurationOfSeries;
-
-//             // then
-//             Assert.That(totalDurationOfMovies, Is.EqualTo(160));
-//         }
-
-//         [Test]
-//         public void Should_calculate_average_interval_between_activities()
-//         {
-//             // given
-//             var listOfActivities = new List<Activity>
-//             {
-//                 new Activity("El Dorado", new DateTime(2014, 01, 01), 100, ActivityType.Movie),
-//                 new Activity("When Harry Met Sally", new DateTime(2014, 01, 04), 120, ActivityType.Movie),
-//                 new Activity("Firefly", new DateTime(2014, 01, 08), 80, ActivityType.Series),
-//                 new Activity("Twin Peaks", new DateTime(2014, 01, 13), 80, ActivityType.Series)
-//             };
-
-//             // when
-//             var averageInterval =
-//                 new Statistics(listOfActivities, _dateProvider).AverageIntervalBetweenActivities;
-
-//             // then
-//             Assert.That(averageInterval, Is.EqualTo(4));
-//         }
 
 //         [Test]
 //         public void Should_calculate_total_number_of_watched_activities()

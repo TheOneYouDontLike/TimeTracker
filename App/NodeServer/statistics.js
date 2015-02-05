@@ -9,6 +9,7 @@ var statistics = function(activities) {
     unicorn.totalTimeSpan = totalTimeSpan();
     unicorn.moviesTotalDuration = moviesTotalDuration();
     unicorn.seriesTotalDuration = seriesTotalDuration();
+    unicorn.averageIntervalBetweenActivities = averageIntervalBetweenActivities();
 
     function totalDuration() { 
         return _.reduce(activities, function(totalDuration, n) {
@@ -39,6 +40,25 @@ var statistics = function(activities) {
         return _.reduce(activities, function(totalDuration, n) {
             return (n.ActivityType === 'Series') ? totalDuration + n.Duration : totalDuration;
         }, 0);
+    }
+
+    function averageIntervalBetweenActivities() {
+        var sortedActivities = _.sortBy(activities, function(activity) {
+            return new Date(activity.Date);
+        });
+
+        var totalDays = 0;
+        var numberOfIntervals = sortedActivities.length - 1;
+
+        for (var i = 0; i < numberOfIntervals; i++)
+        {
+            var nextActivityDate = moment(sortedActivities[i + 1].Date);
+            var previousActivityDate = moment(sortedActivities[i].Date);
+
+            totalDays += nextActivityDate.diff(previousActivityDate, 'days');
+        }
+
+        return totalDays / numberOfIntervals;
     }
 
     return unicorn;
