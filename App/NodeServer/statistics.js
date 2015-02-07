@@ -27,7 +27,6 @@ var statistics = function(activities) {
 
         var minDate = moment(activityWithMinDate.Date);
         var now = moment();
-
         var differenceInDays = now.diff(minDate, 'days');
 
         return differenceInDays;

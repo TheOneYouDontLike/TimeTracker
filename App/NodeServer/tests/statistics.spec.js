@@ -105,12 +105,32 @@ describe('statistics', function() {
             statistics = new Statistics(activitiesDataWithOnlyOneActivity);
         });
 
-        it('should set average interval between activities to 0 if there is only one activity', function() {
+        it('should set average interval between activities to 0', function() {
             assert.that(statistics.averageIntervalBetweenActivities, is.equalTo(0));
         });
 
-        it('should set average interval between cinema visits to 0 if there is only one activity', function() {
+        it('should set average interval between cinema visits to 0', function() {
             assert.that(statistics.averageIntervalBetweenCinemaVisits, is.equalTo(0));
+        });
+    });
+
+    describe('when there are no activities', function() {
+        var statistics;
+
+        before(function() {
+            var noActivities = [];
+            statistics = new Statistics(noActivities);
+        });
+
+        it('every property value should be set to 0', function() {
+            assert.that(statistics.totalDurationOfActivities, is.equalTo(0));
+            assert.that(statistics.totalTimeSpan, is.equalTo(0));
+            assert.that(statistics.moviesTotalDuration, is.equalTo(0));
+            assert.that(statistics.seriesTotalDuration, is.equalTo(0));
+            assert.that(statistics.averageIntervalBetweenActivities, is.equalTo(0));
+            assert.that(statistics.averageIntervalBetweenCinemaVisits, is.equalTo(0));
+            assert.that(statistics.totalNumberOfMovies, is.equalTo(0));
+            assert.that(statistics.totalNumberOfSeries, is.equalTo(0));
         });
     });
 });
