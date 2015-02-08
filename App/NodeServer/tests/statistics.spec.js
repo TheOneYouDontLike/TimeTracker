@@ -55,6 +55,23 @@ var activitiesData = [
         WatchedInCinema: false
     }];
 
+var activitiesDataWithTwoMoviesAndOnlyOneIsWatchedInTheCinema = [{
+        Id: 1,
+        Name: 'Matrix',
+        Date: '2014-09-25',
+        Duration: 130,
+        ActivityType: 'Movie',
+        WatchedInCinema: false
+    },
+    {
+        Id: 2,
+        Name: 'Matrix II',
+        Date: '2014-09-30',
+        Duration: 120,
+        ActivityType: 'Movie',
+        WatchedInCinema: true
+    }];
+
 describe('statistics', function() {
     describe('when there is a lot of activities', function() {
         var statistics;
@@ -76,11 +93,11 @@ describe('statistics', function() {
         });
 
         it('should calculate movies total duration', function() {
-            assert.that(statistics.moviesTotalDuration, is.equalTo(370));
+            assert.that(statistics.totalDurationOfMovies, is.equalTo(370));
         });
 
         it('should calculate series total duration', function() {
-            assert.that(statistics.seriesTotalDuration, is.equalTo(60));
+            assert.that(statistics.totalDurationOfSeries, is.equalTo(60));
         });
 
         it('should calculate average interval between activities', function() {
@@ -94,6 +111,13 @@ describe('statistics', function() {
         it('should calculate total number of activities', function() {
             assert.that(statistics.totalNumberOfMovies, is.equalTo(3));
             assert.that(statistics.totalNumberOfSeries, is.equalTo(3));
+        });
+    });
+
+    describe('when there are two movies and one is watched in the cinema', function() {
+        it('should return 0 interval between cinema visits', function() {
+            var statistics = new Statistics(activitiesDataWithTwoMoviesAndOnlyOneIsWatchedInTheCinema);
+            assert.that(statistics.averageIntervalBetweenCinemaVisits, is.equalTo(0));
         });
     });
 
@@ -125,8 +149,8 @@ describe('statistics', function() {
         it('every property value should be set to 0', function() {
             assert.that(statistics.totalDurationOfActivities, is.equalTo(0));
             assert.that(statistics.totalTimeSpan, is.equalTo(0));
-            assert.that(statistics.moviesTotalDuration, is.equalTo(0));
-            assert.that(statistics.seriesTotalDuration, is.equalTo(0));
+            assert.that(statistics.totalDurationOfMovies, is.equalTo(0));
+            assert.that(statistics.totalDurationOfSeries, is.equalTo(0));
             assert.that(statistics.averageIntervalBetweenActivities, is.equalTo(0));
             assert.that(statistics.averageIntervalBetweenCinemaVisits, is.equalTo(0));
             assert.that(statistics.totalNumberOfMovies, is.equalTo(0));

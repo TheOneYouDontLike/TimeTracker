@@ -7,14 +7,14 @@ var ActivityStatistics = React.createClass({
         return (
             <div className="activities-statistics row">
                 <div className="col-xs-12">
-                    <p>Total time span of statistics: <b>{ this.props.data.TotalTimeSpan }</b> days.</p>
-                    <p>Total duration of activities: <b>{ this.props.data.TotalDurationOfActivities }</b> minutes.</p>
-                    <p>Total number of movies: <b>{ this.props.data.TotalNumberOfMovies }</b></p>
-                    <p>Total duration of movies: <b>{ this.props.data.TotalDurationOfMovies }</b> minutes.</p>
-                    <p>Total number of series: <b>{ this.props.data.TotalNumberOfSeries }</b></p>
-                    <p>Total duration of series: <b>{ this.props.data.TotalDurationOfSeries }</b> minutes.</p>
-                    <p>Average interval between activities: <b>{ this.props.data.AverageIntervalBetweenActivities }</b> days.</p>
-                    <p>Average interval between cinema visits: <b>{ this.props.data.AverageIntervalBetweenCinemaVisits }</b> days.</p>
+                    <p>Total time span of statistics: <b>{ this.props.data.totalTimeSpan }</b> days.</p>
+                    <p>Total duration of activities: <b>{ this.props.data.totalDurationOfActivities }</b> minutes.</p>
+                    <p>Total number of movies: <b>{ this.props.data.totalNumberOfMovies }</b></p>
+                    <p>Total duration of movies: <b>{ this.props.data.totalDurationOfMovies }</b> minutes.</p>
+                    <p>Total number of series: <b>{ this.props.data.totalNumberOfSeries }</b></p>
+                    <p>Total duration of series: <b>{ this.props.data.totalDurationOfSeries }</b> minutes.</p>
+                    <p>Average interval between activities: <b>{ this.props.data.averageIntervalBetweenActivities }</b> days.</p>
+                    <p>Average interval between cinema visits: <b>{ this.props.data.averageIntervalBetweenCinemaVisits }</b> days.</p>
                 </div>
             </div>
         );

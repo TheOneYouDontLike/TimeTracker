@@ -5,6 +5,8 @@ var fs = require('fs');
 var Router = require('./router');
 var router = new Router();
 
+var Statistics = require('./statistics');
+
 var activityData = [
     {
         Id: 1,
@@ -30,7 +32,7 @@ router.httpGet('/', function(request, response) {
 });
 
 router.httpGet('/activities', function(request, response) {
-    response.writeHead(200, {"Content-Type": "application/json"});        
+    response.writeHead(200, {"Content-Type": "application/json"});
     response.end(JSON.stringify(activityData));
 });
 
@@ -53,6 +55,13 @@ router.httpDelete('/activities/{id}', function(request, response, params) {
 
     response.writeHead(200, {"Content-Type": "application/json"});
     response.end();
+});
+
+router.httpGet('/activities/statistics', function(request, response) {
+    var statistics = new Statistics(activityData);
+
+    response.writeHead(200, {"Content-Type": "application/json"});
+    response.end(JSON.stringify(statistics));
 });
 
 router.httpGet('/bundle.js', function(request, response) {

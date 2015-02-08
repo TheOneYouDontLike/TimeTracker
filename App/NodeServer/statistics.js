@@ -7,14 +7,14 @@ var statistics = function(activities) {
 
     unicorn.totalDurationOfActivities = totalDuration();
     unicorn.totalTimeSpan = totalTimeSpan();
-    unicorn.moviesTotalDuration = moviesTotalDuration();
-    unicorn.seriesTotalDuration = seriesTotalDuration();
+    unicorn.totalDurationOfMovies = totalDurationOfMovies();
+    unicorn.totalDurationOfSeries = totalDurationOfSeries();
     unicorn.averageIntervalBetweenActivities = averageIntervalBetweenActivities();
     unicorn.averageIntervalBetweenCinemaVisits = averageIntervalBetweenCinemaVisits();
     unicorn.totalNumberOfMovies = totalNumberOfMovies();
     unicorn.totalNumberOfSeries = totalNumberOfSeries();
 
-    function totalDuration() { 
+    function totalDuration() {
         return _.reduce(activities, function(totalDuration, n) {
             return totalDuration + n.Duration;
         }, 0);
@@ -32,13 +32,13 @@ var statistics = function(activities) {
         return differenceInDays;
     }
 
-    function moviesTotalDuration() {
+    function totalDurationOfMovies() {
         return _.reduce(activities, function(totalDuration, n) {
             return (n.ActivityType === 'Movie') ? totalDuration + n.Duration : totalDuration;
         }, 0);
     }
 
-    function seriesTotalDuration() {
+    function totalDurationOfSeries() {
         return _.reduce(activities, function(totalDuration, n) {
             return (n.ActivityType === 'Series') ? totalDuration + n.Duration : totalDuration;
         }, 0);
@@ -58,15 +58,15 @@ var statistics = function(activities) {
     }
 
     function averageIntervalBetweenCinemaVisits() {
-        if (activities.length <= 1) {
-            return 0;
-        }
-
         var sortedActivities = _.chain(activities)
             .uniq(function(activity) { return activity.Date })
             .sortBy(function(activity) { return new Date(activity.Date); })
             .filter(function(activity) { return activity.WatchedInCinema === true })
             .value();
+
+        if (sortedActivities.length <= 1) {
+            return 0;
+        }
 
         return _calculateInterval(sortedActivities);
     }
