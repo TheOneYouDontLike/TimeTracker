@@ -7,11 +7,11 @@ var ActivityForm = React.createClass(
     {
         getInitialState: function () {
             return {
-                Name: '',
-                Date: '',
-                Duration: 0,
-                ActivityType: 'Movie',
-                WatchedInCinema: false
+                name: '',
+                date: '',
+                duration: 0,
+                activityType: 'Movie',
+                watchedInCinema: false
             };
         },
 
@@ -23,7 +23,7 @@ var ActivityForm = React.createClass(
         },
 
         handleCheckBoxInputChange: function () {
-            this.setState({ WatchedInCinema: !this.state.WatchedInCinema });
+            this.setState({ watchedInCinema: !this.state.watchedInCinema });
         },
 
         handleSubmit: function () {
@@ -42,26 +42,26 @@ var ActivityForm = React.createClass(
                         <form className="activity-form" role="form">
                             <div className="form-group">
                                 <label htmlFor="activity-name">Name:</label>
-                                <input type="text" name="Name" className="form-control" id="activity-name" value={ this.state.Name } onChange={ this.handleBasicInputChange } />
+                                <input type="text" name="name" className="form-control" id="activity-name" value={ this.state.name } onChange={ this.handleBasicInputChange } />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="activity-date">Date:</label>
-                                <input type="date" name="Date" className="form-control" id="activity-date" value={ this.state.Date } onChange={ this.handleBasicInputChange }/>
+                                <input type="date" name="date" className="form-control" id="activity-date" value={ this.state.date } onChange={ this.handleBasicInputChange }/>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="activity-duration">Duration:</label>
-                                <input type="number" name="Duration" max-length="3" className="form-control" id="activity-duration" value={ this.state.Duration } onChange={ this.handleBasicInputChange }/>
+                                <input type="number" name="duration" max-length="3" className="form-control" id="activity-duration" value={ this.state.duration } onChange={ this.handleBasicInputChange }/>
                             </div>
                             <div className="form-group">
                                 <label htmlFor="activity-type">Activity type:</label>
-                                <select name="ActivityType" className="form-control" id="activity-type" value={ this.state.ActivityType } onChange={ this.handleBasicInputChange }>
+                                <select name="activityType" className="form-control" id="activity-type" value={ this.state.activityType } onChange={ this.handleBasicInputChange }>
                                     <option value="Movie">Movie</option>
                                     <option value="Series">Series</option>
                                 </select>
                             </div>
                             <div className="form-group">
                                 <label>
-                                    Watched in cinema ? <input type="checkbox" name="WatchedInCinema" checked={ this.state.WatchedInCinema } onChange={ this.handleCheckBoxInputChange }/>
+                                    Watched in cinema ? <input type="checkbox" name="watchedInCinema" checked={ this.state.watchedInCinema } onChange={ this.handleCheckBoxInputChange }/>
                                 </label>
                             </div>
                             <input type="button" value="Add new" className="btn btn-default" onClick={ this.handleSubmit }/>

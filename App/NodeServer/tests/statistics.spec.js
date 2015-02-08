@@ -7,69 +7,69 @@ var moment = require('moment');
 
 var activitiesData = [
     {
-        Id: 2,
-        Name: 'Jurassic Park II',
-        Date: '2014-09-25',
-        Duration: 130,
-        ActivityType: 'Movie',
-        WatchedInCinema: true
+        id: 2,
+        name: 'Jurassic Park II',
+        date: '2014-09-25',
+        duration: 130,
+        activityType: 'Movie',
+        watchedInCinema: true
     },
     {
-        Id: 1,
-        Name: 'Jurassic Park',
-        Date: '2014-09-20',
-        Duration: 120,
-        ActivityType: 'Movie',
-        WatchedInCinema: true
+        id: 1,
+        name: 'Jurassic Park',
+        date: '2014-09-20',
+        duration: 120,
+        activityType: 'Movie',
+        watchedInCinema: true
     },
     {
-        Id: 6,
-        Name: 'Jurassic Park',
-        Date: '2014-10-01',
-        Duration: 120,
-        ActivityType: 'Movie',
-        WatchedInCinema: true
+        id: 6,
+        name: 'Jurassic Park',
+        date: '2014-10-01',
+        duration: 120,
+        activityType: 'Movie',
+        watchedInCinema: true
     },
     {
-        Id: 3,
-        Name: 'Futurama S01E01',
-        Date: '2014-10-01',
-        Duration: 20,
-        ActivityType: 'Series',
-        WatchedInCinema: false
+        id: 3,
+        name: 'Futurama S01E01',
+        date: '2014-10-01',
+        duration: 20,
+        activityType: 'Series',
+        watchedInCinema: false
     },
     {
-        Id: 4,
-        Name: 'Futurama S01E02',
-        Date: '2014-10-10',
-        Duration: 20,
-        ActivityType: 'Series',
-        WatchedInCinema: false
+        id: 4,
+        name: 'Futurama S01E02',
+        date: '2014-10-10',
+        duration: 20,
+        activityType: 'Series',
+        watchedInCinema: false
     },
     {
-        Id: 5,
-        Name: 'Futurama S01E03',
-        Date: '2014-10-17',
-        Duration: 20,
-        ActivityType: 'Series',
-        WatchedInCinema: false
+        id: 5,
+        name: 'Futurama S01E03',
+        date: '2014-10-17',
+        duration: 20,
+        activityType: 'Series',
+        watchedInCinema: false
     }];
 
 var activitiesDataWithTwoMoviesAndOnlyOneIsWatchedInTheCinema = [{
-        Id: 1,
-        Name: 'Matrix',
-        Date: '2014-09-25',
-        Duration: 130,
-        ActivityType: 'Movie',
-        WatchedInCinema: false
+        id: 1,
+        name: 'Matrix',
+        date: '2014-09-25',
+        duration: 130,
+        activityType: 'Movie',
+        watchedInCinema: false
     },
     {
-        Id: 2,
-        Name: 'Matrix II',
-        Date: '2014-09-30',
-        Duration: 120,
-        ActivityType: 'Movie',
-        WatchedInCinema: true
+        id: 2,
+        name: 'Matrix II',
+        date: '2014-09-30',
+        duration: 120,
+        activityType: 'Movie',
+        watchedInCinema: true
     }];
 
 describe('statistics', function() {
@@ -86,7 +86,7 @@ describe('statistics', function() {
 
         it('should determine statistics time span', function() {
             var activityWithMinDate = activitiesData[1];
-            var minDate = moment(activityWithMinDate.Date);
+            var minDate = moment(activityWithMinDate.date);
             var expectedDays = moment().diff(minDate, 'days');
 
             assert.that(statistics.totalTimeSpan, is.equalTo(expectedDays));

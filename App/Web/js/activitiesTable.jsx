@@ -7,8 +7,8 @@ var actvityProperties = require('./activityConstants.js');
 
 var ActivitiesTable = React.createClass({
     changeEvent: function (activityId, propertyEnumValue, event) {
-        var newValue = 
-            propertyEnumValue !== actvityProperties.WatchedInCinema ? event.target.value : event.target.checked;
+        var newValue =
+            propertyEnumValue !== actvityProperties.watchedInCinema ? event.target.value : event.target.checked;
 
         ActivityService.updateActivity(
         {
@@ -25,20 +25,20 @@ var ActivitiesTable = React.createClass({
     render: function () {
         var activitiesNodes = this.props.data.map(function (activity) {
             return (
-            <tr key={ activity.Id }>
-                <td>{ activity.Id }</td>
-                <td><input type="text" className="form-control" name="Name" defaultValue={ activity.Name } onBlur={ this.changeEvent.bind(this, activity.Id, actvityProperties.Name) } /></td>
-                <td><input type="date" className="form-control" name="Date" defaultValue={ activity.Date.substring(0, 10) } onBlur={ this.changeEvent.bind(this, activity.Id, actvityProperties.Date) } /></td>
-                <td><input type="number" className="form-control" name="Duration" defaultValue={ activity.Duration } onBlur={ this.changeEvent.bind(this, activity.Id, actvityProperties.Duration) } /></td>
+            <tr key={ activity.id }>
+                <td>{ activity.id }</td>
+                <td><input type="text" className="form-control" name="name" defaultValue={ activity.name } onBlur={ this.changeEvent.bind(this, activity.id, actvityProperties.name) } /></td>
+                <td><input type="date" className="form-control" name="date" defaultValue={ activity.date.substring(0, 10) } onBlur={ this.changeEvent.bind(this, activity.id, actvityProperties.date) } /></td>
+                <td><input type="number" className="form-control" name="duration" defaultValue={ activity.duration } onBlur={ this.changeEvent.bind(this, activity.id, actvityProperties.duration) } /></td>
                 <td>
-                    <select className="form-control" name="ActivityType" defaultValue={ activity.ActivityType } onChange={ this.changeEvent.bind(this, activity.Id, actvityProperties.ActivityType) }>
+                    <select className="form-control" name="activityType" defaultValue={ activity.activityType } onChange={ this.changeEvent.bind(this, activity.id, actvityProperties.activityType) }>
                         <option value="Movie">Movie</option>
                         <option value="Series">Series</option>
                     </select>
                 </td>
 
-                <td><input type="checkbox" className="form-control" name="WatchedInCinema" defaultChecked={ activity.WatchedInCinema } onChange={ this.changeEvent.bind(this, activity.Id, actvityProperties.WatchedInCinema) } /></td>
-                <td><button className="delete-button btn btn-danger" onClick={this.deleteActivity.bind(this, activity.Id)}>Delete</button></td>
+                <td><input type="checkbox" className="form-control" name="watchedInCinema" defaultChecked={ activity.watchedInCinema } onChange={ this.changeEvent.bind(this, activity.id, actvityProperties.watchedInCinema) } /></td>
+                <td><button className="delete-button btn btn-danger" onClick={this.deleteActivity.bind(this, activity.id)}>Delete</button></td>
             </tr>
             );
         }.bind(this));

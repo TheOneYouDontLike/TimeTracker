@@ -47,7 +47,7 @@ var ActivitiesBox = React.createClass({
             activitiesTableData: activities
         });
     },
-    
+
     updateEventHandler: function(newActivityId) {
         ActivityService.getActivity(newActivityId, this.addActivityToState);
         ActivityService.getStatistics(this.setStatistics);
@@ -78,7 +78,7 @@ var ActivitiesBox = React.createClass({
     removeActivityFromState: function(activityIdToDelete){
         var activities = this.state.activitiesTableData;
         var filteredActivities = activities.filter(function (activity){
-            return activity.Id !== activityIdToDelete;
+            return activity.id !== activityIdToDelete;
         });
         this.setState({
             activitiesTableData: filteredActivities

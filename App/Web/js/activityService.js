@@ -18,15 +18,15 @@ var ActivityService =  {
         .post('/activities')
         .set('Content-Type', 'application/json')
         .send({
-                Name: newActivity.Name,
-                Date: newActivity.Date,
-                Duration: parseInt(newActivity.Duration),
-                ActivityType: newActivity.ActivityType,
-                WatchedInCinema: newActivity.WatchedInCinema
+                name: newActivity.name,
+                date: newActivity.date,
+                duration: parseInt(newActivity.duration),
+                activityType: newActivity.activityType,
+                watchedInCinema: newActivity.watchedInCinema
             })
         .end(function(response) {
             handleErrors(response);
-            
+
             var newActivityId = response.text;
             callbackFunction(newActivityId);
         });

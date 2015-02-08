@@ -95,11 +95,11 @@
         {
             // given
             const string notValidActivityBecauseItIsNotPossibleThatSeriesWasWatchedInCinema = 
-                @"{'Name': 'Name',
-                'Date': '2014-02-02',
-                'Duration': 134,
-                'ActivityType': 'Series',
-                'WatchedInCinema': true}";
+                @"{'name': 'Name',
+                'date': '2014-02-02',
+                'duration': 134,
+                'activityType': 'Series',
+                'watchedInCinema': true}";
             
             // when
 
@@ -117,11 +117,11 @@
         {
             // given
             const string notValidActivityBecauseItIsNotPossibleThatSeriesWasWatchedInCinema = 
-                @"{'Name': 'Name',
-                'Date': '2014-02-02',
-                'Duration': 134,
-                'ActivityType': 'Series',
-                'WatchedInCinema': true}";
+                @"{'name': 'Name',
+                'date': '2014-02-02',
+                'duration': 134,
+                'activityType': 'Series',
+                'watchedInCinema': true}";
 
             // when
             var response = _browser.Post("/activities", with => 
@@ -141,13 +141,13 @@
             // should be:
             // { 
             //  ...
-            //  "ActivityType": "Movie"
+            //  "activityType": "Movie"
             //  ...
             // }
             // not:
             // { 
             //  ...
-            //  "ActivityType": 0
+            //  "activityType": 0
             //  ...
             // }
 
@@ -208,7 +208,7 @@
 
             var serializedName = JsonConvert.SerializeObject(new {
                 activityId = activity.Id,
-                activityProperty = "Name",
+                activityProperty = "name",
                 activityValue = "Jurassic Park II"});
 
             // when
@@ -238,7 +238,7 @@
 
             var serializedDate = JsonConvert.SerializeObject(new {
                 activityId = activity.Id,
-                activityProperty = "Date",
+                activityProperty = "date",
                 activityValue = "2014-03-31"});
 
             // when
@@ -269,7 +269,7 @@
 
             var serializedDuration = JsonConvert.SerializeObject(new {
                 activityId = activity.Id,
-                activityProperty = "Duration",
+                activityProperty = "duration",
                 activityValue = 200});
 
             // when
@@ -297,7 +297,7 @@
 
             var serializedActivityType = JsonConvert.SerializeObject(new {
                 activityId = activity.Id,
-                activityProperty = "ActivityType",
+                activityProperty = "activityType",
                 activityValue = "Series"});
 
             // when
@@ -329,7 +329,7 @@
             var serializedWatchedInCinema = JsonConvert.SerializeObject(new
             {
                 activityId = activity.Id,
-                activityProperty = "WatchedInCinema",
+                activityProperty = "watchedInCinema",
                 activityValue = true
             });
 
@@ -378,7 +378,7 @@
             var serializedWatchedInCinema = JsonConvert.SerializeObject(new
             {
                 activityId = 0,
-                activityProperty = "WatchedInCinema",
+                activityProperty = "watchedInCinema",
                 activityValue = "AnotherRetardedUnicorn"
             });
 
