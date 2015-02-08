@@ -9,20 +9,20 @@ var Statistics = require('./statistics');
 
 var activityData = [
     {
-        Id: 1,
-        Name: 'Jurassic Park',
-        Date: '2014-01-01',
-        Duration: 120,
-        ActivityType: 'Movie',
-        WatchedInCinema: false
+        id: 1,
+        name: 'Jurassic Park',
+        date: '2014-01-01',
+        duration: 120,
+        activityType: 'Movie',
+        watchedInCinema: false
     },
     {
-        Id: 2,
-        Name: 'Jurassic Park II',
-        Date: '2014-01-02',
-        Duration: 130,
-        ActivityType: 'Movie',
-        WatchedInCinema: true
+        id: 2,
+        name: 'Jurassic Park II',
+        date: '2014-01-02',
+        duration: 130,
+        activityType: 'Movie',
+        watchedInCinema: true
     }];
 
 router.httpGet('/', function(request, response) {
@@ -38,7 +38,7 @@ router.httpGet('/activities', function(request, response) {
 
 router.httpGet('/activities/{id}', function(request, response, params) {
     var activity = activityData.filter(function(element) {
-        return element.Id.toString() === params.id;
+        return element.id.toString() === params.id;
     })[0];
 
     response.writeHead(200, {"Content-Type": "application/json"});
@@ -47,7 +47,7 @@ router.httpGet('/activities/{id}', function(request, response, params) {
 
 router.httpDelete('/activities/{id}', function(request, response, params) {
     var activity = activityData.filter(function(element) {
-        return element.Id.toString() === params.id;
+        return element.id.toString() === params.id;
     })[0];
 
     var indexOfActivity = activityData.indexOf(activity);
