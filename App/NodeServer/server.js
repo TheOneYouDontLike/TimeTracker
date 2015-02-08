@@ -57,6 +57,20 @@ router.httpDelete('/activities/{id}', function(request, response, params) {
     response.end();
 });
 
+router.httpPost('/activities', function(request, response) {
+    request.on('data', function(chunk) {
+        var newActivity = JSON.parse(chunk.toString());
+        newActivity.id = 666;
+
+        activityData.push(newActivity);
+    });
+
+    request.on('end', function(){
+        response.writeHead(200, {"Content-Type": "text/html"});
+        response.end("666");
+    });
+});
+
 router.httpGet('/activities/statistics', function(request, response) {
     var statistics = new Statistics(activityData);
 
