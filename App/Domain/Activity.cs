@@ -51,6 +51,10 @@ namespace App.Domain
 
         public void ChangeType(ActivityType newType)
         {
+            if (newType == ActivityType.Series && WatchedInCinema == true)
+            {
+                throw new ActivityException("Series cannot be watched in the cinema.");
+            }
             ActivityType = newType;
         }
 

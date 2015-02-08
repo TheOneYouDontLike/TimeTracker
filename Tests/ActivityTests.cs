@@ -113,5 +113,22 @@ namespace Tests
             // then
             Assert.That(activity.WatchedInCinema, Is.EqualTo(true));
         }
+
+        [Test]
+        public void Should_not_be_possible_to_change_activity_type_to_series_if_was_watched_in_cinema()
+        {
+            // given
+            var activity = new Activity("Interstellar", new DateTime(), 120, ActivityType.Movie)
+            {
+                WatchedInCinema = true
+            };
+            var newType = ActivityType.Series;
+
+            // when
+            TestDelegate changingTypeToSeries = () => activity.ChangeType(newType);
+
+            // then
+            Assert.That(changingTypeToSeries, Throws.TypeOf<ActivityException>());
+        }
     }
 }
