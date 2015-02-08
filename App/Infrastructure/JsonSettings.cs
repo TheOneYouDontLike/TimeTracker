@@ -6,6 +6,7 @@ namespace App.Infrastructure
     using Newtonsoft.Json;
     using Newtonsoft.Json.Converters;
     using Newtonsoft.Json.Serialization;
+    using Newtonsoft.Json.Utilities;
 
     public static class JsonSettings
     {
@@ -24,7 +25,7 @@ namespace App.Infrastructure
         }
     }
 
-    public class SisoJsonDefaultContractResolver : DefaultContractResolver
+    public class SisoJsonDefaultContractResolver : CamelCasePropertyNamesContractResolver
     {
         protected override JsonProperty CreateProperty(
             MemberInfo member,

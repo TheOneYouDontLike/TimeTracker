@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using App;
     using App.Domain;
     using App.Infrastructure;
     using Newtonsoft.Json;
@@ -62,6 +61,19 @@
             // then
             Assert.That(deserializedActivities[0].Name, Is.EqualTo("Vertigo"));
             Assert.That(deserializedActivities[0].ActivityType, Is.EqualTo(ActivityType.Movie));
+        }
+
+        [Test]
+        public void Should_camelcase_activity_properties_names()
+        {
+            // given
+            var activity = new Activity("Vertigo", new DateTime(2014, 02, 02), 100, ActivityType.Movie);
+
+            // when
+            var jsonString = JsonConvert.SerializeObject(activity);
+
+            // then
+            Assert.That(jsonString, Contains.Substring("name"));
         }
     }
 }
