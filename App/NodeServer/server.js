@@ -71,6 +71,23 @@ router.httpPost('/activities', function(request, response) {
     });
 });
 
+router.httpPut('/activities/updateActivity/{id}', function(request, response, params) {
+    request.on('data', function(chunk) {
+        var activity = activityData.filter(function(element) {
+            return element.id.toString() === params.id;
+        })[0];
+
+        var updatePackage = JSON.parse(chunk.toString());
+        activity[updatePackage.activityProperty] = updatePackage.activityValue;
+        console.log(activity);
+    });
+
+    request.on('end', function(){
+        response.writeHead(200, {"Content-Type": "text/html"});
+        response.end();
+    });
+});
+
 router.httpGet('/activities/statistics', function(request, response) {
     var statistics = new Statistics(activityData);
 
