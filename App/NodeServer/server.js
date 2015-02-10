@@ -67,7 +67,7 @@ router.httpPut('/activities/updateActivity/{id}', function(request, response, pa
 });
 
 router.httpGet('/activities/statistics', function(request, response) {
-    var statistics = new Statistics(activityData);
+    var statistics = new Statistics(activitiesData.getAll());
 
     response.writeHead(200, {"Content-Type": "application/json"});
     response.end(JSON.stringify(statistics));
