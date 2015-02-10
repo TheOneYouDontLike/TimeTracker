@@ -4,26 +4,10 @@ var http = require('http');
 var fs = require('fs');
 var Router = require('./router');
 var router = new Router();
+var ActivitiesData = require('./activities-data');
 
+var activitiesData = new ActivitiesData();
 var Statistics = require('./statistics');
-
-var activityData = [
-    {
-        id: 1,
-        name: 'Jurassic Park',
-        date: '2014-01-01',
-        duration: 120,
-        activityType: 'Movie',
-        watchedInCinema: false
-    },
-    {
-        id: 2,
-        name: 'Jurassic Park II',
-        date: '2014-01-02',
-        duration: 130,
-        activityType: 'Movie',
-        watchedInCinema: true
-    }];
 
 router.httpGet('/', function(request, response) {
     var indexPage = fs.readFileSync('../Web/index.html');
@@ -32,42 +16,36 @@ router.httpGet('/', function(request, response) {
 });
 
 router.httpGet('/activities', function(request, response) {
+    var activities = activitiesData.getAll();
     response.writeHead(200, {"Content-Type": "application/json"});
-    response.end(JSON.stringify(activityData));
+    response.end(JSON.stringify(activities));
 });
 
 router.httpGet('/activities/{id}', function(request, response, params) {
-    var activity = activityData.filter(function(element) {
-        return element.id.toString() === params.id;
-    })[0];
+    var activity = activitiesData.byId(params.id);
 
     response.writeHead(200, {"Content-Type": "application/json"});
     response.end(JSON.stringify(activity));
 });
 
 router.httpDelete('/activities/{id}', function(request, response, params) {
-    var activity = activityData.filter(function(element) {
-        return element.id.toString() === params.id;
-    })[0];
-
-    var indexOfActivity = activityData.indexOf(activity);
-    activityData.splice(indexOfActivity, 1);
+    activitiesData.remove(params.id);
 
     response.writeHead(200, {"Content-Type": "application/json"});
     response.end();
 });
 
 router.httpPost('/activities', function(request, response) {
+    var activityId = 0;
+
     request.on('data', function(chunk) {
         var newActivity = JSON.parse(chunk.toString());
-        newActivity.id = 666;
-
-        activityData.push(newActivity);
+        activityId = activitiesData.add(newActivity);
     });
 
     request.on('end', function(){
         response.writeHead(200, {"Content-Type": "text/html"});
-        response.end("666");
+        response.end(activityId.toString());
     });
 });
 
