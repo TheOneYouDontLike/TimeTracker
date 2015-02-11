@@ -25,6 +25,7 @@ var activitiesData = function() {
     unicorn.byId = byId;
     unicorn.remove = remove;
     unicorn.add = add;
+    unicorn.update = update;
 
     function getAll() {
         return data;
@@ -53,6 +54,14 @@ var activitiesData = function() {
         data.push(activity);
 
         return activity.id;
+    }
+
+    function update(activityToUpdate) {
+        var activity = data.filter(function(element) {
+            return element.id === activityToUpdate.id;
+        })[0];
+
+        activity = activityToUpdate;
     }
 
     return unicorn;
