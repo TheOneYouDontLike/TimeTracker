@@ -70,12 +70,28 @@ var activitiesData = function(databaseName) {
         });
     }
 
-    function update(activityToUpdate) {
-        var activity = data.filter(function(element) {
-            return element.id === activityToUpdate.id;
-        })[0];
+    function update(activityToUpdate, callback) {
+        _readDatabase(function(error, data) {
+            var activity = data.filter(function(element) {
+                return element.id === activityToUpdate.id;
+            })[0];
 
-        activity = activityToUpdate;
+            var indexOfActivity = data.indexOf(activity);
+            data.splice(indexOfActivity, 1);
+
+            data.push(activityToUpdate);
+
+            _writeDatabase(data, function(error) {
+                if (error) {
+                    console.log(error);
+                }
+                else {
+                    console.log('updated in database');
+                    callback(error);
+                }
+            });
+
+        });
     }
 
     function seed() {
@@ -97,7 +113,7 @@ var activitiesData = function(databaseName) {
                 watchedInCinema: true
             }];
 
-        fs.writeFile(databaseName, JSON.stringify(data), function(error) {
+        _writeDatabase(data, function(error) {
             if (error) {
                 console.log(error);
             }

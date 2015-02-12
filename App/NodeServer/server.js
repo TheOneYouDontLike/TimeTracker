@@ -51,24 +51,25 @@ router.httpPost('/activities', function(request, response) {
 
 router.httpPut('/activities/updateActivity/{id}', function(request, response, params) {
     request.on('data', function(chunk) {
-        var activity = activitiesData.byId(params.id);
+        activitiesData.byId(params.id, function(error, activity) {
+            var updatePackage = JSON.parse(chunk.toString());
 
-        var updatePackage = JSON.parse(chunk.toString());
-        activity[updatePackage.activityProperty] = updatePackage.activityValue;
-        activitiesData.update(activity);
-    });
-
-    request.on('end', function(){
-        response.writeHead(200, {"Content-Type": "text/html"});
-        response.end();
+            activity[updatePackage.activityProperty] = updatePackage.activityValue;
+            activitiesData.update(activity, function(error) {
+                response.writeHead(200, {"Content-Type": "text/html"});
+                response.end();
+            });
+        });
     });
 });
 
 router.httpGet('/activities/statistics', function(request, response) {
-    var statistics = new Statistics(activitiesData.getAll());
+    activitiesData.getAll(function(error, activities) {
+        var statistics = new Statistics(activities);
 
-    response.writeHead(200, {"Content-Type": "application/json"});
-    response.end(JSON.stringify(statistics));
+        response.writeHead(200, {"Content-Type": "application/json"});
+        response.end(JSON.stringify(statistics));
+    });
 });
 
 router.httpGet('/bundle.js', function(request, response) {
