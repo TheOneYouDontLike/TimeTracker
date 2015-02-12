@@ -6,7 +6,9 @@ var Router = require('./router');
 var router = new Router();
 var ActivitiesData = require('./activities-data');
 
-var activitiesData = new ActivitiesData();
+var activitiesData = new ActivitiesData('database.json');
+activitiesData.seed();
+
 var Statistics = require('./statistics');
 
 router.httpGet('/', function(request, response) {
@@ -16,16 +18,17 @@ router.httpGet('/', function(request, response) {
 });
 
 router.httpGet('/activities', function(request, response) {
-    var activities = activitiesData.getAll();
-    response.writeHead(200, {"Content-Type": "application/json"});
-    response.end(JSON.stringify(activities));
+    activitiesData.getAll(function(error, activities) {
+        response.writeHead(200, {"Content-Type": "application/json"});
+        response.end(JSON.stringify(activities));
+    });
 });
 
 router.httpGet('/activities/{id}', function(request, response, params) {
-    var activity = activitiesData.byId(params.id);
-
-    response.writeHead(200, {"Content-Type": "application/json"});
-    response.end(JSON.stringify(activity));
+    activitiesData.byId(params.id, function(error, activity) {
+        response.writeHead(200, {"Content-Type": "application/json"});
+        response.end(JSON.stringify(activity));
+    });
 });
 
 router.httpDelete('/activities/{id}', function(request, response, params) {
