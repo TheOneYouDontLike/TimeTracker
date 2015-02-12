@@ -31,12 +31,23 @@ var activitiesData = function(databaseName) {
     }
 
     function remove(id) {
-        var activity = data.filter(function(element) {
-            return element.id.toString() === id;
-        })[0];
+        _readDatabase(function(error, data) {
+            var activity = data.filter(function(element) {
+                return element.id.toString() === id;
+            })[0];
 
-        var indexOfActivity = data.indexOf(activity);
-        data.splice(indexOfActivity, 1);
+            var indexOfActivity = data.indexOf(activity);
+            data.splice(indexOfActivity, 1);
+
+            _writeDatabase(data, function(error) {
+                if (error) {
+                    console.log(error);
+                }
+                else {
+                    console.log('created database');
+                }
+            });
+        });
     }
 
     function add(activity) {
@@ -88,6 +99,12 @@ var activitiesData = function(databaseName) {
         fs.readFile(databaseName, function(error, data) {
             var parsedData = JSON.parse(data.toString());
             callback(error, parsedData);
+        });
+    }
+
+    function _writeDatabase(data, callback) {
+        fs.writeFile(databaseName, JSON.stringify(data), function(error) {
+            callback(error);
         });
     }
 
