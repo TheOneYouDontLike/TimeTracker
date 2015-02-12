@@ -30,7 +30,7 @@ var activitiesData = function(databaseName) {
         });
     }
 
-    function remove(id) {
+    function remove(id, callback) {
         _readDatabase(function(error, data) {
             var activity = data.filter(function(element) {
                 return element.id.toString() === id;
@@ -45,6 +45,7 @@ var activitiesData = function(databaseName) {
                 }
                 else {
                     console.log('removed from database');
+                    callback(error);
                 }
             });
         });
@@ -54,14 +55,10 @@ var activitiesData = function(databaseName) {
         var timestampId = new Date().getTime();
 
         _readDatabase(function(error, data) {
-            console.log('cztam baze');
             activity.id = timestampId;
-            console.log(activity);
             data.push(activity);
 
-            console.log('spuszowane jest');
-
-            _writeDatabase(JSON.stringify(data), function(error) {
+            _writeDatabase(data, function(error) {
                 if (error) {
                     console.log(error);
                 }

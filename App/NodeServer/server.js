@@ -32,10 +32,10 @@ router.httpGet('/activities/{id}', function(request, response, params) {
 });
 
 router.httpDelete('/activities/{id}', function(request, response, params) {
-    activitiesData.remove(params.id);
-
-    response.writeHead(200, {"Content-Type": "application/json"});
-    response.end();
+    activitiesData.remove(params.id, function(error) {
+        response.writeHead(200, {"Content-Type": "application/json"});
+        response.end();
+    });
 });
 
 router.httpPost('/activities', function(request, response) {
