@@ -44,18 +44,33 @@ var activitiesData = function(databaseName) {
                     console.log(error);
                 }
                 else {
-                    console.log('created database');
+                    console.log('removed from database');
                 }
             });
         });
     }
 
-    function add(activity) {
-        activity.id = 666;
+    function add(activity, callback) {
+        var timestampId = new Date().getTime();
 
-        data.push(activity);
+        _readDatabase(function(error, data) {
+            console.log('cztam baze');
+            activity.id = timestampId;
+            console.log(activity);
+            data.push(activity);
 
-        return activity.id;
+            console.log('spuszowane jest');
+
+            _writeDatabase(JSON.stringify(data), function(error) {
+                if (error) {
+                    console.log(error);
+                }
+                else {
+                    console.log('added to database');
+                    callback(error, activity.id);
+                }
+            });
+        });
     }
 
     function update(activityToUpdate) {

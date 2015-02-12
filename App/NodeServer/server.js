@@ -39,16 +39,13 @@ router.httpDelete('/activities/{id}', function(request, response, params) {
 });
 
 router.httpPost('/activities', function(request, response) {
-    var activityId = 0;
-
     request.on('data', function(chunk) {
         var newActivity = JSON.parse(chunk.toString());
-        activityId = activitiesData.add(newActivity);
-    });
 
-    request.on('end', function(){
-        response.writeHead(200, {"Content-Type": "text/html"});
-        response.end(activityId.toString());
+        activitiesData.add(newActivity, function(error, newActivityId) {
+            response.writeHead(200, {"Content-Type": "text/html"});
+            response.end(newActivityId.toString());
+        });
     });
 });
 
