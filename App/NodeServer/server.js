@@ -42,6 +42,13 @@ router.httpPost('/activities', function(request, response) {
     request.on('data', function(chunk) {
         var newActivity = JSON.parse(chunk.toString());
 
+        if(newActivity.activityType === 'Series' && newActivity.watchedInCinema === true){
+            response.writeHead(400, {"Content-Type": "text/html"});
+            response.end('Series cannot be watched in the cinema!');
+
+            return;
+        }
+
         activitiesData.add(newActivity, function(error, newActivityId) {
             response.writeHead(200, {"Content-Type": "text/html"});
             response.end(newActivityId.toString());
@@ -55,6 +62,14 @@ router.httpPut('/activities/updateActivity/{id}', function(request, response, pa
             var updatePackage = JSON.parse(chunk.toString());
 
             activity[updatePackage.activityProperty] = updatePackage.activityValue;
+
+            if(activity.activityType === 'Series' && activity.watchedInCinema === true){
+                response.writeHead(400, {"Content-Type": "text/html"});
+                response.end('Series cannot be watched in the cinema!');
+
+                return;
+            }
+
             activitiesData.update(activity, function(error) {
                 response.writeHead(200, {"Content-Type": "text/html"});
                 response.end();

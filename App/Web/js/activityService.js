@@ -25,10 +25,13 @@ var ActivityService =  {
                 watchedInCinema: newActivity.watchedInCinema
             })
         .end(function(response) {
-            handleErrors(response);
-
-            var newActivityId = response.text;
-            callbackFunction(newActivityId);
+            if (response.ok) {
+                var newActivityId = response.text;
+                callbackFunction(newActivityId);
+            }
+            else {
+                handleErrors(response);
+            }
         });
     },
 
