@@ -5,14 +5,30 @@ var fs = require('fs');
 var activitiesData = function(databaseName) {
     var unicorn = {};
 
-    _init();
-
+    unicorn.init = init;
     unicorn.getAll = getAll;
     unicorn.byId = byId;
     unicorn.remove = remove;
     unicorn.add = add;
     unicorn.update = update;
     unicorn.seed = seed;
+    unicorn.checkIfEmpty = checkIfEmpty;
+
+    function init(callback) {
+        fs.exists(databaseName, function(exists) {
+            if (!exists) {
+                fs.writeFile(databaseName, JSON.stringify([]), function(error) {
+                    if (error) {
+                        console.log(error);
+                    }
+                    else {
+                        console.log('created database');
+                        callback();
+                    }
+                });
+            }
+        });
+    }
 
     function getAll(callback) {
         _readDatabase(function(error, data) {
@@ -123,6 +139,17 @@ var activitiesData = function(databaseName) {
         });
     }
 
+    function checkIfEmpty(callback) {
+        _readDatabase(function(error, data) {
+            if(data.length === 0) {
+                callback(true);
+            }
+            else {
+                callback(false);
+            }
+        });
+    }
+
     function _readDatabase(callback) {
         fs.readFile(databaseName, function(error, data) {
             var parsedData = JSON.parse(data.toString());
@@ -133,21 +160,6 @@ var activitiesData = function(databaseName) {
     function _writeDatabase(data, callback) {
         fs.writeFile(databaseName, JSON.stringify(data), function(error) {
             callback(error);
-        });
-    }
-
-    function _init() {
-        fs.exists(databaseName, function(exists) {
-            if (!exists) {
-                fs.writeFile(databaseName, JSON.stringify([]), function(error) {
-                    if (error) {
-                        console.log(error);
-                    }
-                    else {
-                        console.log('created database');
-                    }
-                });
-            }
         });
     }
 

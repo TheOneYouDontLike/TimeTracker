@@ -7,7 +7,13 @@ var router = new Router();
 var ActivitiesData = require('./activities-data');
 
 var activitiesData = new ActivitiesData('database.json');
-activitiesData.seed();
+activitiesData.init(function() {
+    activitiesData.checkIfEmpty(function(isEmpty) {
+        if(isEmpty) {
+            activitiesData.seed();
+        }
+    });
+});
 
 var Statistics = require('./statistics');
 
