@@ -7,7 +7,7 @@ var activitiesData = function(databaseName) {
 
     unicorn.init = init;
     unicorn.getAll = getAll;
-    unicorn.byId = byId;
+    unicorn.getById = getById;
     unicorn.remove = remove;
     unicorn.add = add;
     unicorn.update = update;
@@ -17,15 +17,19 @@ var activitiesData = function(databaseName) {
     function init(callback) {
         fs.exists(databaseName, function(exists) {
             if (!exists) {
-                fs.writeFile(databaseName, JSON.stringify([]), function(error) {
-                    if (error) {
-                        console.log(error);
-                    }
-                    else {
-                        console.log('created database');
-                        callback();
-                    }
-                });
+                _createDatabase(callback);
+            }
+        });
+    }
+
+    function _createDatabase(callback) {
+        fs.writeFile(databaseName, JSON.stringify([]), function(error) {
+            if (error) {
+                console.log(error);
+            }
+            else {
+                console.log('created database');
+                callback();
             }
         });
     }
@@ -36,7 +40,7 @@ var activitiesData = function(databaseName) {
         });
     }
 
-    function byId(id, callback) {
+    function getById(id, callback) {
         _readDatabase(function(error, data) {
             var element = data.filter(function(element) {
                 return element.id.toString() === id;
@@ -70,20 +74,26 @@ var activitiesData = function(databaseName) {
     function add(activity, callback) {
         var timestampId = new Date().getTime();
 
-        _readDatabase(function(error, data) {
-            activity.id = timestampId;
-            data.push(activity);
+        if(activity.activityType === 'Series' && activity.watchedInCinema === true){
+            var error = new Error('Series cannot be watched in the cinema!');
+            callback(error, 0);
+        }
+        else {
+            _readDatabase(function(error, data) {
+                activity.id = timestampId;
+                data.push(activity);
 
-            _writeDatabase(data, function(error) {
-                if (error) {
-                    console.log(error);
-                }
-                else {
-                    console.log('added to database');
-                    callback(error, activity.id);
-                }
+                _writeDatabase(data, function(error) {
+                    if (error) {
+                        console.log(error);
+                    }
+                    else {
+                        console.log('added to database');
+                        callback(error, activity.id);
+                    }
+                });
             });
-        });
+        }
     }
 
     function update(activityToUpdate, callback) {
