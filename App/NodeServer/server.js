@@ -17,9 +17,10 @@ activitiesData.init(function() {
 });
 
 router.httpGet('/', function(request, response) {
-    var indexPage = fs.readFileSync('../Web/index.html');
-    response.writeHead(200, {'Content-Type': 'text/html'});
-    response.end(indexPage);
+    fs.readFile('../Web/index.html', function(error, data) {
+        response.writeHead(200, {'Content-Type': 'text/html'});
+        response.end(data);
+    });
 });
 
 router.httpGet('/activities', function(request, response) {
@@ -91,21 +92,24 @@ router.httpGet('/activities/statistics', function(request, response) {
 });
 
 router.httpGet('/bundle.js', function(request, response) {
-    var bundleJs = fs.readFileSync('../Web/bundle.js');
-    response.writeHead(200, {'Content-Type': 'application/javascript'});
-    response.end(bundleJs);
+    fs.readFile('../Web/bundle.js', function(error, data) {
+        response.writeHead(200, {'Content-Type': 'application/javascript'});
+        response.end(data);
+    });
 });
 
 router.httpGet('/vendor/bootstrap.css', function(request, response){
-    var bootstrap = fs.readFileSync('../Web/node_modules/bootstrap/dist/css/bootstrap.css');
-    response.writeHead(200, {'Content-Type': 'text/css'});
-    response.end(bootstrap);
+    fs.readFile('../Web/node_modules/bootstrap/dist/css/bootstrap.css', function(error, data) {
+        response.writeHead(200, {'Content-Type': 'text/css'});
+        response.end(data);
+    });
 });
 
 router.httpGet('/vendor/bootstrap.css.map', function(request, response){
-    var bootstrapMap = fs.readFileSync('../Web/node_modules/bootstrap/dist/css/bootstrap.css.map');
-    response.writeHead(200, {'Content-Type': 'text/css'});
-    response.end(bootstrapMap);
+    fs.readFile('../Web/node_modules/bootstrap/dist/css/bootstrap.css.map', function(error, data) {
+        response.writeHead(200, {'Content-Type': 'text/css'});
+        response.end(data);
+    });
 });
 
 http.createServer(function(request, response) {
