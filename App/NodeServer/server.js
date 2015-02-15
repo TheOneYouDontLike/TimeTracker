@@ -67,16 +67,15 @@ router.httpPut('/activities/updateActivity/{id}', function(request, response, pa
 
             activity[updatePackage.activityProperty] = updatePackage.activityValue;
 
-            if(activity.activityType === 'Series' && activity.watchedInCinema === true){
-                response.writeHead(400, {"Content-Type": "text/html"});
-                response.end('Series cannot be watched in the cinema!');
-
-                return;
-            }
-
             activitiesData.update(activity, function(error) {
-                response.writeHead(200, {"Content-Type": "text/html"});
-                response.end();
+                if (error) {
+                    response.writeHead(400, {"Content-Type": "text/html"});
+                    response.end('Series cannot be watched in the cinema!');
+                }
+                else {
+                    response.writeHead(200, {"Content-Type": "text/html"});
+                    response.end();
+                }
             });
         });
     });

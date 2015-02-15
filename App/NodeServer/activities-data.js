@@ -72,13 +72,13 @@ var activitiesData = function(databaseName) {
     }
 
     function add(activity, callback) {
-        var timestampId = new Date().getTime();
-
-        if(activity.activityType === 'Series' && activity.watchedInCinema === true){
+        if (activity.activityType === 'Series' && activity.watchedInCinema === true) {
             var error = new Error('Series cannot be watched in the cinema!');
             callback(error, 0);
         }
         else {
+            var timestampId = new Date().getTime();
+
             _readDatabase(function(error, data) {
                 activity.id = timestampId;
                 data.push(activity);
@@ -97,27 +97,33 @@ var activitiesData = function(databaseName) {
     }
 
     function update(activityToUpdate, callback) {
-        _readDatabase(function(error, data) {
-            var activity = data.filter(function(element) {
-                return element.id === activityToUpdate.id;
-            })[0];
+        if (activityToUpdate.activityType === 'Series' && activityToUpdate.watchedInCinema === true) {
+            var error = new Error('Series cannot be watched in the cinema!');
+            callback(error);
+        }
+        else {
+            _readDatabase(function(error, data) {
+                var activity = data.filter(function(element) {
+                    return element.id === activityToUpdate.id;
+                })[0];
 
-            var indexOfActivity = data.indexOf(activity);
-            data.splice(indexOfActivity, 1);
+                var indexOfActivity = data.indexOf(activity);
+                data.splice(indexOfActivity, 1);
 
-            data.push(activityToUpdate);
+                data.push(activityToUpdate);
 
-            _writeDatabase(data, function(error) {
-                if (error) {
-                    console.log(error);
-                }
-                else {
-                    console.log('updated in database');
-                    callback(error);
-                }
+                _writeDatabase(data, function(error) {
+                    if (error) {
+                        console.log(error);
+                    }
+                    else {
+                        console.log('updated in database');
+                        callback(error);
+                    }
+                });
+
             });
-
-        });
+        }
     }
 
     function seed() {
