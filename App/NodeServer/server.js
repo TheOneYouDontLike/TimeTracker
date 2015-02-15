@@ -71,7 +71,7 @@ router.httpPut('/activities/updateActivity/{id}', function(request, response, pa
             activitiesData.update(activity, function(error) {
                 if (error) {
                     response.writeHead(400, {"Content-Type": "text/html"});
-                    response.end('Series cannot be watched in the cinema!');
+                    response.end(error.message);
                 }
                 else {
                     response.writeHead(200, {"Content-Type": "text/html"});
