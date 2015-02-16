@@ -11,6 +11,7 @@
     "mocha": "^2.0.1",
     "moment": "^2.9.0",
     "node-assertthat": "^0.2.3",
+    "rewire": "^2.2.0",
     "sinon": "^1.12.2"
   },
   "dependencies": {
