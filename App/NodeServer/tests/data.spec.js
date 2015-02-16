@@ -15,7 +15,8 @@ var fsMock = {
 
     },
     writeFile: function(databaseName, data, callback) {
-        callback(null);
+        var error = null;
+        callback(error);
     }
 };
 
@@ -34,7 +35,7 @@ describe('test', function() {
         assert.that(callbackSpy.calledOnce, is.false());
     });
 
-    it.skip('should init the database if does not exist', function() {
+    it('should init the database if does not exist', function() {
         // given
         var activitiesData = new ActivitiesData('nonExistingDatabaseName');
         var callbackSpy = sinon.spy();
