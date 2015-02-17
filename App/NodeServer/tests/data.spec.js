@@ -75,8 +75,20 @@ describe('test', function() {
 
         // when
         activitiesData.getAll(function(error, data) {
+            // then
             assert.that(data.length, is.equalTo(2));
         });
+    });
 
+    it('should return single activity', function() {
+        // given
+        var activitiesData = new ActivitiesData('existingDatabaseName');
+
+        // when
+        activitiesData.getById('1', function(error, data) {
+            // then
+            assert.that(data, is.not.null());
+            assert.that(data.name, is.equalTo('Jurassic Park'));
+        });
     });
 });

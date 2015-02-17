@@ -169,6 +169,8 @@ var activitiesData = function(databaseName) {
     function _readDatabase(callback) {
         fs.readFile(databaseName, function(error, data) {
             var parsedData = JSON.parse(data.toString());
+            console.log('robie wew callbacka z datom:');
+            console.log(parsedData);
             callback(error, parsedData);
         });
     }
