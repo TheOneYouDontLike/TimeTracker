@@ -41,13 +41,20 @@ var activitiesData = function(databaseName) {
     }
 
     function getById(id, callback) {
-        _readDatabase(function(error, data) {
-            var element = data.filter(function(element) {
-                return element.id.toString() === id;
-            })[0];
+        if (typeof id !== 'string') {
+            var data = null;
+            var error = new Error('id parameter should be a string');
+            callback(error, data);
+        }
+        else {
+            _readDatabase(function(error, data) {
+                var element = data.filter(function(element) {
+                    return element.id.toString() === id;
+                })[0];
 
-            callback(error, element);
-        });
+                callback(error, element);
+            });
+        }
     }
 
     function remove(id, callback) {
@@ -169,8 +176,6 @@ var activitiesData = function(databaseName) {
     function _readDatabase(callback) {
         fs.readFile(databaseName, function(error, data) {
             var parsedData = JSON.parse(data.toString());
-            console.log('robie wew callbacka z datom:');
-            console.log(parsedData);
             callback(error, parsedData);
         });
     }

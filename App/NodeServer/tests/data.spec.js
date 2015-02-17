@@ -91,4 +91,16 @@ describe('test', function() {
             assert.that(data.name, is.equalTo('Jurassic Park'));
         });
     });
+
+    it('should throw meat at me if "id" paremeter of getById method is not an string', function() {
+        // given
+        var activitiesData = new ActivitiesData('existingDatabaseName');
+
+        // when
+        activitiesData.getById(0, function(error, data) {
+            // then
+            assert.that(error.message, is.equalTo('id parameter should be a string'));
+            assert.that(data, is.null());
+        });
+    });
 });
