@@ -148,4 +148,23 @@ describe('test', function() {
         // then
         assert.that(JSON.parse(callbackStub.getCall(0).args[1]).length, is.equalTo(3));
     });
+
+    it('should not add new activiy if it is a series watched in the cinema', function() {
+        // given
+        var activitiesData = new ActivitiesData('existingDatabaseName');
+        var callbackSpy = sinon.spy();
+
+        var newExpectedActivity = {
+            name: 'The Simpsons',
+            date: '2014-02-15',
+            duration: 120,
+            activityType: 'Series',
+            watchedInCinema: true
+        };
+
+        // when
+        activitiesData.add(newExpectedActivity, function(error, id) {
+            assert.that(error.message, is.equalTo('Series cannot be watched in the cinema!'));
+        });
+    });
 });
