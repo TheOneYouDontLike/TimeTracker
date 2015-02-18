@@ -103,4 +103,26 @@ describe('test', function() {
             assert.that(data, is.null());
         });
     });
+
+    it('should remove activity if it does exist', function() {
+        // given
+        var activitiesData = new ActivitiesData('existingDatabaseName');
+        var callbackStub = sinon.stub();
+
+        fsMock.writeFile = callbackStub;
+        var expectedData = [{
+                id: 2,
+                name: 'Jurassic Park II',
+                date: '2014-01-02',
+                duration: 130,
+                activityType: 'Movie',
+                watchedInCinema: true
+            }];
+
+        // when
+        activitiesData.remove("1", function() {});
+
+        // then
+        assert.that(callbackStub.getCall(0).args[1], is.equalTo(JSON.stringify(expectedData)));
+    });
 });

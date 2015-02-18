@@ -182,6 +182,7 @@ var activitiesData = function(databaseName) {
 
     function _writeDatabase(data, callback) {
         fs.writeFile(databaseName, JSON.stringify(data), function(error) {
+            console.log(data);
             callback(error);
         });
     }
