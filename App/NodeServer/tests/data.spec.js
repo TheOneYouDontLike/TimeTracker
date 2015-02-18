@@ -179,8 +179,12 @@ describe('test', function() {
         };
 
         // when
-        activitiesData.add(newExpectedActivity, function(error, id) {
-            assert.that(error.message, is.equalTo('Series cannot be watched in the cinema!'));
-        });
+        activitiesData.add(newExpectedActivity, callbackSpy);
+
+        // then
+        var error = callbackSpy.getCall(0).args[0];
+        var id = callbackSpy.getCall(0).args[1];
+        assert.that(error.message, is.equalTo('Series cannot be watched in the cinema!'));
+        assert.that(id, is.equalTo(0));
     });
 });
