@@ -5,6 +5,24 @@ var assert = require('node-assertthat');
 var rewire = require('rewire');
 var ActivitiesData = rewire('../activities-data.js');
 
+var fakeActivities = [
+    {
+        id: 1,
+        name: 'Jurassic Park',
+        date: '2014-01-01',
+        duration: 120,
+        activityType: 'Movie',
+        watchedInCinema: false
+    },
+    {
+        id: 2,
+        name: 'Jurassic Park II',
+        date: '2014-01-02',
+        duration: 130,
+        activityType: 'Movie',
+        watchedInCinema: true
+    }];
+
 var fsMock = {
     exists: function(databaseName, callback) {
         if (databaseName === 'existingDatabaseName') {
@@ -20,23 +38,6 @@ var fsMock = {
     },
     readFile: function(databaseName, callback) {
         var error = null;
-        var fakeActivities = [
-            {
-                id: 1,
-                name: 'Jurassic Park',
-                date: '2014-01-01',
-                duration: 120,
-                activityType: 'Movie',
-                watchedInCinema: false
-            },
-            {
-                id: 2,
-                name: 'Jurassic Park II',
-                date: '2014-01-02',
-                duration: 130,
-                activityType: 'Movie',
-                watchedInCinema: true
-            }];
 
         callback(error, JSON.stringify(fakeActivities));
     }
@@ -124,5 +125,27 @@ describe('test', function() {
 
         // then
         assert.that(callbackStub.getCall(0).args[1], is.equalTo(JSON.stringify(expectedData)));
+    });
+
+    it('should add new activity', function() {
+        // given
+        var activitiesData = new ActivitiesData('existingDatabaseName');
+        var callbackStub = sinon.stub();
+
+        fsMock.writeFile = callbackStub;
+
+        var newExpectedActivity = {
+            name: 'The Producers',
+            date: '2014-02-15',
+            duration: 120,
+            activityType: 'Movie',
+            watchedInCinema: false
+        };
+
+        // when
+        activitiesData.add(newExpectedActivity, function() {});
+
+        // then
+        assert.that(JSON.parse(callbackStub.getCall(0).args[1]).length, is.equalTo(3));
     });
 });
