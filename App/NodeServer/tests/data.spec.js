@@ -73,24 +73,28 @@ describe('test', function() {
     it('should return all data', function() {
         // given
         var activitiesData = new ActivitiesData('existingDatabaseName');
+        var callbackSpy = sinon.spy();
 
         // when
-        activitiesData.getAll(function(error, data) {
-            // then
-            assert.that(data.length, is.equalTo(2));
-        });
+        activitiesData.getAll(callbackSpy);
+
+        // then
+        var data = callbackSpy.getCall(0).args[1];
+        assert.that(data.length, is.equalTo(2));
     });
 
     it('should return single activity', function() {
         // given
         var activitiesData = new ActivitiesData('existingDatabaseName');
+        var callbackSpy = sinon.spy();
 
         // when
-        activitiesData.getById('1', function(error, data) {
-            // then
-            assert.that(data, is.not.null());
-            assert.that(data.name, is.equalTo('Jurassic Park'));
-        });
+        activitiesData.getById('1', callbackSpy);
+
+        // then
+        var data = callbackSpy.getCall(0).args[1];
+        assert.that(data, is.not.null());
+        assert.that(data.name, is.equalTo('Jurassic Park'));
     });
 
     it('should throw meat at me if "id" paremeter of getById method is not an string', function() {
