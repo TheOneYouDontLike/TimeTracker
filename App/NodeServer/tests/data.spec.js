@@ -96,13 +96,16 @@ describe('test', function() {
     it('should throw meat at me if "id" paremeter of getById method is not an string', function() {
         // given
         var activitiesData = new ActivitiesData('existingDatabaseName');
+        var callbackSpy = sinon.spy();
 
         // when
-        activitiesData.getById(0, function(error, data) {
-            // then
-            assert.that(error.message, is.equalTo('id parameter should be a string'));
-            assert.that(data, is.null());
-        });
+        activitiesData.getById(0, callbackSpy);
+
+        // then
+        var error = callbackSpy.getCall(0).args[0];
+        var data = callbackSpy.getCall(0).args[1];
+        assert.that(error.message, is.equalTo('id parameter should be a string'));
+        assert.that(data, is.null());
     });
 
     it('should remove activity if it does exist', function() {
@@ -125,6 +128,19 @@ describe('test', function() {
 
         // then
         assert.that(callbackStub.getCall(0).args[1], is.equalTo(JSON.stringify(expectedData)));
+    });
+
+    it('should call back with error if "id" parameter of remove method is not a string', function() {
+        // given
+        var activitiesData = new ActivitiesData('existingDatabaseName');
+        var callbackSpy = sinon.spy();
+
+        // when
+        activitiesData.remove(0, callbackSpy);
+
+        // then
+        var error = callbackSpy.getCall(0).args[0];
+        assert.that(error.message, is.equalTo('id parameter should be a string'));
     });
 
     it('should add new activity', function() {

@@ -58,24 +58,31 @@ var activitiesData = function(databaseName) {
     }
 
     function remove(id, callback) {
-        _readDatabase(function(error, data) {
-            var activity = data.filter(function(element) {
-                return element.id.toString() === id;
-            })[0];
+        if (typeof id !== 'string') {
+            var data = null;
+            var error = new Error('id parameter should be a string');
+            callback(error, data);
+        }
+        else {
+            _readDatabase(function(error, data) {
+                var activity = data.filter(function(element) {
+                    return element.id.toString() === id;
+                })[0];
 
-            var indexOfActivity = data.indexOf(activity);
-            data.splice(indexOfActivity, 1);
+                var indexOfActivity = data.indexOf(activity);
+                data.splice(indexOfActivity, 1);
 
-            _writeDatabase(data, function(error) {
-                if (error) {
-                    console.log(error);
-                }
-                else {
-                    console.log('removed from database');
-                    callback(error);
-                }
+                _writeDatabase(data, function(error) {
+                    if (error) {
+                        console.log(error);
+                    }
+                    else {
+                        console.log('removed from database');
+                        callback(error);
+                    }
+                });
             });
-        });
+        }
     }
 
     function add(activity, callback) {
