@@ -45,7 +45,7 @@ var fsMock = {
 
 ActivitiesData.__set__('fs', fsMock);
 
-describe('persistance tests', function() {
+describe('activities persistance', function() {
     it('should not init the database if does exist', function() {
         // given
         var activitiesData = new ActivitiesData('existingDatabaseName');
@@ -209,5 +209,22 @@ describe('persistance tests', function() {
         // then
         var data = callbackStub.getCall(0).args[1];
         assert.that(data.indexOf('How I met your mother'), is.not.equalTo(-1));
+    });
+
+    it('should not update new activiy if you try to change it to series watched in the cinema', function() {
+        // given
+        var activitiesData = new ActivitiesData('existingDatabaseName');
+        var callbackSpy = sinon.spy();
+
+        var activityToUpdate = fakeActivities[0];
+        activityToUpdate.activityType = 'Series';
+        activityToUpdate.watchedInCinema = true;
+
+        // when
+        activitiesData.update(activityToUpdate, callbackSpy);
+
+        // then
+        var error = callbackSpy.getCall(0).args[0];
+        assert.that(error.message, is.equalTo('Series cannot be watched in the cinema!'));
     });
 });
