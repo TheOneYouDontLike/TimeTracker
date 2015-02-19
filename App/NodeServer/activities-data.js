@@ -86,9 +86,11 @@ var activitiesData = function(databaseName) {
     }
 
     function add(activity, callback) {
-        if (activity.activityType === 'Series' && activity.watchedInCinema === true) {
-            var error = new Error('Series cannot be watched in the cinema!');
-            callback(error, 0);
+        if (_dateIsInvalid(activity.date)) {
+            callback(new Error('Invalid Date'), 0);
+        }
+        else if (activity.activityType === 'Series' && activity.watchedInCinema === true) {
+            callback(new Error('Series cannot be watched in the cinema!'), 0);
         }
         else {
             var timestampId = new Date().getTime();
@@ -108,6 +110,16 @@ var activitiesData = function(databaseName) {
                 });
             });
         }
+    }
+
+    function _dateIsInvalid(date) {
+        var parsedDate = Date.parse(date);
+
+        if (isNaN(parsedDate) === true) {
+            return true;
+        }
+
+        return false;
     }
 
     function update(activityToUpdate, callback) {

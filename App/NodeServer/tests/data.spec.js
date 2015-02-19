@@ -192,6 +192,30 @@ describe('activities persistance', function() {
         assert.that(id, is.equalTo(0));
     });
 
+    it('should not add new activity if date is in incorrect format', function() {
+        // given
+        var activitiesData = new ActivitiesData('existingDatabaseName');
+        var callbackSpy = sinon.spy();
+
+        var newExpectedActivity = {
+            name: 'The Simpsons',
+            date: '2014-mm-dd',
+            duration: 120,
+            activityType: 'Movie',
+            watchedInCinema: true
+        };
+
+        // when
+        activitiesData.add(newExpectedActivity, callbackSpy);
+
+        // then
+        console.log(callbackSpy.getCall(0));
+        var error = callbackSpy.getCall(0).args[0];
+        var id = callbackSpy.getCall(0).args[1];
+        assert.that(error.message, is.equalTo('Invalid Date'));
+        assert.that(id, is.equalTo(0));
+    });
+
     it('should update the activity', function() {
         // given
         var activitiesData = new ActivitiesData('existingDatabaseName');
