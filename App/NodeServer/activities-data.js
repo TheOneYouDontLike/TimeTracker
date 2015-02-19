@@ -1,6 +1,7 @@
 'use strict';
 
 var fs = require('fs');
+var moment = require('moment');
 
 var activitiesData = function(databaseName) {
     var unicorn = {};
@@ -112,20 +113,12 @@ var activitiesData = function(databaseName) {
         }
     }
 
-    function _dateIsInvalid(date) {
-        var parsedDate = Date.parse(date);
-
-        if (isNaN(parsedDate) === true) {
-            return true;
-        }
-
-        return false;
-    }
-
     function update(activityToUpdate, callback) {
-        if (activityToUpdate.activityType === 'Series' && activityToUpdate.watchedInCinema === true) {
-            var error = new Error('Series cannot be watched in the cinema!');
-            callback(error);
+        if (_dateIsInvalid(activityToUpdate.date)) {
+            callback(new Error('Invalid Date'));
+        }
+        else if (activityToUpdate.activityType === 'Series' && activityToUpdate.watchedInCinema === true) {
+            callback(new Error('Series cannot be watched in the cinema!'));
         }
         else {
             _readDatabase(function(error, data) {
@@ -150,6 +143,19 @@ var activitiesData = function(databaseName) {
 
             });
         }
+    }
+
+    function _dateIsInvalid(date) {
+        var parsedDate = moment(date);
+
+        console.log(date);
+        console.log(parsedDate.isValid());
+
+        if (!parsedDate.isValid()) {
+            return true;
+        }
+
+        return false;
     }
 
     function seed() {

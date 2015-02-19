@@ -5,23 +5,7 @@ var assert = require('node-assertthat');
 var rewire = require('rewire');
 var ActivitiesData = rewire('../activities-data.js');
 
-var fakeActivities = [
-    {
-        id: 1,
-        name: 'Jurassic Park',
-        date: '2014-01-01',
-        duration: 120,
-        activityType: 'Movie',
-        watchedInCinema: false
-    },
-    {
-        id: 2,
-        name: 'Jurassic Park II',
-        date: '2014-01-02',
-        duration: 130,
-        activityType: 'Movie',
-        watchedInCinema: true
-    }];
+var fakeActivities = [];
 
 var fsMock = {
     exists: function(databaseName, callback) {
@@ -46,6 +30,25 @@ var fsMock = {
 ActivitiesData.__set__('fs', fsMock);
 
 describe('activities persistance', function() {
+    beforeEach(function() {
+        fakeActivities = [{
+            id: 1,
+            name: 'Jurassic Park',
+            date: '2014-01-01',
+            duration: 120,
+            activityType: 'Movie',
+            watchedInCinema: false
+        },
+        {
+            id: 2,
+            name: 'Jurassic Park II',
+            date: '2014-01-02',
+            duration: 130,
+            activityType: 'Movie',
+            watchedInCinema: true
+        }];
+    });
+
     it('should not init the database if does exist', function() {
         // given
         var activitiesData = new ActivitiesData('existingDatabaseName');
@@ -192,7 +195,7 @@ describe('activities persistance', function() {
         assert.that(id, is.equalTo(0));
     });
 
-    it('should not add new activity if date is in incorrect format', function() {
+    it('should not add new activity if date is in invalid', function() {
         // given
         var activitiesData = new ActivitiesData('existingDatabaseName');
         var callbackSpy = sinon.spy();
@@ -209,7 +212,6 @@ describe('activities persistance', function() {
         activitiesData.add(newExpectedActivity, callbackSpy);
 
         // then
-        console.log(callbackSpy.getCall(0));
         var error = callbackSpy.getCall(0).args[0];
         var id = callbackSpy.getCall(0).args[1];
         assert.that(error.message, is.equalTo('Invalid Date'));
@@ -250,5 +252,35 @@ describe('activities persistance', function() {
         // then
         var error = callbackSpy.getCall(0).args[0];
         assert.that(error.message, is.equalTo('Series cannot be watched in the cinema!'));
+    });
+
+    it('should not update activity if date is invalid', function() {
+        var activitiesData = new ActivitiesData('existingDatabaseName');
+        var callbackSpy = sinon.spy();
+
+        var activityToUpdate = fakeActivities[0];
+        activityToUpdate.date = 'omg unicorns everywhere!!';
+
+        // when
+        activitiesData.update(activityToUpdate, callbackSpy);
+
+        // then
+        var error = callbackSpy.getCall(0).args[0];
+        assert.that(error.message, is.equalTo('Invalid Date'));
+    });
+
+    it('should pass but it does not', function() {
+        var activitiesData = new ActivitiesData('existingDatabaseName');
+        var callbackSpy = sinon.spy();
+
+        var activityToUpdate = fakeActivities[0];
+        activityToUpdate.date = 'omg unicorns everywhere!!1'; //<-- this "1" at the end
+
+        // when
+        activitiesData.update(activityToUpdate, callbackSpy);
+
+        // then
+        var error = callbackSpy.getCall(0).args[0];
+        assert.that(error.message, is.equalTo('Invalid Date'));
     });
 });
