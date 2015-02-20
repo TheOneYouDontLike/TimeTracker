@@ -3,6 +3,11 @@
 var fs = require('fs');
 var moment = require('moment');
 
+var NULL_DATA = null;
+var ID_TYPE_ERROR = new Error('id parameter should be a string');
+var INVALID_DATE_ERROR = new Error('Invalid Date');
+var SERIES_WATCHED_IN_CINEMA_ERROR = new Error('Series cannot be watched in the cinema!');
+
 var activitiesData = function(databaseName) {
     var unicorn = {};
 
@@ -43,9 +48,7 @@ var activitiesData = function(databaseName) {
 
     function getById(id, callback) {
         if (typeof id !== 'string') {
-            var data = null;
-            var error = new Error('id parameter should be a string');
-            callback(error, data);
+            callback(ID_TYPE_ERROR, NULL_DATA);
         }
         else {
             _readDatabase(function(error, data) {
@@ -60,9 +63,7 @@ var activitiesData = function(databaseName) {
 
     function remove(id, callback) {
         if (typeof id !== 'string') {
-            var data = null;
-            var error = new Error('id parameter should be a string');
-            callback(error, data);
+            callback(ID_TYPE_ERROR, NULL_DATA);
         }
         else {
             _readDatabase(function(error, data) {
@@ -88,10 +89,10 @@ var activitiesData = function(databaseName) {
 
     function add(activity, callback) {
         if (_dateIsInvalid(activity.date)) {
-            callback(new Error('Invalid Date'), 0);
+            callback(INVALID_DATE_ERROR, 0);
         }
         else if (activity.activityType === 'Series' && activity.watchedInCinema === true) {
-            callback(new Error('Series cannot be watched in the cinema!'), 0);
+            callback(SERIES_WATCHED_IN_CINEMA_ERROR, 0);
         }
         else {
             var timestampId = new Date().getTime();
@@ -115,10 +116,10 @@ var activitiesData = function(databaseName) {
 
     function update(activityToUpdate, callback) {
         if (_dateIsInvalid(activityToUpdate.date)) {
-            callback(new Error('Invalid Date'));
+            callback(INVALID_DATE_ERROR);
         }
         else if (activityToUpdate.activityType === 'Series' && activityToUpdate.watchedInCinema === true) {
-            callback(new Error('Series cannot be watched in the cinema!'));
+            callback(SERIES_WATCHED_IN_CINEMA_ERROR);
         }
         else {
             _readDatabase(function(error, data) {
@@ -147,9 +148,6 @@ var activitiesData = function(databaseName) {
 
     function _dateIsInvalid(date) {
         var parsedDate = moment(date);
-
-        console.log(date);
-        console.log(parsedDate.isValid());
 
         if (!parsedDate.isValid()) {
             return true;
