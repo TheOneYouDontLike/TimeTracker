@@ -91,7 +91,7 @@ var activitiesData = function(databaseName) {
         if (_dateIsInvalid(activity.date)) {
             callback(INVALID_DATE_ERROR, 0);
         }
-        else if (activity.activityType === 'Series' && activity.watchedInCinema === true) {
+        else if (_isSeriesWatchedInCinema(activity)) {
             callback(SERIES_WATCHED_IN_CINEMA_ERROR, 0);
         }
         else {
@@ -118,7 +118,7 @@ var activitiesData = function(databaseName) {
         if (_dateIsInvalid(activityToUpdate.date)) {
             callback(INVALID_DATE_ERROR);
         }
-        else if (activityToUpdate.activityType === 'Series' && activityToUpdate.watchedInCinema === true) {
+        else if (_isSeriesWatchedInCinema(activityToUpdate)) {
             callback(SERIES_WATCHED_IN_CINEMA_ERROR);
         }
         else {
@@ -156,25 +156,11 @@ var activitiesData = function(databaseName) {
         return false;
     }
 
-    function seed() {
-        var data = [
-            {
-                id: 1,
-                name: 'Jurassic Park',
-                date: '2014-01-01',
-                duration: 120,
-                activityType: 'Movie',
-                watchedInCinema: false
-            },
-            {
-                id: 2,
-                name: 'Jurassic Park II',
-                date: '2014-01-02',
-                duration: 130,
-                activityType: 'Movie',
-                watchedInCinema: true
-            }];
+    function _isSeriesWatchedInCinema(activity) {
+        return activity.activityType === 'Series' && activity.watchedInCinema === true;
+    }
 
+    function seed(data) {
         _writeDatabase(data, function(error) {
             if (error) {
                 console.log(error);

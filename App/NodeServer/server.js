@@ -11,7 +11,24 @@ var activitiesData = new ActivitiesData('database.json');
 activitiesData.init(function() {
     activitiesData.checkIfEmpty(function(isEmpty) {
         if(isEmpty) {
-            activitiesData.seed();
+            var data = [
+            {
+                id: 1,
+                name: 'Jurassic Park',
+                date: '2014-01-01',
+                duration: 120,
+                activityType: 'Movie',
+                watchedInCinema: false
+            },
+            {
+                id: 2,
+                name: 'Jurassic Park II',
+                date: '2014-01-02',
+                duration: 130,
+                activityType: 'Movie',
+                watchedInCinema: true
+            }];
+            activitiesData.seed(data);
         }
     });
 });
@@ -112,8 +129,10 @@ router.httpGet('/vendor/bootstrap.css.map', function(request, response){
     });
 });
 
+var portNumber = 8888;
+
 http.createServer(function(request, response) {
     router.route(request, response);
-}).listen(8888);
+}).listen(portNumber);
 
-console.log('Starting localhost:8888');
+console.log('Starting localhost:' + portNumber.toString());
