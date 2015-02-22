@@ -16,7 +16,7 @@ var TestUtils = require('react/addons').addons.TestUtils;
 var ActivitiesForm = require('../js/activityForm.jsx');
 
 describe('activities-form', function () {
-    var renderedForm;    
+    var renderedForm;
 
     beforeEach(function () {
         renderedForm = TestUtils.renderIntoDocument(<ActivitiesForm />);
@@ -29,17 +29,17 @@ describe('activities-form', function () {
         var dateInput = renderedInputs[1].getDOMNode();
         var durationInput = renderedInputs[2].getDOMNode();
         var activityTypeSelect = renderedInputs[3].getDOMNode();
-        
+
         // when
         SimulateInputChange(nameInput, 'hello world');
         SimulateInputChange(dateInput, '2014-02-02');
         SimulateInputChange(durationInput, '5');
         SimulateInputChange(activityTypeSelect, 'Movie');
 
-        assert.that(renderedForm.state.Name, is.equalTo('hello world'));
-        assert.that(renderedForm.state.Date, is.equalTo('2014-02-02'));
-        assert.that(renderedForm.state.Duration, is.equalTo('5'));
-        assert.that(renderedForm.state.ActivityType, is.equalTo('Movie'));
+        assert.that(renderedForm.state.name, is.equalTo('hello world'));
+        assert.that(renderedForm.state.date, is.equalTo('2014-02-02'));
+        assert.that(renderedForm.state.duration, is.equalTo('5'));
+        assert.that(renderedForm.state.activityType, is.equalTo('Movie'));
     });
 
     it('should change checkbox value onChange event', function () {
@@ -50,27 +50,27 @@ describe('activities-form', function () {
         TestUtils.Simulate.change(watchedInCinemaCheckbox);
 
         // then
-        assert.that(renderedForm.state.WatchedInCinema, is.equalTo(true));
+        assert.that(renderedForm.state.watchedInCinema, is.equalTo(true));
     });
 
     describe('when sending data to api', function () {
 
         var initialState = {
-                Name: '',
-                Date: '',
-                Duration: 0,
-                ActivityType: 'Movie',
-                WatchedInCinema: false
+                name: '',
+                date: '',
+                duration: 0,
+                activityType: 'Movie',
+                watchedInCinema: false
             };
 
         var mockedState = {
-                Name: 'someName',
-                Date: '2014-02-02',
-                Duration: 123,
-                ActivityType: 'Movie',
-                WatchedInCinema: true
+                name: 'someName',
+                date: '2014-02-02',
+                duration: 123,
+                activityType: 'Movie',
+                watchedInCinema: true
             };
-        
+
         var submitButton;
 
         beforeEach(function () {
@@ -100,7 +100,7 @@ describe('activities-form', function () {
 
             var updateEventHandlerStub = sinon.stub();
             renderedForm.props.updateEventHandler = updateEventHandlerStub;
-            
+
             // when
             TestUtils.Simulate.click(submitButton);
             requests[0].respond(200,  { "Content-Type": "application/json" }, '');
@@ -113,8 +113,8 @@ describe('activities-form', function () {
 });
 
 function SimulateInputChange (inputNode, value) {
-    TestUtils.Simulate.change(inputNode, 
-        { 
+    TestUtils.Simulate.change(inputNode,
+        {
             target: {
                 value: value,
                 name: inputNode.name

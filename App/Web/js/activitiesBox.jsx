@@ -95,7 +95,7 @@ var ActivitiesBox = React.createClass({
                 </ul>
                 <div className="tab-content">
                     <div id="table" className={ "tab-pane " + this.state.tabs.table }><ActivitiesTable data={ this.state.activitiesTableData } deleteActivity={ this.deleteEventHandler }/></div>
-                    <div id="form" className={ "tab-pane " + this.state.tabs.form }><ActivityForm updateEventHandler={ this.updateEventHandler } /></div>
+                    <div id="form" className={ "tab-pane " + this.state.tabs.form }><ActivityForm updateEventHandler={ this.updateEventHandler }  /></div>
                     <div id="stats" className={ "tab-pane " + this.state.tabs.stats }><ActivityStatistics data={ this.state.statisticsData } /></div>
                 </div>
             </div>

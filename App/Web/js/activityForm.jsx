@@ -33,6 +33,7 @@ var ActivityForm = React.createClass(
         updateParentComponentAndResetCurrentState: function (newActivityId) {
             this.setState(this.getInitialState());
             this.props.updateEventHandler(newActivityId);
+            //this.props.activateTab('table');
         },
 
         render: function () {

@@ -17,12 +17,12 @@ var ActivitiesTable = require('../js/activitiesTable.jsx');
 
 describe('activities-table', function () {
 	var activityData = [{
-		Id: 1,
-		Name: 'Jurassic Park',
-		Date: '2014-01-01',
-		Duration: 120,
-		ActivityType: 'Movie',
-		WatchedInCinema: false
+		id: 1,
+		name: 'Jurassic Park',
+		date: '2014-01-01',
+		duration: 120,
+		activityType: 'Movie',
+		watchedInCinema: false
 	}];
 
 	var renderedActivity;
@@ -37,18 +37,18 @@ describe('activities-table', function () {
 		// given
 
 		// when
-		
+
 		// then
 		var renderedId = renderedActivity.getDOMNode().querySelectorAll('tbody > tr > td')[0].innerHTML;
 		var renderedSelect = renderedActivity.getDOMNode().querySelectorAll('tbody > tr > td > select')[0];
 		var renderedTextInputs = renderedActivity.getDOMNode().querySelectorAll('tbody > tr > td > input');
-		
-		assert.that(renderedId, is.equalTo(activityData[0].Id.toString()));
-		assert.that(renderedSelect.value, is.equalTo(activityData[0].ActivityType));
 
-		assert.that(renderedTextInputs[0].value, is.equalTo(activityData[0].Name));
-		assert.that(renderedTextInputs[1].value, is.equalTo(activityData[0].Date));
-		assert.that(renderedTextInputs[2].value, is.equalTo(activityData[0].Duration.toString()));
+		assert.that(renderedId, is.equalTo(activityData[0].id.toString()));
+		assert.that(renderedSelect.value, is.equalTo(activityData[0].activityType));
+
+		assert.that(renderedTextInputs[0].value, is.equalTo(activityData[0].name));
+		assert.that(renderedTextInputs[1].value, is.equalTo(activityData[0].date));
+		assert.that(renderedTextInputs[2].value, is.equalTo(activityData[0].duration.toString()));
 		assert.that(renderedTextInputs[3].checked, is.equalTo(false));
 
 		// for checking props
@@ -62,8 +62,8 @@ describe('activities-table', function () {
 			// given
 			var requests = [];
             global.XMLHttpRequest.onCreate = function (req) { requests.push(req); };
-			
-			var nameInput = renderedActivity.getDOMNode().querySelectorAll('tbody > tr > td > input[name=Name]')[0];
+
+			var nameInput = renderedActivity.getDOMNode().querySelectorAll('tbody > tr > td > input[name=name]')[0];
 
 			// when
 			TestUtils.Simulate.blur(nameInput, changeNameValueOfActivity('Terminator'));
@@ -71,15 +71,15 @@ describe('activities-table', function () {
 			// then
 			assert.that(requests.length, is.equalTo(1));
 			var parsedRequestBody = JSON.parse(requests[0].requestBody);
-			assert.that(parsedRequestBody, is.equalTo({ activityId:1, activityProperty: 'Name', activityValue: 'Terminator'}));
+			assert.that(parsedRequestBody, is.equalTo({ activityId:1, activityProperty: 'name', activityValue: 'Terminator'}));
 		});
 
 		it('should be deleted when clicking on delete button', function() {
 			// given
 			var requests = [];
             global.XMLHttpRequest.onCreate = function (req) { requests.push(req); };
-			
-			var nameInput = renderedActivity.getDOMNode().querySelectorAll('tbody > tr > td > button[class=delete-button]')[0];
+
+			var nameInput = renderedActivity.getDOMNode().querySelectorAll('tbody > tr > td > button')[0];
 
 			// when
 			TestUtils.Simulate.click(nameInput);
