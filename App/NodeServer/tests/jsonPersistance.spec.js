@@ -11,27 +11,35 @@ var readFileStub;
 
 describe('jsonPersistance', function() {
     beforeEach(function() {
-        existsStub = sinon.stub();
-        existsStub.withArgs('existingFileName').callsArgWith(1, true);
-        existsStub.withArgs('nonExistingFileName').callsArgWith(1, false);
 
-        writeFileStub = sinon.stub();
-        writeFileStub.withArgs('nonExistingFileName', "[]").callsArg(2);
+        // existsStub.withArgs('nonExistingFileName').callsArgWith(1, false);
 
-        readFileStub = sinon.stub();
-        readFileStub.callsArgWith(1, null, JSON.stringify([{name: 'Yolo'}]));
+        // writeFileStub = sinon.stub();
+        // writeFileStub.withArgs('nonExistingFileName', "[]").callsArg(2);
 
-        var fsMock = {
-            exists: existsStub,
-            writeFile: writeFileStub,
-            readFile: readFileStub
-        };
+        // readFileStub = sinon.stub();
+        // readFileStub.callsArgWith(1, null, JSON.stringify([{name: 'Yolo'}]));
 
-        JsonPersistance.__set__('fs', fsMock);
+        // var fsMock = {
+        //     exists: existsStub,
+        //     writeFile: writeFileStub,
+        //     readFile: readFileStub
+        // };
+
+        // JsonPersistance.__set__('fs', fsMock);
     });
 
     it('should not init the file if does exist', function() {
         // given
+        existsStub = sinon.stub();
+        existsStub.withArgs('existingFileName').callsArgWith(1, true);
+
+        var fsMock = {
+            exists: existsStub,
+        };
+
+        JsonPersistance.__set__('fs', fsMock);
+
         var persistance = new JsonPersistance('existingFileName');
         var callbackSpy = sinon.spy();
 
@@ -46,6 +54,19 @@ describe('jsonPersistance', function() {
 
     it('should init the file if does not exist', function() {
         // given
+        var existsStub = sinon.stub();
+        existsStub.withArgs('nonExistingFileName').callsArgWith(1, false);
+
+        var writeFileStub = sinon.stub();
+        writeFileStub.withArgs('nonExistingFileName', "[]").callsArg(2);
+
+        var fsMock = {
+            exists: existsStub,
+            writeFile: writeFileStub
+        };
+
+        JsonPersistance.__set__('fs', fsMock);
+
         var persistance = new JsonPersistance('nonExistingFileName');
         var callbackSpy = sinon.spy();
 
@@ -60,6 +81,19 @@ describe('jsonPersistance', function() {
 
     it('should add some data', function() {
         // given
+        var readFileStub = sinon.stub();
+        readFileStub.withArgs('existingFileName').callsArgWith(1, null, JSON.stringify([]));
+
+        var writeFileStub = sinon.stub();
+        writeFileStub.withArgs('existingFileName', JSON.stringify([{name: 'yolo'}])).callsArg(2);
+
+        var fsMock = {
+            readFile: readFileStub,
+            writeFile: writeFileStub
+        };
+
+        JsonPersistance.__set__('fs', fsMock);
+
         var persistance = new JsonPersistance('existingFileName');
         var callbackSpy = sinon.spy();
 
@@ -68,7 +102,6 @@ describe('jsonPersistance', function() {
 
         // then
         assert.that(callbackSpy.calledOnce, is.true());
-        console.log(writeFileStub);
         assert.that(writeFileStub.calledOnce, is.true());
     });
 });
