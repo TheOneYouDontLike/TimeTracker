@@ -5,33 +5,10 @@ var assert = require('node-assertthat');
 var rewire = require('rewire');
 var JsonPersistance = rewire('../jsonPersistance.js');
 
-var existsStub;
-var writeFileStub;
-var readFileStub;
-
 describe('jsonPersistance', function() {
-    beforeEach(function() {
-
-        // existsStub.withArgs('nonExistingFileName').callsArgWith(1, false);
-
-        // writeFileStub = sinon.stub();
-        // writeFileStub.withArgs('nonExistingFileName', "[]").callsArg(2);
-
-        // readFileStub = sinon.stub();
-        // readFileStub.callsArgWith(1, null, JSON.stringify([{name: 'Yolo'}]));
-
-        // var fsMock = {
-        //     exists: existsStub,
-        //     writeFile: writeFileStub,
-        //     readFile: readFileStub
-        // };
-
-        // JsonPersistance.__set__('fs', fsMock);
-    });
-
     it('should not init the file if does exist', function() {
         // given
-        existsStub = sinon.stub();
+        var existsStub = sinon.stub();
         existsStub.withArgs('existingFileName').callsArgWith(1, true);
 
         var fsMock = {
