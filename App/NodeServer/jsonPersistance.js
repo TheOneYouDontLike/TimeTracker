@@ -7,6 +7,7 @@ var jsonPersistance = function(fileName) {
 
     unicorn.init = init;
     unicorn.add = add;
+    unicorn.getAll = getAll;
 
     function init(callback) {
         fs.exists(fileName, function(exists) {
@@ -25,6 +26,17 @@ var jsonPersistance = function(fileName) {
     function _initializeJsonFile(callback) {
         fs.writeFile(fileName, JSON.stringify([]), function(error) {
             callback(error);
+        });
+    }
+
+    function getAll(callback) {
+        fs.readFile(fileName, function(error, dataChunk) {
+            if (error) {
+                callback(error, null);
+            } else {
+                var parsedData = JSON.parse(dataChunk.toString());
+                callback(null, parsedData);
+            }
         });
     }
 

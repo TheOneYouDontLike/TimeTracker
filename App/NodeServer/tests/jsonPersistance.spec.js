@@ -81,4 +81,30 @@ describe('jsonPersistance', function() {
         assert.that(callbackSpy.calledOnce, is.true());
         assert.that(writeFileStub.calledOnce, is.true());
     });
+
+    it('should get all data', function() {
+        // given
+        var readFileStub = sinon.stub();
+        readFileStub.withArgs('existingFileName').callsArgWith(1, null, JSON.stringify([{name: 'yolo'}]));
+
+        var fsMock = {
+            readFile: readFileStub
+        };
+
+        JsonPersistance.__set__('fs', fsMock);
+
+        var persistance = new JsonPersistance('existingFileName');
+        var callbackSpy = sinon.spy();
+
+        // when
+        persistance.getAll(callbackSpy);
+
+        // then
+        var errorObject = callbackSpy.getCall(0).args[0];
+        var dataObject = callbackSpy.getCall(0).args[1];
+
+        assert.that(errorObject, is.null());
+        assert.that(dataObject, is.equalTo([{name: 'yolo'}]));
+        assert.that(callbackSpy.calledOnce, is.true());
+    });
 });
