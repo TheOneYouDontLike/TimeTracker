@@ -107,4 +107,31 @@ describe('jsonPersistance', function() {
         assert.that(dataObject, is.equalTo([{name: 'yolo'}]));
         assert.that(callbackSpy.calledOnce, is.true());
     });
+
+    it('should be possible to query by object property', function() {
+        // given
+        var data = [{name: 'yolo'}, {name: 'swag'}, {name: 'xD'}];
+
+        var readFileStub = sinon.stub();
+        readFileStub.withArgs('existingFileName').callsArgWith(1, null, JSON.stringify(data));
+
+        var fsMock = {
+            readFile: readFileStub
+        };
+
+        JsonPersistance.__set__('fs', fsMock);
+
+        var persistance = new JsonPersistance('existingFileName');
+        var callbackSpy = sinon.spy();
+
+        // when
+        persistance.query(function(element) {
+            return element.name === 'swag';
+        }, callbackSpy);
+
+        // then
+        var dataFromPersistance = callbackSpy.getCall(0).args[1];
+        assert.that(dataFromPersistance.length, is.equalTo(1));
+        assert.that(dataFromPersistance[0], is.equalTo(data[1]));
+    });
 });

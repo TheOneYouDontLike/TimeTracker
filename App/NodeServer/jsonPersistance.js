@@ -8,6 +8,7 @@ var jsonPersistance = function(fileName) {
     unicorn.init = init;
     unicorn.add = add;
     unicorn.getAll = getAll;
+    unicorn.query = query;
 
     function init(callback) {
         fs.exists(fileName, function(exists) {
@@ -51,6 +52,26 @@ var jsonPersistance = function(fileName) {
                 fs.writeFile(fileName, JSON.stringify(parsedData), function(error) {
                     callback(error);
                 });
+            }
+        });
+    }
+
+    function query(filterFunction, callback) {
+        fs.readFile(fileName, function(error, dataChunk) {
+            if (error) {
+                callback(error);
+            } else {
+                var parsedData = JSON.parse(dataChunk.toString());
+
+                var filteredData = [];
+
+                parsedData.forEach(function(element, index, array) {
+                    if (filterFunction(element)) {
+                        filteredData.push(element);
+                    }
+                });
+
+                callback(null, filteredData);
             }
         });
     }
