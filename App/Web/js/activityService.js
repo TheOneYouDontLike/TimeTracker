@@ -2,7 +2,7 @@
 
 var request = require('superagent');
 
-function handleErrors(response) {
+function _handleErrors(response) {
     if(response.badRequest) {
         alert(response.text);
         return;
@@ -30,7 +30,7 @@ var ActivityService =  {
                 callbackFunction(newActivityId);
             }
             else {
-                handleErrors(response);
+                _handleErrors(response);
             }
         });
     },
@@ -44,7 +44,7 @@ var ActivityService =  {
                     callbackFunction(response);
                 }
                 else{
-                    handleErrors(response);
+                    _handleErrors(response);
                 }
             });
     },
@@ -58,7 +58,7 @@ var ActivityService =  {
                     callbackFunction(response.body);
                 }
                 else{
-                    handleErrors(response);
+                    _handleErrors(response);
                 }
             });
     },
@@ -69,7 +69,7 @@ var ActivityService =  {
             .set('Content-Type', 'application/json')
             .send(updatedProperties)
             .end(function(response) {
-                handleErrors(response);
+                _handleErrors(response);
         });
     },
 
@@ -77,7 +77,7 @@ var ActivityService =  {
         request
             .del('/activities/' + activityId)
             .end(function(response) {
-                handleErrors(response);
+                _handleErrors(response);
                 callbackFunction(activityId);
         });
     },
@@ -91,7 +91,7 @@ var ActivityService =  {
                     callbackFunction(response);
                 }
                 else{
-                    handleErrors(response);
+                    _handleErrors(response);
                 }
             });
     }

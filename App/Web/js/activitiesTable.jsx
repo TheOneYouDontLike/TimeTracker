@@ -1,9 +1,8 @@
 'use strict';
 
-var React = require('react');
-
-var ActivityService = require('./activityService.js');
-var actvityProperties = require('./activityConstants.js');
+var React               = require('react'),
+    ActivityService     = require('./activityService.js'),
+    actvityProperties   = require('./activityConstants.js');
 
 var ActivitiesTable = React.createClass({
     changeEvent: function (activityId, propertyEnumValue, event) {

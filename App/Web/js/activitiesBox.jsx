@@ -1,10 +1,10 @@
 'use strict';
 
-var React = require('react');
-var ActivitiesTable = require('./activitiesTable.jsx');
-var ActivityForm = require('./activityForm.jsx');
-var ActivityStatistics = require('./activityStatistics.jsx');
-var ActivityService = require('./activityService.js');
+var React              = require('react'),
+    ActivitiesTable    = require('./activitiesTable.jsx'),
+    ActivityForm       = require('./activityForm.jsx'),
+    ActivityStatistics = require('./activityStatistics.jsx'),
+    ActivityService    = require('./activityService.js');
 
 var ActivitiesBox = React.createClass({
     getInitialState: function() {

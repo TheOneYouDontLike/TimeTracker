@@ -1,7 +1,7 @@
 'use strict';
 
-var React = require('react');
-var ActivityService = require('./ActivityService.js');
+var React           = require('react'),
+    ActivityService = require('./ActivityService.js');
 
 var ActivityForm = React.createClass(
     {
