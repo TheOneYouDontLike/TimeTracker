@@ -1,7 +1,7 @@
 'use strict';
 var _ = require('lodash');
 
-var router = function() {
+var router = function(options) {
     var unicorn = {};
     var _routingBoard = [];
 
@@ -14,28 +14,28 @@ var router = function() {
 
     function httpGet(route, callback) {
         _removeDuplicatesInRoutingBoard('GET', route);
-        
+
         var destination = _createDestination('GET', route, callback);
         _routingBoard.push(destination);
     }
 
     function httpPost(route, callback) {
         _removeDuplicatesInRoutingBoard('POST', route);
-        
+
         var destination = _createDestination('POST', route, callback);
         _routingBoard.push(destination);
     }
 
     function httpPut(route, callback) {
         _removeDuplicatesInRoutingBoard('PUT', route);
-        
+
         var destination = _createDestination('PUT', route, callback);
         _routingBoard.push(destination);
     }
 
     function httpDelete(route, callback) {
         _removeDuplicatesInRoutingBoard('DELETE', route);
-        
+
         var destination = _createDestination('DELETE', route, callback);
         _routingBoard.push(destination);
     }
@@ -63,16 +63,16 @@ var router = function() {
         var routeFromRoutingBoard = _findRoute(request);
 
         if (_.isNull(routeFromRoutingBoard)){
-            console.log('path does not exist: ' + request.url);
+            _log('path does not exist: ' + request.url);
             response.writeHead(404);
             response.end();
             return;
         }
 
-        console.log('routing with route: ' + request.method + ' ' + request.url);
-        
+        _log('routing with route: ' + request.method + ' ' + request.url);
+
         var params = routeFromRoutingBoard.params;
-        
+
         routeFromRoutingBoard.callback(request, response, params);
     }
 
@@ -94,7 +94,7 @@ var router = function() {
         }
 
         var regularRoute = _.find(_routingBoard, function(element) {
-            return element.method === requestMethod && 
+            return element.method === requestMethod &&
                 (element.path === requestUrl || element.path === trimmedUrl);
         });
 
@@ -111,7 +111,7 @@ var router = function() {
 
     function _findWildcardRoute(requestMethod, requestUrl) {
         var indexOfLastSlash = _.lastIndexOf(requestUrl, '/');
-        
+
         var wildcardRoutes = _getAllMatchingWildcardRoutes(requestMethod, requestUrl, indexOfLastSlash);
 
         return _getWildcardRoute(wildcardRoutes, requestUrl, indexOfLastSlash);
@@ -148,7 +148,7 @@ var router = function() {
 
             return wildcardRoute;
         }
-        
+
         var alreadyFound = false;
 
         _.forEach(wildcardRoutes, function(element) {
@@ -158,7 +158,7 @@ var router = function() {
 
             var wildcard = _getWildcard(element, indexOfLastSlash);
             var wildcardName = _getWildcardName(wildcard);
-            
+
             var wildcardType = _getWildcardType(wildcard);
             var matchedWildcardValue = _.slice(requestUrl, indexOfLastSlash + 1).join('');
 
@@ -168,7 +168,7 @@ var router = function() {
                 if (!isMatchedValueNaN) {
                     wildcardRoute = element;
                     _assignWildcardToParams(wildcardRoute, wildcardName, matchedWildcardValue);
-                    
+
                     alreadyFound = true;
                     return;
                 }
@@ -184,7 +184,7 @@ var router = function() {
                 }
             }
         });
-        
+
         return wildcardRoute;
     }
 
@@ -212,6 +212,17 @@ var router = function() {
 
     function _assignWildcardToParams(wildcardRoute, wildcardName, matchedWildcardValue) {
         wildcardRoute.params[wildcardName] = matchedWildcardValue;
+    }
+
+    function _log(message) {
+        if (options) {
+            if (options.showLog) {
+                console.log(message);
+            }
+        }
+        else {
+            console.log(message);
+        }
     }
 
     return unicorn;

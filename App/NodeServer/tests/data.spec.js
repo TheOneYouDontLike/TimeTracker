@@ -137,7 +137,6 @@ describe('activities persistance', function() {
 
         // then
         var data = callbackSpy.getCall(0).args[1];
-        assert.that(data, is.not.null());
         assert.that(data.name, is.equalTo('Jurassic Park'));
     });
 

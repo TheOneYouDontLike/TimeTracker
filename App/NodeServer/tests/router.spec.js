@@ -13,7 +13,7 @@ describe('router', function(){
     };
 
     beforeEach(function() {
-        router = new Router();
+        router = new Router({ showLog: false });
     });
 
     it('should route to defined GET path', function(){
@@ -86,7 +86,7 @@ describe('router', function(){
 
         // then
         assert.that(callbackSpy.calledOnce, is.true());
-    });    
+    });
 
     it('should not route if path route does not exist', function() {
        // given
@@ -172,7 +172,7 @@ describe('router', function(){
         // then
         assert.that(callbackSpyMrBean.callCount, is.equalTo(4));
         assert.that(callbackSpyMrBean.calledWith(requestGet, {}), is.true());
-        assert.that(callbackSpyMrBean.calledWith(requestPost, {}), is.true());  
+        assert.that(callbackSpyMrBean.calledWith(requestPost, {}), is.true());
         assert.that(callbackSpyMrBean.calledWith(requestPut, {}), is.true());
         assert.that(callbackSpyMrBean.calledWith(requestDelete, {}), is.true());
     });
@@ -258,7 +258,7 @@ describe('router', function(){
         var callbackSpy = sinon.spy();
 
         router.httpGet('/movies', callbackSpy);
-        
+
         var request = {
             url: '/movies',
             method: 'GET'
@@ -278,7 +278,7 @@ describe('router', function(){
 
         var callbackSpyMrBean = sinon.spy();
         router.httpGet('/movies/{name:string}', callbackSpyMrBean);
-        
+
         var request = {
             url: '/movies/lotr',
             method: 'GET'
@@ -299,7 +299,7 @@ describe('router', function(){
 
         var callbackSpyMrBean = sinon.spy();
         router.httpGet('/movies/{name:string}', callbackSpyMrBean);
-        
+
         var request = {
             url: '/movies/1',
             method: 'GET'
@@ -320,7 +320,7 @@ describe('router', function(){
 
         var callbackSpyMrBean = sinon.spy();
         router.httpGet('/movies/{name:string}', callbackSpyMrBean);
-        
+
         var request = {
             url: '/movies/trololo',
             method: 'GET'
@@ -331,7 +331,7 @@ describe('router', function(){
 
         // then
         assert.that(callbackSpyMrBond.calledOnce, is.true());
-        assert.that(callbackSpyMrBean.calledOnce, is.false()); 
+        assert.that(callbackSpyMrBean.calledOnce, is.false());
     });
 
     it('should set params from the first route it finds if route with wildcard was used and there are two routes to choose', function() {
@@ -341,7 +341,7 @@ describe('router', function(){
 
         var callbackSpyMrBean = sinon.spy();
         router.httpGet('/movies/{name:string}', callbackSpyMrBean);
-        
+
         var request = {
             url: '/movies/trololo',
             method: 'GET'
@@ -352,7 +352,7 @@ describe('router', function(){
 
         // then
         assert.that(callbackSpyMrBond.calledWith(request, fakeEmptyResponse, { id: 'trololo' }), is.true());
-        assert.that(callbackSpyMrBean.calledOnce, is.false()); 
+        assert.that(callbackSpyMrBean.calledOnce, is.false());
     });
 
     it('should route if request url ends with / and there is regular path for it after trimming this /', function() {
@@ -367,7 +367,7 @@ describe('router', function(){
 
         // when
         router.route(request, fakeEmptyResponse);
-        
+
         // then
         assert.that(callbackSpy.calledOnce, is.true());
     });
@@ -389,8 +389,8 @@ describe('router', function(){
 
         // when
         router.route(request, response);
-        
+
         // then
-        assert.that(writeHeadSpy.calledWith(404), is.true()); 
+        assert.that(writeHeadSpy.calledWith(404), is.true());
     });
 });

@@ -1,11 +1,12 @@
 'use strict';
 
-var http = require('http');
-var fs = require('fs');
-var Router = require('./router');
-var router = new Router();
-var ActivitiesData = require('./activities-data');
-var Statistics = require('./statistics');
+var http = require('http'),
+    fs = require('fs'),
+    Router = require('./router'),
+    ActivitiesData = require('./activities-data'),
+    Statistics = require('./statistics');
+
+var router = new Router({ showLog: true });
 
 var activitiesData = new ActivitiesData('database.json');
 activitiesData.init(function() {
