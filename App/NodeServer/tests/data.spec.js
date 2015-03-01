@@ -1,9 +1,9 @@
 'use strict';
 
-var sinon = require('sinon');
-var assert = require('node-assertthat');
-var rewire = require('rewire');
-var ActivitiesData = rewire('../activities-data.js');
+var sinon          = require('sinon'),
+    assert         = require('node-assertthat'),
+    rewire         = require('rewire'),
+    ActivitiesData = rewire('../activities-data.js');
 
 var fakeActivities = [];
 

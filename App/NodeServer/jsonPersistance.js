@@ -5,10 +5,10 @@ var fs = require('fs');
 var jsonPersistance = function(fileName) {
     var unicorn = {};
 
-    unicorn.init = init;
-    unicorn.add = add;
+    unicorn.init   = init;
+    unicorn.add    = add;
     unicorn.getAll = getAll;
-    unicorn.query = query;
+    unicorn.query  = query;
     unicorn.update = update;
     unicorn.remove = remove;
 

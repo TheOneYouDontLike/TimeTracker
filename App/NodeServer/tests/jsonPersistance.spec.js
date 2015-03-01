@@ -1,9 +1,9 @@
 'use strict';
 
-var sinon = require('sinon');
-var assert = require('node-assertthat');
-var rewire = require('rewire');
-var JsonPersistance = rewire('../jsonPersistance.js');
+var sinon           = require('sinon'),
+    assert          = require('node-assertthat'),
+    rewire          = require('rewire'),
+    JsonPersistance = rewire('../jsonPersistance.js');
 
 describe('jsonPersistance', function() {
     it('should not init the file if does exist', function() {

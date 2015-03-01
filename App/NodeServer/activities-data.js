@@ -1,26 +1,26 @@
 'use strict';
 
-var fs = require('fs');
-var moment = require('moment');
-var JsonPersistance = require('./jsonPersistance.js');
+var fs              = require('fs'),
+    moment          = require('moment'),
+    JsonPersistance = require('./jsonPersistance.js');
 
-var NULL_DATA = null;
-var ID_TYPE_ERROR = new Error('id parameter should be a string');
-var INVALID_DATE_ERROR = new Error('Invalid Date');
-var SERIES_WATCHED_IN_CINEMA_ERROR = new Error('Series cannot be watched in the cinema!');
+var NULL_DATA                      = null,
+    ID_TYPE_ERROR                  = new Error('id parameter should be a string'),
+    INVALID_DATE_ERROR             = new Error('Invalid Date'),
+    SERIES_WATCHED_IN_CINEMA_ERROR = new Error('Series cannot be watched in the cinema!');
 
 var activitiesData = function(databaseName) {
     var persistance = new JsonPersistance(databaseName);
 
     var unicorn = {};
 
-    unicorn.init = init;
-    unicorn.getAll = getAll;
-    unicorn.getById = getById;
-    unicorn.remove = remove;
-    unicorn.add = add;
-    unicorn.update = update;
-    unicorn.seed = seed;
+    unicorn.init         = init;
+    unicorn.getAll       = getAll;
+    unicorn.getById      = getById;
+    unicorn.remove       = remove;
+    unicorn.add          = add;
+    unicorn.update       = update;
+    unicorn.seed         = seed;
     unicorn.checkIfEmpty = checkIfEmpty;
 
     function init(callback) {

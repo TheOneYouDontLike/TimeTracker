@@ -1,10 +1,10 @@
 'use strict';
 
-var http = require('http'),
-    fs = require('fs'),
-    Router = require('./router'),
+var http           = require('http'),
+    fs             = require('fs'),
+    Router         = require('./router'),
     ActivitiesData = require('./activities-data'),
-    Statistics = require('./statistics');
+    Statistics     = require('./statistics');
 
 var router = new Router({ showLog: true });
 

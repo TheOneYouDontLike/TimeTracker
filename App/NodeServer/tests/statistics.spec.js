@@ -1,9 +1,8 @@
 'use strict';
 
-var Statistics = require('../statistics.js');
-var sinon = require('sinon');
-var assert = require('node-assertthat');
-var moment = require('moment');
+var Statistics     = require('../statistics.js'),
+    assert         = require('node-assertthat'),
+    moment         = require('moment');
 
 var activitiesData = [
     {
@@ -85,9 +84,9 @@ describe('statistics', function() {
         });
 
         it('should determine statistics time span', function() {
-            var activityWithMinDate = activitiesData[1];
-            var minDate = moment(activityWithMinDate.date);
-            var expectedDays = moment().diff(minDate, 'days');
+            var activityWithMinDate     = activitiesData[1],
+                minDate                 = moment(activityWithMinDate.date),
+                expectedDays            = moment().diff(minDate, 'days');
 
             assert.that(statistics.totalTimeSpan, is.equalTo(expectedDays));
         });

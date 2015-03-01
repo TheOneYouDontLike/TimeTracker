@@ -1,8 +1,8 @@
 'use strict';
 
-var Router = require('../router.js');
-var sinon = require('sinon');
-var assert = require('node-assertthat');
+var Router     = require('../router.js'),
+    sinon      = require('sinon'),
+    assert     = require('node-assertthat');
 
 describe('router', function(){
     var router = {};

@@ -6,11 +6,11 @@ var router = function(options) {
     var _routingBoard = [];
 
     unicorn.routingBoard = _routingBoard;
-    unicorn.httpGet = httpGet;
-    unicorn.httpPost = httpPost;
-    unicorn.httpPut = httpPut;
-    unicorn.httpDelete = httpDelete;
-    unicorn.route = route;
+    unicorn.httpGet      = httpGet;
+    unicorn.httpPost     = httpPost;
+    unicorn.httpPut      = httpPut;
+    unicorn.httpDelete   = httpDelete;
+    unicorn.route        = route;
 
     function httpGet(route, callback) {
         _removeDuplicatesInRoutingBoard('GET', route);
