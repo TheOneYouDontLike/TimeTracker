@@ -77,14 +77,14 @@ describe('activities persistance', function() {
 
     it('should init the database if does not exist', function() {
         // given
-        var initSpy = sinon.stub();
+        var initStub = sinon.stub();
 
         // there was no errors
-        initSpy.callsArgWith(0, null);
+        initStub.callsArgWith(0, null);
 
         var persistanceMock = function(dbName) {
             return {
-                init: initSpy
+                init: initStub
             };
         };
 
@@ -97,13 +97,26 @@ describe('activities persistance', function() {
         activitiesData.init(callbackSpy);
 
         // then
-        assert.that(initSpy.calledOnce, is.true());
+        assert.that(initStub.calledOnce, is.true());
         assert.that(callbackSpy.getCall(0).args[0], is.null());
     });
 
     it('should return all data', function() {
         // given
-        var activitiesData = new ActivitiesData('existingDatabaseName');
+        var getAllStub = sinon.stub();
+
+        var randomData = [{property: '1'}, {property: '1'}];
+        getAllStub.callsArgWith(0, null, randomData);
+
+        var persistanceMock = function(dbName) {
+            return {
+                getAll: getAllStub
+            };
+        };
+
+        ActivitiesData.__set__('JsonPersistance', persistanceMock);
+
+        var activitiesData = new ActivitiesData('');
         var callbackSpy = sinon.spy();
 
         // when

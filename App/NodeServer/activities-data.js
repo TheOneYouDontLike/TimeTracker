@@ -25,34 +25,23 @@ var activitiesData = function(databaseName) {
 
     function init(callback) {
         persistance.init(function(error) {
-            if(error) {
+            if (error) {
+                console.log(error.message);
                 callback(error);
             } else {
                 callback(null);
             }
         });
-        // fs.exists(databaseName, function(exists) {
-        //     if (!exists) {
-        //         _createDatabase(callback);
-        //     }
-        // });
-    }
-
-    function _createDatabase(callback) {
-        fs.writeFile(databaseName, JSON.stringify([]), function(error) {
-            if (error) {
-                console.log(error);
-            }
-            else {
-                console.log('created database');
-                callback();
-            }
-        });
     }
 
     function getAll(callback) {
-        _readDatabase(function(error, data) {
-            callback(error, data);
+        persistance.getAll(function(error, data) {
+            if (error) {
+                var readingError = new Error('Error during reading data');
+                callback(readingError, null);
+            } else {
+                callback(null, data);
+            }
         });
     }
 
