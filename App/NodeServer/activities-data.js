@@ -2,6 +2,7 @@
 
 var fs = require('fs');
 var moment = require('moment');
+var JsonPersistance = require('./jsonPersistance.js');
 
 var NULL_DATA = null;
 var ID_TYPE_ERROR = new Error('id parameter should be a string');
@@ -9,6 +10,8 @@ var INVALID_DATE_ERROR = new Error('Invalid Date');
 var SERIES_WATCHED_IN_CINEMA_ERROR = new Error('Series cannot be watched in the cinema!');
 
 var activitiesData = function(databaseName) {
+    var persistance = new JsonPersistance(databaseName);
+
     var unicorn = {};
 
     unicorn.init = init;
@@ -21,11 +24,18 @@ var activitiesData = function(databaseName) {
     unicorn.checkIfEmpty = checkIfEmpty;
 
     function init(callback) {
-        fs.exists(databaseName, function(exists) {
-            if (!exists) {
-                _createDatabase(callback);
+        persistance.init(function(error) {
+            if(error) {
+                callback(error);
+            } else {
+                callback(null);
             }
         });
+        // fs.exists(databaseName, function(exists) {
+        //     if (!exists) {
+        //         _createDatabase(callback);
+        //     }
+        // });
     }
 
     function _createDatabase(callback) {

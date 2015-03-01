@@ -49,28 +49,56 @@ describe('activities persistance', function() {
         }];
     });
 
-    it('should not init the database if does exist', function() {
+    it('should set error if db file exists', function() {
         // given
-        var activitiesData = new ActivitiesData('existingDatabaseName');
+        var expectedErrorMessage = 'trololo';
+
+        var initSpy = sinon.stub();
+        initSpy.callsArgWith(0, new Error(expectedErrorMessage));
+
+        var persistanceMock = function(dbName) {
+            return {
+                init: initSpy
+            };
+        };
+
+        ActivitiesData.__set__('JsonPersistance', persistanceMock);
+        var activitiesData = new ActivitiesData('');
+
         var callbackSpy = sinon.spy();
 
         // when
         activitiesData.init(callbackSpy);
 
         // then
-        assert.that(callbackSpy.calledOnce, is.false());
+        assert.that(initSpy.calledOnce, is.true());
+        assert.that(callbackSpy.getCall(0).args[0].message, is.equalTo(expectedErrorMessage));
     });
 
     it('should init the database if does not exist', function() {
         // given
-        var activitiesData = new ActivitiesData('nonExistingDatabaseName');
+        var initSpy = sinon.stub();
+
+        // there was no errors
+        initSpy.callsArgWith(0, null);
+
+        var persistanceMock = function(dbName) {
+            return {
+                init: initSpy
+            };
+        };
+
+        ActivitiesData.__set__('JsonPersistance', persistanceMock);
+        var activitiesData = new ActivitiesData('');
+
         var callbackSpy = sinon.spy();
 
         // when
         activitiesData.init(callbackSpy);
 
         // then
-        assert.that(callbackSpy.calledOnce, is.true());
+        assert.that(initSpy.calledOnce, is.true());
+        assert.that(callbackSpy.getCall(0).args[0], is.null());
     });
 
     it('should return all data', function() {
