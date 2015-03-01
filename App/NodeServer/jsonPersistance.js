@@ -59,7 +59,7 @@ var jsonPersistance = function(fileName) {
     function query(filterFunction, callback) {
         fs.readFile(fileName, function(error, dataChunk) {
             if (error) {
-                callback(error);
+                callback(error, null);
             } else {
                 var parsedData = JSON.parse(dataChunk.toString());
 

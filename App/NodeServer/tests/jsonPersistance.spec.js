@@ -108,9 +108,9 @@ describe('jsonPersistance', function() {
         assert.that(callbackSpy.calledOnce, is.true());
     });
 
-    it('should be possible to query by object property', function() {
+    it('should query by filtering function when it is valid', function() {
         // given
-        var data = [{name: 'yolo'}, {name: 'swag'}, {name: 'xD'}];
+        var data = [{ name: 'yolo', id: 1 }, { name: 'swag', id: 2 }, { name: 'xD', id: 3 }];
 
         var readFileStub = sinon.stub();
         readFileStub.withArgs('existingFileName').callsArgWith(1, null, JSON.stringify(data));
@@ -124,14 +124,44 @@ describe('jsonPersistance', function() {
         var persistance = new JsonPersistance('existingFileName');
         var callbackSpy = sinon.spy();
 
+        var filteringFunction = function(element) {
+            return element.name === 'swag' && element.id === 2;
+        };
+
         // when
-        persistance.query(function(element) {
-            return element.name === 'swag';
-        }, callbackSpy);
+        persistance.query(filteringFunction, callbackSpy);
 
         // then
         var dataFromPersistance = callbackSpy.getCall(0).args[1];
         assert.that(dataFromPersistance.length, is.equalTo(1));
         assert.that(dataFromPersistance[0], is.equalTo(data[1]));
+    });
+
+    it('should query by filtering function when there is no data matching', function() {
+        // given
+        var data = [{ name: 'yolo', id: 1 }, { name: 'swag', id: 2 }, { name: 'xD', id: 3 }];
+
+        var readFileStub = sinon.stub();
+        readFileStub.withArgs('existingFileName').callsArgWith(1, null, JSON.stringify(data));
+
+        var fsMock = {
+            readFile: readFileStub
+        };
+
+        JsonPersistance.__set__('fs', fsMock);
+
+        var persistance = new JsonPersistance('existingFileName');
+        var callbackSpy = sinon.spy();
+
+        var filteringFunction = function(element) {
+            return element.name === 'swagrid';
+        };
+
+        // when
+        persistance.query(filteringFunction, callbackSpy);
+
+        // then
+        var dataFromPersistance = callbackSpy.getCall(0).args[1];
+        assert.that(dataFromPersistance.length, is.equalTo(0));
     });
 });
