@@ -164,4 +164,74 @@ describe('jsonPersistance', function() {
         var dataFromPersistance = callbackSpy.getCall(0).args[1];
         assert.that(dataFromPersistance.length, is.equalTo(0));
     });
+
+    it('should update by filtering function', function() {
+        // given
+        var data = [{ name: 'yolo', id: 1 }, { name: 'swag', id: 2 }, { name: 'xD', id: 3 }];
+
+        var readFileStub = sinon.stub();
+        readFileStub.withArgs('existingFileName').callsArgWith(1, null, JSON.stringify(data));
+
+        var writeFileStub = sinon.stub();
+
+        var expectedData = [{ name: 'yolo', id: 1 }, { name: 'yolo2', id: 2 }, { name: 'xD', id: 3 }];
+        writeFileStub.withArgs('existingFileName', JSON.stringify(expectedData)).callsArg(2);
+
+        var fsMock = {
+            readFile: readFileStub,
+            writeFile: writeFileStub
+        };
+
+        JsonPersistance.__set__('fs', fsMock);
+
+        var persistance = new JsonPersistance('existingFileName');
+        var callbackSpy = sinon.spy();
+
+        var filteringFunction = function(element) {
+            return element.id === 2;
+        };
+
+        var updatingFunction = function(element) {
+            element.name = 'yolo2';
+        };
+
+        // when
+        persistance.update(filteringFunction, updatingFunction, callbackSpy);
+
+        // then
+        assert.that(callbackSpy.calledOnce, is.true());
+    });
+
+    it('should remove data by filtering function', function() {
+        // given
+        var data = [{ name: 'yolo', id: 1 }, { name: 'swag', id: 2 }, { name: 'xD', id: 3 }];
+
+        var readFileStub = sinon.stub();
+        readFileStub.withArgs('existingFileName').callsArgWith(1, null, JSON.stringify(data));
+
+        var writeFileStub = sinon.stub();
+
+        var expectedData = [{ name: 'yolo', id: 1 }, { name: 'xD', id: 3 }];
+        writeFileStub.withArgs('existingFileName', JSON.stringify(expectedData)).callsArg(2);
+
+        var fsMock = {
+            readFile: readFileStub,
+            writeFile: writeFileStub
+        };
+
+        JsonPersistance.__set__('fs', fsMock);
+
+        var persistance = new JsonPersistance('existingFileName');
+        var callbackSpy = sinon.spy();
+
+        var filteringFunction = function(element) {
+            return element.id === 2;
+        };
+
+        // when
+        persistance.remove(filteringFunction, callbackSpy);
+
+        // then
+        assert.that(callbackSpy.calledOnce, is.true());
+    });
 });
