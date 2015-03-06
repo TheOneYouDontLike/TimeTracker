@@ -128,8 +128,20 @@ describe('activities persistance', function() {
     });
 
     it('should return single activity', function() {
-        // given
-        var activitiesData = new ActivitiesData('existingDatabaseName');
+        var queryStub = sinon.stub();
+
+        var filteredData = [{id: 1, name: 'george'}];
+        queryStub.callsArgWith(1, null, filteredData);
+
+        var persistanceMock = function(dbName) {
+            return {
+                query: queryStub
+            };
+        };
+
+        ActivitiesData.__set__('JsonPersistance', persistanceMock);
+
+        var activitiesData = new ActivitiesData('');
         var callbackSpy = sinon.spy();
 
         // when
@@ -137,7 +149,35 @@ describe('activities persistance', function() {
 
         // then
         var data = callbackSpy.getCall(0).args[1];
-        assert.that(data.name, is.equalTo('Jurassic Park'));
+        assert.that(data, is.equalTo(filteredData[0]));
+    });
+
+    it('should not return single activity when there was error in persistance', function() {
+        var queryStub = sinon.stub();
+
+        var errorFromPersistance = new Error("Some error");
+        queryStub.callsArgWith(1, errorFromPersistance, null);
+
+        var persistanceMock = function(dbName) {
+            return {
+                query: queryStub
+            };
+        };
+
+        ActivitiesData.__set__('JsonPersistance', persistanceMock);
+
+        var activitiesData = new ActivitiesData('');
+        var callbackSpy = sinon.spy();
+
+        // when
+        activitiesData.getById('1', callbackSpy);
+
+        // then
+        var error = callbackSpy.getCall(0).args[0];
+        assert.that(error.message, is.equalTo(errorFromPersistance.message));
+
+        var data = callbackSpy.getCall(0).args[1];
+        assert.that(data, is.null());
     });
 
     it('should throw meat at me if "id" paremeter of getById method is not an string', function() {

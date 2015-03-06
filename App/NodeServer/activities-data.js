@@ -50,12 +50,15 @@ var activitiesData = function(databaseName) {
             callback(ID_TYPE_ERROR, NULL_DATA);
         }
         else {
-            _readDatabase(function(error, data) {
-                var element = data.filter(function(element) {
-                    return element.id.toString() === id;
-                })[0];
-
-                callback(error, element);
+            persistance.query(function(element) {
+                return element.id === 1;
+            }, function(error, data) {
+                if (error) {
+                    callback(error, null);
+                }
+                else {
+                    callback(null, data[0]);
+                }
             });
         }
     }
