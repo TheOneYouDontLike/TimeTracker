@@ -131,7 +131,9 @@ describe('activities persistance', function() {
         var queryStub = sinon.stub();
 
         var filteredData = [{id: 1, name: 'george'}];
-        queryStub.callsArgWith(1, null, filteredData);
+        queryStub
+            .withArgs(sinon.match.func, sinon.match.func)
+            .callsArgWith(1, null, filteredData);
 
         var persistanceMock = function(dbName) {
             return {
@@ -182,7 +184,7 @@ describe('activities persistance', function() {
 
     it('should throw meat at me if "id" paremeter of getById method is not an string', function() {
         // given
-        var activitiesData = new ActivitiesData('existingDatabaseName');
+        var activitiesData = new ActivitiesData('');
         var callbackSpy = sinon.spy();
 
         // when
@@ -190,31 +192,40 @@ describe('activities persistance', function() {
 
         // then
         var error = callbackSpy.getCall(0).args[0];
-        var data = callbackSpy.getCall(0).args[1];
         assert.that(error.message, is.equalTo('id parameter should be a string'));
+
+        var data = callbackSpy.getCall(0).args[1];
         assert.that(data, is.null());
     });
 
     it('should remove activity if it does exist', function() {
         // given
-        var activitiesData = new ActivitiesData('existingDatabaseName');
+        var removeStub = sinon.stub();
+
+        var filteringFunctionThatReturnsTrueWhen1IsPassed = sinon.match(function(filteringFunction) {
+            return filteringFunction({id: 1});
+        }, 'wrong filtering function');
+
+        removeStub
+            .withArgs(filteringFunctionThatReturnsTrueWhen1IsPassed, sinon.match.func)
+            .callsArgWith(1, null);
+
+        var persistanceMock = function(dbName) {
+            return {
+                remove: removeStub
+            };
+        };
+
+        ActivitiesData.__set__('JsonPersistance', persistanceMock);
+
+        var activitiesData = new ActivitiesData('');
         var callbackStub = sinon.stub();
 
-        fsMock.writeFile = callbackStub;
-        var expectedData = [{
-                id: 2,
-                name: 'Jurassic Park II',
-                date: '2014-01-02',
-                duration: 130,
-                activityType: 'Movie',
-                watchedInCinema: true
-            }];
-
         // when
-        activitiesData.remove("1", function() {});
+        activitiesData.remove('1', callbackStub);
 
         // then
-        assert.that(callbackStub.getCall(0).args[1], is.equalTo(JSON.stringify(expectedData)));
+        assert.that(callbackStub.getCall(0).args[0], is.null());
     });
 
     it('should call back with error if "id" parameter of remove method is not a string', function() {

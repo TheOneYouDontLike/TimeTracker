@@ -51,7 +51,7 @@ var activitiesData = function(databaseName) {
         }
         else {
             persistance.query(function(element) {
-                return element.id === 1;
+                return element.id.toString() === id;
             }, function(error, data) {
                 if (error) {
                     callback(error, null);
@@ -68,24 +68,29 @@ var activitiesData = function(databaseName) {
             callback(ID_TYPE_ERROR, NULL_DATA);
         }
         else {
-            _readDatabase(function(error, data) {
-                var activity = data.filter(function(element) {
-                    return element.id.toString() === id;
-                })[0];
-
-                var indexOfActivity = data.indexOf(activity);
-                data.splice(indexOfActivity, 1);
-
-                _writeDatabase(data, function(error) {
-                    if (error) {
-                        console.log(error);
-                    }
-                    else {
-                        console.log('removed from database');
-                        callback(error);
-                    }
-                });
+            persistance.remove(function(element) {
+                return element.id.toString() === id;
+            }, function(error) {
+                callback(error);
             });
+            // _readDatabase(function(error, data) {
+            //     var activity = data.filter(function(element) {
+            //         return element.id.toString() === id;
+            //     })[0];
+
+            //     var indexOfActivity = data.indexOf(activity);
+            //     data.splice(indexOfActivity, 1);
+
+            //     _writeDatabase(data, function(error) {
+            //         if (error) {
+            //             console.log(error);
+            //         }
+            //         else {
+            //             console.log('removed from database');
+            //             callback(error);
+            //         }
+            //     });
+            // });
         }
     }
 
