@@ -130,9 +130,13 @@ describe('activities persistance', function() {
     it('should return single activity', function() {
         var queryStub = sinon.stub();
 
+        var filteringFunctionThatReturnsTrueWhen1IsPassed = sinon.match(function(filteringFunction) {
+            return filteringFunction({id: 1});
+        }, 'wrong filtering function');
+
         var filteredData = [{id: 1, name: 'george'}];
         queryStub
-            .withArgs(sinon.match.func, sinon.match.func)
+            .withArgs(filteringFunctionThatReturnsTrueWhen1IsPassed, sinon.match.func)
             .callsArgWith(1, null, filteredData);
 
         var persistanceMock = function(dbName) {

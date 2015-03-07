@@ -50,9 +50,11 @@ var activitiesData = function(databaseName) {
             callback(ID_TYPE_ERROR, NULL_DATA);
         }
         else {
-            persistance.query(function(element) {
+            var filteringFunction = function(element) {
                 return element.id.toString() === id;
-            }, function(error, data) {
+            };
+
+            persistance.query(filteringFunction, function(error, data) {
                 if (error) {
                     callback(error, null);
                 }
@@ -68,29 +70,13 @@ var activitiesData = function(databaseName) {
             callback(ID_TYPE_ERROR, NULL_DATA);
         }
         else {
-            persistance.remove(function(element) {
+            var filteringFunction = function(element) {
                 return element.id.toString() === id;
-            }, function(error) {
+            };
+
+            persistance.remove(filteringFunction, function(error) {
                 callback(error);
             });
-            // _readDatabase(function(error, data) {
-            //     var activity = data.filter(function(element) {
-            //         return element.id.toString() === id;
-            //     })[0];
-
-            //     var indexOfActivity = data.indexOf(activity);
-            //     data.splice(indexOfActivity, 1);
-
-            //     _writeDatabase(data, function(error) {
-            //         if (error) {
-            //             console.log(error);
-            //         }
-            //         else {
-            //             console.log('removed from database');
-            //             callback(error);
-            //         }
-            //     });
-            // });
         }
     }
 
