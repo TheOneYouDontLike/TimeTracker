@@ -2,7 +2,7 @@
 
 var fs              = require('fs'),
     moment          = require('moment'),
-    JsonPersistance = require('./jsonPersistance.js');
+    JsonPersistence = require('./jsonPersistence.js');
 
 var NULL_DATA                      = null,
     ID_TYPE_ERROR                  = new Error('id parameter should be a string'),
@@ -10,7 +10,7 @@ var NULL_DATA                      = null,
     SERIES_WATCHED_IN_CINEMA_ERROR = new Error('Series cannot be watched in the cinema!');
 
 var activitiesData = function(databaseName) {
-    var persistance = new JsonPersistance(databaseName);
+    var persistance = new JsonPersistence(databaseName);
 
     var unicorn = {};
 

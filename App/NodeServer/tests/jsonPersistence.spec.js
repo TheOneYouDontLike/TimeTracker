@@ -3,9 +3,9 @@
 var sinon           = require('sinon'),
     assert          = require('node-assertthat'),
     rewire          = require('rewire'),
-    JsonPersistance = rewire('../jsonPersistance.js');
+    JsonPersistence = rewire('../jsonPersistence.js');
 
-describe('jsonPersistance', function() {
+describe('jsonPersistence', function() {
     it('should not init the file if does exist', function() {
         // given
         var existsStub = sinon.stub();
@@ -15,13 +15,13 @@ describe('jsonPersistance', function() {
             exists: existsStub,
         };
 
-        JsonPersistance.__set__('fs', fsMock);
+        JsonPersistence.__set__('fs', fsMock);
 
-        var persistance = new JsonPersistance('existingFileName');
+        var persistence = new JsonPersistence('existingFileName');
         var callbackSpy = sinon.spy();
 
         // when
-        persistance.init(callbackSpy);
+        persistence.init(callbackSpy);
 
         // then
         var callbackError = callbackSpy.getCall(0).args[0];
@@ -42,13 +42,13 @@ describe('jsonPersistance', function() {
             writeFile: writeFileStub
         };
 
-        JsonPersistance.__set__('fs', fsMock);
+        JsonPersistence.__set__('fs', fsMock);
 
-        var persistance = new JsonPersistance('nonExistingFileName');
+        var persistence = new JsonPersistence('nonExistingFileName');
         var callbackSpy = sinon.spy();
 
         // when
-        persistance.init(callbackSpy);
+        persistence.init(callbackSpy);
 
         // then
         var callbackError = callbackSpy.getCall(0).args[0];
@@ -69,13 +69,13 @@ describe('jsonPersistance', function() {
             writeFile: writeFileStub
         };
 
-        JsonPersistance.__set__('fs', fsMock);
+        JsonPersistence.__set__('fs', fsMock);
 
-        var persistance = new JsonPersistance('existingFileName');
+        var persistence = new JsonPersistence('existingFileName');
         var callbackSpy = sinon.spy();
 
         // when
-        persistance.add({name: 'yolo'}, callbackSpy);
+        persistence.add({name: 'yolo'}, callbackSpy);
 
         // then
         assert.that(callbackSpy.calledOnce, is.true());
@@ -91,13 +91,13 @@ describe('jsonPersistance', function() {
             readFile: readFileStub
         };
 
-        JsonPersistance.__set__('fs', fsMock);
+        JsonPersistence.__set__('fs', fsMock);
 
-        var persistance = new JsonPersistance('existingFileName');
+        var persistence = new JsonPersistence('existingFileName');
         var callbackSpy = sinon.spy();
 
         // when
-        persistance.getAll(callbackSpy);
+        persistence.getAll(callbackSpy);
 
         // then
         var errorObject = callbackSpy.getCall(0).args[0];
@@ -119,9 +119,9 @@ describe('jsonPersistance', function() {
             readFile: readFileStub
         };
 
-        JsonPersistance.__set__('fs', fsMock);
+        JsonPersistence.__set__('fs', fsMock);
 
-        var persistance = new JsonPersistance('existingFileName');
+        var persistence = new JsonPersistence('existingFileName');
         var callbackSpy = sinon.spy();
 
         var filteringFunction = function(element) {
@@ -129,12 +129,12 @@ describe('jsonPersistance', function() {
         };
 
         // when
-        persistance.query(filteringFunction, callbackSpy);
+        persistence.query(filteringFunction, callbackSpy);
 
         // then
-        var dataFromPersistance = callbackSpy.getCall(0).args[1];
-        assert.that(dataFromPersistance.length, is.equalTo(1));
-        assert.that(dataFromPersistance[0], is.equalTo(data[1]));
+        var dataFromPersistence = callbackSpy.getCall(0).args[1];
+        assert.that(dataFromPersistence.length, is.equalTo(1));
+        assert.that(dataFromPersistence[0], is.equalTo(data[1]));
     });
 
     it('should query by filtering function when there is no data matching', function() {
@@ -148,9 +148,9 @@ describe('jsonPersistance', function() {
             readFile: readFileStub
         };
 
-        JsonPersistance.__set__('fs', fsMock);
+        JsonPersistence.__set__('fs', fsMock);
 
-        var persistance = new JsonPersistance('existingFileName');
+        var persistence = new JsonPersistence('existingFileName');
         var callbackSpy = sinon.spy();
 
         var filteringFunction = function(element) {
@@ -158,11 +158,11 @@ describe('jsonPersistance', function() {
         };
 
         // when
-        persistance.query(filteringFunction, callbackSpy);
+        persistence.query(filteringFunction, callbackSpy);
 
         // then
-        var dataFromPersistance = callbackSpy.getCall(0).args[1];
-        assert.that(dataFromPersistance.length, is.equalTo(0));
+        var dataFromPersistence = callbackSpy.getCall(0).args[1];
+        assert.that(dataFromPersistence.length, is.equalTo(0));
     });
 
     it('should update by filtering function', function() {
@@ -182,9 +182,9 @@ describe('jsonPersistance', function() {
             writeFile: writeFileStub
         };
 
-        JsonPersistance.__set__('fs', fsMock);
+        JsonPersistence.__set__('fs', fsMock);
 
-        var persistance = new JsonPersistance('existingFileName');
+        var persistence = new JsonPersistence('existingFileName');
         var callbackSpy = sinon.spy();
 
         var filteringFunction = function(element) {
@@ -196,7 +196,7 @@ describe('jsonPersistance', function() {
         };
 
         // when
-        persistance.update(filteringFunction, updatingFunction, callbackSpy);
+        persistence.update(filteringFunction, updatingFunction, callbackSpy);
 
         // then
         assert.that(callbackSpy.calledOnce, is.true());
@@ -219,9 +219,9 @@ describe('jsonPersistance', function() {
             writeFile: writeFileStub
         };
 
-        JsonPersistance.__set__('fs', fsMock);
+        JsonPersistence.__set__('fs', fsMock);
 
-        var persistance = new JsonPersistance('existingFileName');
+        var persistence = new JsonPersistence('existingFileName');
         var callbackSpy = sinon.spy();
 
         var filteringFunction = function(element) {
@@ -229,7 +229,7 @@ describe('jsonPersistance', function() {
         };
 
         // when
-        persistance.remove(filteringFunction, callbackSpy);
+        persistence.remove(filteringFunction, callbackSpy);
 
         // then
         assert.that(callbackSpy.calledOnce, is.true());

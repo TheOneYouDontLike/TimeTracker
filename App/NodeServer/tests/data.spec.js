@@ -29,7 +29,7 @@ var fsMock = {
 
 ActivitiesData.__set__('fs', fsMock);
 
-describe('activities persistance', function() {
+describe('activities persistence', function() {
     beforeEach(function() {
         fakeActivities = [{
             id: 1,
@@ -56,13 +56,13 @@ describe('activities persistance', function() {
         var initSpy = sinon.stub();
         initSpy.callsArgWith(0, new Error(expectedErrorMessage));
 
-        var persistanceMock = function(dbName) {
+        var persistenceMock = function(dbName) {
             return {
                 init: initSpy
             };
         };
 
-        ActivitiesData.__set__('JsonPersistance', persistanceMock);
+        ActivitiesData.__set__('JsonPersistence', persistenceMock);
         var activitiesData = new ActivitiesData('');
 
         var callbackSpy = sinon.spy();
@@ -82,13 +82,13 @@ describe('activities persistance', function() {
         // there was no errors
         initStub.callsArgWith(0, null);
 
-        var persistanceMock = function(dbName) {
+        var persistenceMock = function(dbName) {
             return {
                 init: initStub
             };
         };
 
-        ActivitiesData.__set__('JsonPersistance', persistanceMock);
+        ActivitiesData.__set__('JsonPersistence', persistenceMock);
         var activitiesData = new ActivitiesData('');
 
         var callbackSpy = sinon.spy();
@@ -108,13 +108,13 @@ describe('activities persistance', function() {
         var randomData = [{property: '1'}, {property: '1'}];
         getAllStub.callsArgWith(0, null, randomData);
 
-        var persistanceMock = function(dbName) {
+        var persistenceMock = function(dbName) {
             return {
                 getAll: getAllStub
             };
         };
 
-        ActivitiesData.__set__('JsonPersistance', persistanceMock);
+        ActivitiesData.__set__('JsonPersistence', persistenceMock);
 
         var activitiesData = new ActivitiesData('');
         var callbackSpy = sinon.spy();
@@ -139,13 +139,13 @@ describe('activities persistance', function() {
             .withArgs(filteringFunctionThatReturnsTrueWhen1IsPassed, sinon.match.func)
             .callsArgWith(1, null, filteredData);
 
-        var persistanceMock = function(dbName) {
+        var persistenceMock = function(dbName) {
             return {
                 query: queryStub
             };
         };
 
-        ActivitiesData.__set__('JsonPersistance', persistanceMock);
+        ActivitiesData.__set__('JsonPersistence', persistenceMock);
 
         var activitiesData = new ActivitiesData('');
         var callbackSpy = sinon.spy();
@@ -158,19 +158,19 @@ describe('activities persistance', function() {
         assert.that(data, is.equalTo(filteredData[0]));
     });
 
-    it('should not return single activity when there was error in persistance', function() {
+    it('should not return single activity when there was error in persistence', function() {
         var queryStub = sinon.stub();
 
-        var errorFromPersistance = new Error("Some error");
-        queryStub.callsArgWith(1, errorFromPersistance, null);
+        var errorFromPersistence = new Error("Some error");
+        queryStub.callsArgWith(1, errorFromPersistence, null);
 
-        var persistanceMock = function(dbName) {
+        var persistenceMock = function(dbName) {
             return {
                 query: queryStub
             };
         };
 
-        ActivitiesData.__set__('JsonPersistance', persistanceMock);
+        ActivitiesData.__set__('JsonPersistence', persistenceMock);
 
         var activitiesData = new ActivitiesData('');
         var callbackSpy = sinon.spy();
@@ -180,7 +180,7 @@ describe('activities persistance', function() {
 
         // then
         var error = callbackSpy.getCall(0).args[0];
-        assert.that(error.message, is.equalTo(errorFromPersistance.message));
+        assert.that(error.message, is.equalTo(errorFromPersistence.message));
 
         var data = callbackSpy.getCall(0).args[1];
         assert.that(data, is.null());
@@ -214,13 +214,13 @@ describe('activities persistance', function() {
             .withArgs(filteringFunctionThatReturnsTrueWhen1IsPassed, sinon.match.func)
             .callsArgWith(1, null);
 
-        var persistanceMock = function(dbName) {
+        var persistenceMock = function(dbName) {
             return {
                 remove: removeStub
             };
         };
 
-        ActivitiesData.__set__('JsonPersistance', persistanceMock);
+        ActivitiesData.__set__('JsonPersistence', persistenceMock);
 
         var activitiesData = new ActivitiesData('');
         var callbackStub = sinon.stub();
@@ -255,13 +255,13 @@ describe('activities persistance', function() {
             }))
             .callsArgWith(1, null);
 
-        var persistanceMock = function(dbName) {
+        var persistenceMock = function(dbName) {
             return {
                 add: addStub
             };
         };
 
-        ActivitiesData.__set__('JsonPersistance', persistanceMock);
+        ActivitiesData.__set__('JsonPersistence', persistenceMock);
 
         var activitiesData = new ActivitiesData('');
         var callbackStub = sinon.stub();
@@ -278,7 +278,7 @@ describe('activities persistance', function() {
         assert.that(callbackStub.getCall(0).args[0], is.null());
     });
 
-    it('should not add new activity if there was an error in persistance layer', function() {
+    it('should not add new activity if there was an error in persistence layer', function() {
 
     });
 

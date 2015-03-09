@@ -2,7 +2,7 @@
 
 var fs = require('fs');
 
-var jsonPersistance = function(fileName) {
+var jsonPersistence = function(fileName) {
     var unicorn = {};
 
     unicorn.init   = init;
@@ -123,4 +123,4 @@ var jsonPersistance = function(fileName) {
     return unicorn;
 };
 
-module.exports = jsonPersistance;
+module.exports = jsonPersistence;
