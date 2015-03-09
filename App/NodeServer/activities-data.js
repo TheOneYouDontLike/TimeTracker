@@ -90,19 +90,14 @@ var activitiesData = function(databaseName) {
         else {
             var timestampId = new Date().getTime();
 
-            _readDatabase(function(error, data) {
-                activity.id = timestampId;
-                data.push(activity);
+            activity.id = timestampId;
 
-                _writeDatabase(data, function(error) {
-                    if (error) {
-                        console.log(error);
-                    }
-                    else {
-                        console.log('added to database');
-                        callback(error, activity.id);
-                    }
-                });
+            persistance.add(activity, function(error) {
+                if (error) {
+                    callback(error, null);
+                } else {
+                    callback(null, activity.id);
+                }
             });
         }
     }

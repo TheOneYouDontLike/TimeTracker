@@ -247,27 +247,42 @@ describe('activities persistance', function() {
 
     it('should add new activity', function() {
         // given
-        var activitiesData = new ActivitiesData('existingDatabaseName');
+        var addStub = sinon.stub();
+
+        addStub
+            .withArgs(sinon.match(function(element) {
+                return element.name === 'The Producers' && element.hasOwnProperty('id');
+            }))
+            .callsArgWith(1, null);
+
+        var persistanceMock = function(dbName) {
+            return {
+                add: addStub
+            };
+        };
+
+        ActivitiesData.__set__('JsonPersistance', persistanceMock);
+
+        var activitiesData = new ActivitiesData('');
         var callbackStub = sinon.stub();
 
-        fsMock.writeFile = callbackStub;
-
         var newExpectedActivity = {
-            name: 'The Producers',
-            date: '2014-02-15',
-            duration: 120,
-            activityType: 'Movie',
-            watchedInCinema: false
+            name: 'The Producers'
         };
 
         // when
-        activitiesData.add(newExpectedActivity, function() {});
+        activitiesData.add(newExpectedActivity, callbackStub);
 
         // then
-        assert.that(JSON.parse(callbackStub.getCall(0).args[1]).length, is.equalTo(3));
+        assert.that(addStub.calledOnce, is.true());
+        assert.that(callbackStub.getCall(0).args[0], is.null());
     });
 
-    it('should not add new activiy if it is a series watched in the cinema', function() {
+    it('should not add new activity if there was an error in persistance layer', function() {
+
+    });
+
+    it('should not add new activity if it is a series watched in the cinema', function() {
         // given
         var activitiesData = new ActivitiesData('existingDatabaseName');
         var callbackSpy = sinon.spy();
