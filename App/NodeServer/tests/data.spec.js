@@ -279,7 +279,39 @@ describe('activities persistence', function() {
     });
 
     it('should not add new activity if there was an error in persistence layer', function() {
+        // given
+        var addStub = sinon.stub();
 
+        var expectedErroreMessage = 'Error from persistence';
+
+        addStub
+            .withArgs(sinon.match(function(element) {
+                return element.name === 'The Producers' && element.hasOwnProperty('id');
+            }))
+            .callsArgWith(1, new Error(expectedErroreMessage));
+
+        var persistenceMock = function(dbName) {
+            return {
+                add: addStub
+            };
+        };
+
+        ActivitiesData.__set__('JsonPersistence', persistenceMock);
+
+        var activitiesData = new ActivitiesData('');
+        var callbackStub = sinon.stub();
+
+        var newExpectedActivity = {
+            name: 'The Producers'
+        };
+
+        // when
+        activitiesData.add(newExpectedActivity, callbackStub);
+
+        // then
+        assert.that(addStub.calledOnce, is.true());
+        var errorMessage = callbackStub.getCall(0).args[0].message;
+        assert.that(errorMessage, is.equalTo(expectedErroreMessage));
     });
 
     it('should not add new activity if it is a series watched in the cinema', function() {
