@@ -110,13 +110,16 @@ var activitiesData = function(databaseName) {
             callback(SERIES_WATCHED_IN_CINEMA_ERROR);
         }
         else {
-            console.log(activityToUpdate);
             var filteringFunction = function(element) {
                 return element.id === activityToUpdate.id;
             };
 
             var updatingFunction = function(element) {
-                element = activityToUpdate;
+                element.watchedInCinema = activityToUpdate.watchedInCinema;
+                element.name = activityToUpdate.name;
+                element.date = activityToUpdate.date;
+                element.duration = activityToUpdate.duration;
+                element.activityType = activityToUpdate.activityType;
             };
 
             persistance.update(filteringFunction, updatingFunction, function(error) {

@@ -390,7 +390,6 @@ describe('activities persistence', function() {
 
         // then
         assert.that(callbackSpy.calledOnce, is.true());
-        assert.that(updateStub.calledOnce, is.true());
     });
 
     it('should not update new activiy if you try to change it to series watched in the cinema', function() {
