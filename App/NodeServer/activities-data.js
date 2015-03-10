@@ -131,21 +131,6 @@ var activitiesData = function(databaseName) {
                     callback(error);
                 }
             });
-            // _readDatabase(function(error, data) {
-            //     var activity = data.filter(function(element) {
-            //         return element.id === activityToUpdate.id;
-            //     })[0];
-
-            //     var indexOfActivity = data.indexOf(activity);
-            //     data.splice(indexOfActivity, 1);
-
-            //     data.push(activityToUpdate);
-
-            //     _writeDatabase(data, function(error) {
-
-            //     });
-
-            // });
         }
     }
 
