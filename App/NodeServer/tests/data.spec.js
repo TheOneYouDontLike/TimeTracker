@@ -362,21 +362,35 @@ describe('activities persistence', function() {
 
     it('should update the activity', function() {
         // given
-        var activitiesData = new ActivitiesData('existingDatabaseName');
-        var callbackStub = sinon.stub();
+        var updateStub = sinon.stub();
 
-        fsMock.writeFile = callbackStub;
+        var filteringFunctionThatReturnTrueIfId1IsPassed = sinon.match(function(filteringFunction) {
+            return filteringFunction({id: 1}) === true;
+        }, 'wrong filtering function');
+
+        updateStub.withArgs(filteringFunctionThatReturnTrueIfId1IsPassed, sinon.match.func, sinon.match.func).callsArgWith(2, null);
+
+        var persistenceMock = function(dbName) {
+            return {
+                update: updateStub
+            };
+        };
+
+        ActivitiesData.__set__('JsonPersistence', persistenceMock);
+
+        var activitiesData = new ActivitiesData('');
+        var callbackSpy = sinon.spy();
 
         var newName = 'How I met your mother';
         var activityToUpdate = fakeActivities[0];
         activityToUpdate.name = newName;
 
         // when
-        activitiesData.update(activityToUpdate, function() {});
+        activitiesData.update(activityToUpdate, callbackSpy);
 
         // then
-        var data = callbackStub.getCall(0).args[1];
-        assert.that(data.indexOf('How I met your mother'), is.not.equalTo(-1));
+        assert.that(callbackSpy.calledOnce, is.true());
+        assert.that(updateStub.calledOnce, is.true());
     });
 
     it('should not update new activiy if you try to change it to series watched in the cinema', function() {

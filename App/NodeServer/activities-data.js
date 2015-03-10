@@ -110,27 +110,39 @@ var activitiesData = function(databaseName) {
             callback(SERIES_WATCHED_IN_CINEMA_ERROR);
         }
         else {
-            _readDatabase(function(error, data) {
-                var activity = data.filter(function(element) {
-                    return element.id === activityToUpdate.id;
-                })[0];
+            console.log(activityToUpdate);
+            var filteringFunction = function(element) {
+                return element.id === activityToUpdate.id;
+            };
 
-                var indexOfActivity = data.indexOf(activity);
-                data.splice(indexOfActivity, 1);
+            var updatingFunction = function(element) {
+                element = activityToUpdate;
+            };
 
-                data.push(activityToUpdate);
-
-                _writeDatabase(data, function(error) {
-                    if (error) {
-                        console.log(error);
-                    }
-                    else {
-                        console.log('updated in database');
-                        callback(error);
-                    }
-                });
-
+            persistance.update(filteringFunction, updatingFunction, function(error) {
+                if (error) {
+                    console.log(error);
+                }
+                else {
+                    console.log('updated in database');
+                    callback(error);
+                }
             });
+            // _readDatabase(function(error, data) {
+            //     var activity = data.filter(function(element) {
+            //         return element.id === activityToUpdate.id;
+            //     })[0];
+
+            //     var indexOfActivity = data.indexOf(activity);
+            //     data.splice(indexOfActivity, 1);
+
+            //     data.push(activityToUpdate);
+
+            //     _writeDatabase(data, function(error) {
+
+            //     });
+
+            // });
         }
     }
 
