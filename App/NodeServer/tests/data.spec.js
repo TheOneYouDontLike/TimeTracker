@@ -394,7 +394,7 @@ describe('activities persistence', function() {
 
     it('should not update new activiy if you try to change it to series watched in the cinema', function() {
         // given
-        var activitiesData = new ActivitiesData('existingDatabaseName');
+        var activitiesData = new ActivitiesData('');
         var callbackSpy = sinon.spy();
 
         var activityToUpdate = fakeActivities[0];
@@ -410,7 +410,7 @@ describe('activities persistence', function() {
     });
 
     it('should not update activity if date is invalid', function() {
-        var activitiesData = new ActivitiesData('existingDatabaseName');
+        var activitiesData = new ActivitiesData('');
         var callbackSpy = sinon.spy();
 
         var activityToUpdate = fakeActivities[0];
@@ -425,7 +425,7 @@ describe('activities persistence', function() {
     });
 
     it.skip('should pass but it does not', function() {
-        var activitiesData = new ActivitiesData('existingDatabaseName');
+        var activitiesData = new ActivitiesData('');
         var callbackSpy = sinon.spy();
 
         var activityToUpdate = fakeActivities[0];
@@ -437,5 +437,31 @@ describe('activities persistence', function() {
         // then
         var error = callbackSpy.getCall(0).args[0];
         assert.that(error.message, is.equalTo('Invalid Date'));
+    });
+
+    it('should test if db file is empty', function() {
+        // given
+        var checkIfEmptyStub = sinon.stub();
+
+        checkIfEmptyStub.withArgs(sinon.match.func).callsArgWith(0, null, true);
+
+        var persistenceMock = function(dbName) {
+            return {
+                checkIfEmpty: checkIfEmptyStub
+            };
+        };
+
+        ActivitiesData.__set__('JsonPersistence', persistenceMock);
+
+        // when
+        var activitiesData = new ActivitiesData('');
+        var callbackSpy = sinon.spy();
+
+        activitiesData.checkIfEmpty(callbackSpy);
+
+        // then
+        var result = callbackSpy.getCall(0).args[0];
+        assert.that(callbackSpy.calledOnce, is.true());
+        assert.that(result, is.true());
     });
 });

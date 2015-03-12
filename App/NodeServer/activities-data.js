@@ -160,20 +160,8 @@ var activitiesData = function(databaseName) {
     }
 
     function checkIfEmpty(callback) {
-        _readDatabase(function(error, data) {
-            if(data.length === 0) {
-                callback(true);
-            }
-            else {
-                callback(false);
-            }
-        });
-    }
-
-    function _readDatabase(callback) {
-        fs.readFile(databaseName, function(error, data) {
-            var parsedData = JSON.parse(data.toString());
-            callback(error, parsedData);
+        persistance.checkIfEmpty(function(error, result) {
+            callback(result);
         });
     }
 
