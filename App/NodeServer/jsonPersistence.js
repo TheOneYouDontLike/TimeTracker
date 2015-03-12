@@ -5,12 +5,13 @@ var fs = require('fs');
 var jsonPersistence = function(fileName) {
     var unicorn = {};
 
-    unicorn.init   = init;
-    unicorn.add    = add;
-    unicorn.getAll = getAll;
-    unicorn.query  = query;
-    unicorn.update = update;
-    unicorn.remove = remove;
+    unicorn.init         = init;
+    unicorn.add          = add;
+    unicorn.getAll       = getAll;
+    unicorn.query        = query;
+    unicorn.update       = update;
+    unicorn.remove       = remove;
+    unicorn.checkIfEmpty = checkIfEmpty;
 
     function init(callback) {
         fs.exists(fileName, function(exists) {
@@ -116,6 +117,21 @@ var jsonPersistence = function(fileName) {
                 fs.writeFile(fileName, JSON.stringify(filteredData), function(error) {
                     callback(error);
                 });
+            }
+        });
+    }
+
+    function checkIfEmpty(callback) {
+        fs.readFile(fileName, function(error, dataChunk) {
+            if (error) {
+                callback(error, null);
+            } else {
+                var parsedData = JSON.parse(dataChunk.toString());
+                if (parsedData.length === 0) {
+                    callback(null, true);
+                } else {
+                    callback(null, false);
+                }
             }
         });
     }

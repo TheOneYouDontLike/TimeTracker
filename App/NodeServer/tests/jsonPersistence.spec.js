@@ -234,4 +234,26 @@ describe('jsonPersistence', function() {
         // then
         assert.that(callbackSpy.calledOnce, is.true());
     });
+
+    it('should check if file is empty', function() {
+        // given
+        var readFileStub = sinon.stub();
+        readFileStub.withArgs('existingFileName', sinon.match.func).callsArgWith(1, null, JSON.stringify([]));
+
+        var fsMock = {
+            readFile: readFileStub
+        };
+
+        JsonPersistence.__set__('fs', fsMock);
+
+        // when
+        var persistance = new JsonPersistence('existingFileName');
+        var callbackSpy = sinon.spy();
+        persistance.checkIfEmpty(callbackSpy);
+
+        // then
+        var result = callbackSpy.getCall(0).args[1];
+        assert.that(callbackSpy.calledOnce, is.true());
+        assert.that(result, is.equalTo(true));
+    });
 });
