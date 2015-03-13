@@ -256,4 +256,34 @@ describe('jsonPersistence', function() {
         assert.that(callbackSpy.calledOnce, is.true());
         assert.that(result, is.equalTo(true));
     });
+
+    it('should add multiple object grouped in array', function() {
+        // given
+        var alreadyAddedGummiBears = [{name: 'Gruffi'}, {name: 'Zummi'}];
+        var gummiBearsToAdd = [{name: 'Grammi'}, {name: 'Tummi'}];
+        var expectedGummiBears = [{name: 'Gruffi'}, {name: 'Zummi'}, {name: 'Grammi'}, {name: 'Tummi'}];
+
+        var readFileStub = sinon.stub();
+        readFileStub.withArgs('existingFileName').callsArgWith(1, null, JSON.stringify(alreadyAddedGummiBears));
+
+        var writeFileStub = sinon.stub();
+        writeFileStub.withArgs('existingFileName', JSON.stringify(expectedGummiBears)).callsArg(2);
+
+        var fsMock = {
+            readFile: readFileStub,
+            writeFile: writeFileStub
+        };
+
+        JsonPersistence.__set__('fs', fsMock);
+
+        var persistence = new JsonPersistence('existingFileName');
+        var callbackSpy = sinon.spy();
+
+        // when
+        persistence.addRange(gummiBearsToAdd, callbackSpy);
+
+        // then
+        assert.that(callbackSpy.calledOnce, is.true());
+        assert.that(writeFileStub.calledOnce, is.true());
+    });
 });

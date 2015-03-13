@@ -7,6 +7,7 @@ var jsonPersistence = function(fileName) {
 
     unicorn.init         = init;
     unicorn.add          = add;
+    unicorn.addRange     = addRange;
     unicorn.getAll       = getAll;
     unicorn.query        = query;
     unicorn.update       = update;
@@ -53,6 +54,24 @@ var jsonPersistence = function(fileName) {
                 parsedData.push(data);
 
                 fs.writeFile(fileName, JSON.stringify(parsedData), function(error) {
+                    callback(error);
+                });
+            }
+        });
+    }
+
+    function addRange(data, callback) {
+        fs.readFile(fileName, function(error, dataChunk) {
+            if (error) {
+                callback(error);
+            } else {
+                var parsedData = JSON.parse(dataChunk.toString());
+
+                var bulkData = parsedData.concat(data);
+                console.log(bulkData);
+
+                fs.writeFile(fileName, JSON.stringify(bulkData), function(error) {
+                    console.log(bulkData);
                     callback(error);
                 });
             }
