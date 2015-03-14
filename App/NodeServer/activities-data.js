@@ -1,7 +1,6 @@
 'use strict';
 
-var fs              = require('fs'),
-    moment          = require('moment'),
+var moment          = require('moment'),
     JsonPersistence = require('./jsonPersistence.js');
 
 var NULL_DATA                      = null,
@@ -10,7 +9,7 @@ var NULL_DATA                      = null,
     SERIES_WATCHED_IN_CINEMA_ERROR = new Error('Series cannot be watched in the cinema!');
 
 var activitiesData = function(databaseName) {
-    var persistance = new JsonPersistence(databaseName);
+    var persistence = new JsonPersistence(databaseName);
 
     var unicorn = {};
 
@@ -24,7 +23,7 @@ var activitiesData = function(databaseName) {
     unicorn.checkIfEmpty = checkIfEmpty;
 
     function init(callback) {
-        persistance.init(function(error) {
+        persistence.init(function(error) {
             if (error) {
                 console.log(error.message);
                 callback(error);
@@ -35,7 +34,7 @@ var activitiesData = function(databaseName) {
     }
 
     function getAll(callback) {
-        persistance.getAll(function(error, data) {
+        persistence.getAll(function(error, data) {
             if (error) {
                 var readingError = new Error('Error during reading data');
                 callback(readingError, null);
@@ -54,7 +53,7 @@ var activitiesData = function(databaseName) {
                 return element.id.toString() === id;
             };
 
-            persistance.query(filteringFunction, function(error, data) {
+            persistence.query(filteringFunction, function(error, data) {
                 if (error) {
                     callback(error, null);
                 }
@@ -74,7 +73,7 @@ var activitiesData = function(databaseName) {
                 return element.id.toString() === id;
             };
 
-            persistance.remove(filteringFunction, function(error) {
+            persistence.remove(filteringFunction, function(error) {
                 callback(error);
             });
         }
@@ -92,7 +91,7 @@ var activitiesData = function(databaseName) {
 
             activity.id = timestampId;
 
-            persistance.add(activity, function(error) {
+            persistence.add(activity, function(error) {
                 if (error) {
                     callback(error, null);
                 } else {
@@ -122,7 +121,7 @@ var activitiesData = function(databaseName) {
                 element.activityType = activityToUpdate.activityType;
             };
 
-            persistance.update(filteringFunction, updatingFunction, function(error) {
+            persistence.update(filteringFunction, updatingFunction, function(error) {
                 if (error) {
                     console.log(error);
                 }
@@ -149,7 +148,7 @@ var activitiesData = function(databaseName) {
     }
 
     function seed(data) {
-        _writeDatabase(data, function(error) {
+        persistence.addRange(data, function(error) {
             if (error) {
                 console.log(error);
             }
@@ -160,14 +159,8 @@ var activitiesData = function(databaseName) {
     }
 
     function checkIfEmpty(callback) {
-        persistance.checkIfEmpty(function(error, result) {
+        persistence.checkIfEmpty(function(error, result) {
             callback(result);
-        });
-    }
-
-    function _writeDatabase(data, callback) {
-        fs.writeFile(databaseName, JSON.stringify(data), function(error) {
-            callback(error);
         });
     }
 

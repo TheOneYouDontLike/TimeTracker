@@ -68,10 +68,8 @@ var jsonPersistence = function(fileName) {
                 var parsedData = JSON.parse(dataChunk.toString());
 
                 var bulkData = parsedData.concat(data);
-                console.log(bulkData);
 
                 fs.writeFile(fileName, JSON.stringify(bulkData), function(error) {
-                    console.log(bulkData);
                     callback(error);
                 });
             }

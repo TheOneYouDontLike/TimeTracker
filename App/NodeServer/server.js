@@ -11,7 +11,7 @@ var router = new Router({ showLog: true });
 var activitiesData = new ActivitiesData('database.json');
 activitiesData.init(function() {
     activitiesData.checkIfEmpty(function(isEmpty) {
-        if(isEmpty) {
+        if (isEmpty) {
             var data = [
             {
                 id: 1,

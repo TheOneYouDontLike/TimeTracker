@@ -464,4 +464,28 @@ describe('activities persistence', function() {
         assert.that(callbackSpy.calledOnce, is.true());
         assert.that(result, is.true());
     });
+
+    it('should seed db file', function() {
+        // given
+        var dataToSeedWith = [{name: "Gruffi"}, {name: "Zummi"}];
+
+        var addRangeStub = sinon.stub();
+        addRangeStub.withArgs(dataToSeedWith, sinon.match.func).callsArgWith(1, null);
+
+        var persistenceMock = function(dbName) {
+            return {
+                addRange: addRangeStub
+            };
+        };
+
+        ActivitiesData.__set__('JsonPersistence', persistenceMock);
+
+        // when
+        var activitiesData = new ActivitiesData('');
+
+        activitiesData.seed(dataToSeedWith);
+
+        // then
+        assert.that(addRangeStub.calledOnce, is.true());
+    });
 });
