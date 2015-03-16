@@ -12,7 +12,7 @@ describe('jsonPersistence', function() {
         existsStub.withArgs('existingFileName').callsArgWith(1, true);
 
         var fsMock = {
-            exists: existsStub,
+            exists: existsStub
         };
 
         JsonPersistence.__set__('fs', fsMock);
@@ -282,7 +282,6 @@ describe('jsonPersistence', function() {
 
         // then
         var writtenGummibears = writeFileStub.getCall(0).args[1];
-        console.log(writtenGummibears);
         assert.that(callbackSpy.calledOnce, is.true());
         assert.that(writeFileStub.calledOnce, is.true());
         assert.that(writtenGummibears, is.equalTo(JSON.stringify(expectedGummiBears)));
