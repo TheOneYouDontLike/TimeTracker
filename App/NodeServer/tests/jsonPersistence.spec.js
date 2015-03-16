@@ -8,7 +8,8 @@ var sinon           = require('sinon'),
 describe('jsonPersistence', function() {
     it('should not init the file if does exist', function() {
         // given
-        var existsStub = sinon.stub().withArgs('existingFileName').callsArgWith(1, true);
+        var existsStub = sinon.stub();
+        existsStub.withArgs('existingFileName').callsArgWith(1, true);
 
         var fsMock = {
             exists: existsStub,
@@ -30,8 +31,11 @@ describe('jsonPersistence', function() {
 
     it('should init the file if does not exist', function() {
         // given
-        var existsStub = sinon.stub().withArgs('nonExistingFileName').callsArgWith(1, false);
-        var writeFileStub = sinon.stub().withArgs('nonExistingFileName', "[]").callsArg(2);
+        var existsStub = sinon.stub();
+        existsStub.withArgs('nonExistingFileName').callsArgWith(1, false);
+
+        var writeFileStub = sinon.stub();
+        writeFileStub.withArgs('nonExistingFileName', "[]").callsArg(2);
 
         var fsMock = {
             exists: existsStub,
@@ -54,8 +58,11 @@ describe('jsonPersistence', function() {
 
     it('should add some data', function() {
         // given
-        var readFileStub = sinon.stub().withArgs('existingFileName').callsArgWith(1, null, JSON.stringify([]));
-        var writeFileStub = sinon.stub().withArgs('existingFileName', JSON.stringify([{name: 'yolo'}])).callsArg(2);
+        var readFileStub = sinon.stub();
+        readFileStub.withArgs('existingFileName').callsArgWith(1, null, JSON.stringify([]));
+
+        var writeFileStub = sinon.stub();
+        writeFileStub.withArgs('existingFileName', JSON.stringify([{name: 'yolo'}])).callsArg(2);
 
         var fsMock = {
             readFile: readFileStub,
@@ -77,7 +84,8 @@ describe('jsonPersistence', function() {
 
     it('should get all data', function() {
         // given
-        var readFileStub = sinon.stub().withArgs('existingFileName').callsArgWith(1, null, JSON.stringify([{name: 'yolo'}]));
+        var readFileStub = sinon.stub();
+        readFileStub.withArgs('existingFileName').callsArgWith(1, null, JSON.stringify([{name: 'yolo'}]));
 
         var fsMock = {
             readFile: readFileStub
@@ -104,7 +112,8 @@ describe('jsonPersistence', function() {
         // given
         var data = [{ name: 'yolo', id: 1 }, { name: 'swag', id: 2 }, { name: 'xD', id: 3 }];
 
-        var readFileStub = sinon.stub().withArgs('existingFileName').callsArgWith(1, null, JSON.stringify(data));
+        var readFileStub = sinon.stub();
+        readFileStub.withArgs('existingFileName').callsArgWith(1, null, JSON.stringify(data));
 
         var fsMock = {
             readFile: readFileStub
@@ -132,7 +141,8 @@ describe('jsonPersistence', function() {
         // given
         var data = [{ name: 'yolo', id: 1 }, { name: 'swag', id: 2 }, { name: 'xD', id: 3 }];
 
-        var readFileStub = sinon.stub().withArgs('existingFileName').callsArgWith(1, null, JSON.stringify(data));
+        var readFileStub = sinon.stub();
+        readFileStub.withArgs('existingFileName').callsArgWith(1, null, JSON.stringify(data));
 
         var fsMock = {
             readFile: readFileStub
@@ -160,8 +170,11 @@ describe('jsonPersistence', function() {
         var data = [{ name: 'yolo', id: 1 }, { name: 'swag', id: 2 }, { name: 'xD', id: 3 }];
         var expectedData = [{ name: 'yolo', id: 1 }, { name: 'yolo2', id: 2 }, { name: 'xD', id: 3 }];
 
-        var readFileStub = sinon.stub().withArgs('existingFileName').callsArgWith(1, null, JSON.stringify(data));
-        var writeFileStub = sinon.stub().withArgs('existingFileName', JSON.stringify(expectedData)).callsArg(2);
+        var readFileStub = sinon.stub();
+        readFileStub.withArgs('existingFileName').callsArgWith(1, null, JSON.stringify(data));
+
+        var writeFileStub = sinon.stub()
+        writeFileStub.withArgs('existingFileName', JSON.stringify(expectedData)).callsArg(2);
 
         var fsMock = {
             readFile: readFileStub,
@@ -193,8 +206,11 @@ describe('jsonPersistence', function() {
         var data = [{ name: 'yolo', id: 1 }, { name: 'swag', id: 2 }, { name: 'xD', id: 3 }];
         var expectedData = [{ name: 'yolo', id: 1 }, { name: 'xD', id: 3 }];
 
-        var readFileStub = sinon.stub().withArgs('existingFileName').callsArgWith(1, null, JSON.stringify(data));
-        var writeFileStub = sinon.stub().withArgs('existingFileName', JSON.stringify(expectedData)).callsArg(2);
+        var readFileStub = sinon.stub();
+        readFileStub.withArgs('existingFileName').callsArgWith(1, null, JSON.stringify(data));
+
+        var writeFileStub = sinon.stub();
+        writeFileStub.withArgs('existingFileName', JSON.stringify(expectedData)).callsArg(2);
 
         var fsMock = {
             readFile: readFileStub,
@@ -219,7 +235,8 @@ describe('jsonPersistence', function() {
 
     it('should check if file is empty', function() {
         // given
-        var readFileStub = sinon.stub().withArgs('existingFileName', sinon.match.func).callsArgWith(1, null, JSON.stringify([]));
+        var readFileStub = sinon.stub();
+        readFileStub.withArgs('existingFileName', sinon.match.func).callsArgWith(1, null, JSON.stringify([]));
 
         var fsMock = {
             readFile: readFileStub
@@ -244,8 +261,11 @@ describe('jsonPersistence', function() {
         var gummiBearsToAdd = [{name: 'Grammi'}, {name: 'Tummi'}];
         var expectedGummiBears = [{name: 'Gruffi'}, {name: 'Zummi'}, {name: 'Grammi'}, {name: 'Tummi'}];
 
-        var readFileStub = sinon.stub().withArgs('existingFileName').callsArgWith(1, null, JSON.stringify(alreadyAddedGummiBears));
-        var writeFileStub = sinon.stub().withArgs('existingFileName', JSON.stringify(expectedGummiBears)).callsArg(2);
+        var readFileStub = sinon.stub();
+        readFileStub.withArgs('existingFileName').callsArgWith(1, null, JSON.stringify(alreadyAddedGummiBears));
+
+        var writeFileStub = sinon.stub();
+        writeFileStub.withArgs('existingFileName', JSON.stringify(expectedGummiBears)).callsArg(2);
 
         var fsMock = {
             readFile: readFileStub,
@@ -261,7 +281,10 @@ describe('jsonPersistence', function() {
         persistence.addRange(gummiBearsToAdd, callbackSpy);
 
         // then
+        var writtenGummibears = writeFileStub.getCall(0).args[1];
+        console.log(writtenGummibears);
         assert.that(callbackSpy.calledOnce, is.true());
         assert.that(writeFileStub.calledOnce, is.true());
+        assert.that(writtenGummibears, is.equalTo(JSON.stringify(expectedGummiBears)));
     });
 });
