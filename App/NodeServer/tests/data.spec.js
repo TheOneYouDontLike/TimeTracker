@@ -7,28 +7,6 @@ var sinon          = require('sinon'),
 
 var fakeActivities = [];
 
-var fsMock = {
-    exists: function(databaseName, callback) {
-        if (databaseName === 'existingDatabaseName') {
-            callback(true);
-        } else {
-            callback(false);
-        }
-
-    },
-    writeFile: function(databaseName, data, callback) {
-        var error = null;
-        callback(error);
-    },
-    readFile: function(databaseName, callback) {
-        var error = null;
-
-        callback(error, JSON.stringify(fakeActivities));
-    }
-};
-
-ActivitiesData.__set__('fs', fsMock);
-
 describe('activities persistence', function() {
     beforeEach(function() {
         fakeActivities = [{
