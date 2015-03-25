@@ -393,4 +393,27 @@ describe('router', function(){
         // then
         assert.that(writeHeadSpy.calledWith(404), is.true());
     });
+
+    it('should be possible to assign one callback to more than one path', function(){
+        // given
+        var request = {
+            url: '/path/1',
+            method: 'GET'
+        };
+
+        var secondRequest = {
+            url: '/path2',
+            method: 'GET'
+        };
+
+        var callbackSpy = sinon.spy();
+        router.httpGet(['/path/{id}', '/path2'], callbackSpy);
+
+        // when
+        router.route(request, fakeEmptyResponse);
+        router.route(secondRequest, fakeEmptyResponse);
+
+        // then
+        assert.that(callbackSpy.callCount, is.equalTo(2));
+    });
 });

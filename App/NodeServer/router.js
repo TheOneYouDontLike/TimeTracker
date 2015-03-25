@@ -13,30 +13,57 @@ var router = function(options) {
     unicorn.route        = route;
 
     function httpGet(route, callback) {
-        _removeDuplicatesInRoutingBoard('GET', route);
+        if (Array.isArray(route)) {
+            _.forEach(route, function(singleRoute) {
+                _createRoute(singleRoute, callback, 'GET');
+            });
 
-        var destination = _createDestination('GET', route, callback);
-        _routingBoard.push(destination);
+            return;
+        }
+
+        _createRoute(route, callback, 'GET');
     }
 
     function httpPost(route, callback) {
-        _removeDuplicatesInRoutingBoard('POST', route);
+        if (Array.isArray(route)) {
+            _.forEach(route, function(singleRoute) {
+                _createRoute(singleRoute, callback, 'POST');
+            });
 
-        var destination = _createDestination('POST', route, callback);
-        _routingBoard.push(destination);
+            return;
+        }
+
+        _createRoute(route, callback, 'POST');
     }
 
     function httpPut(route, callback) {
-        _removeDuplicatesInRoutingBoard('PUT', route);
+        if (Array.isArray(route)) {
+            _.forEach(route, function(singleRoute) {
+                _createRoute(singleRoute, callback, 'PUT');
+            });
 
-        var destination = _createDestination('PUT', route, callback);
-        _routingBoard.push(destination);
+            return;
+        }
+
+        _createRoute(route, callback, 'PUT');
     }
 
     function httpDelete(route, callback) {
-        _removeDuplicatesInRoutingBoard('DELETE', route);
+        if (Array.isArray(route)) {
+            _.forEach(route, function(singleRoute) {
+                _createRoute(singleRoute, callback, 'DELETE');
+            });
 
-        var destination = _createDestination('DELETE', route, callback);
+            return;
+        }
+
+        _createRoute(route, callback, 'DELETE');
+    }
+
+    function _createRoute(route, callback, method) {
+        _removeDuplicatesInRoutingBoard(method, route);
+
+        var destination = _createDestination(method, route, callback);
         _routingBoard.push(destination);
     }
 
