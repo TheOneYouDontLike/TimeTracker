@@ -2,7 +2,7 @@
 
 var http           = require('http'),
     fs             = require('fs'),
-    Router         = require('./router'),
+    Router         = require('handleball.js'),
     ActivitiesData = require('./activities-data'),
     Statistics     = require('./statistics');
 
