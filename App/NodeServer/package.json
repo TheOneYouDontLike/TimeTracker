@@ -15,6 +15,7 @@
     "sinon": "^1.12.2"
   },
   "dependencies": {
+    "handleball.js": "git://github.com/TheOneYouDontLike/handleball.js.git",
     "lodash": "^3.0.0"
   }
 }

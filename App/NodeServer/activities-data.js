@@ -47,8 +47,7 @@ var activitiesData = function(databaseName) {
     function getById(id, callback) {
         if (typeof id !== 'string') {
             callback(ID_TYPE_ERROR, NULL_DATA);
-        }
-        else {
+        } else {
             var filteringFunction = function(element) {
                 return element.id.toString() === id;
             };
@@ -56,8 +55,7 @@ var activitiesData = function(databaseName) {
             persistence.query(filteringFunction, function(error, data) {
                 if (error) {
                     callback(error, null);
-                }
-                else {
+                } else {
                     callback(null, data[0]);
                 }
             });
@@ -67,8 +65,7 @@ var activitiesData = function(databaseName) {
     function remove(id, callback) {
         if (typeof id !== 'string') {
             callback(ID_TYPE_ERROR, NULL_DATA);
-        }
-        else {
+        } else {
             var filteringFunction = function(element) {
                 return element.id.toString() === id;
             };
@@ -82,11 +79,9 @@ var activitiesData = function(databaseName) {
     function add(activity, callback) {
         if (_dateIsInvalid(activity.date)) {
             callback(INVALID_DATE_ERROR, 0);
-        }
-        else if (_isSeriesWatchedInCinema(activity)) {
+        } else if (_isSeriesWatchedInCinema(activity)) {
             callback(SERIES_WATCHED_IN_CINEMA_ERROR, 0);
-        }
-        else {
+        } else {
             var timestampId = new Date().getTime();
 
             activity.id = timestampId;
@@ -104,11 +99,9 @@ var activitiesData = function(databaseName) {
     function update(activityToUpdate, callback) {
         if (_dateIsInvalid(activityToUpdate.date)) {
             callback(INVALID_DATE_ERROR);
-        }
-        else if (_isSeriesWatchedInCinema(activityToUpdate)) {
+        } else if (_isSeriesWatchedInCinema(activityToUpdate)) {
             callback(SERIES_WATCHED_IN_CINEMA_ERROR);
-        }
-        else {
+        } else {
             var filteringFunction = function(element) {
                 return element.id === activityToUpdate.id;
             };
@@ -124,8 +117,7 @@ var activitiesData = function(databaseName) {
             persistence.update(filteringFunction, updatingFunction, function(error) {
                 if (error) {
                     console.log(error);
-                }
-                else {
+                } else {
                     console.log('updated in database');
                     callback(error);
                 }
@@ -151,8 +143,7 @@ var activitiesData = function(databaseName) {
         persistence.addRange(data, function(error) {
             if (error) {
                 console.log(error);
-            }
-            else {
+            } else {
                 console.log('database seeded');
             }
         });

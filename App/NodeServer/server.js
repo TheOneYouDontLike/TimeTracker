@@ -70,8 +70,7 @@ router.httpPost('/activities', function(request, response) {
             if (error) {
                 response.writeHead(400, {"Content-Type": "text/html"});
                 response.end(error.message);
-            }
-            else {
+            } else {
                 response.writeHead(200, {"Content-Type": "text/html"});
                 response.end(newActivityId.toString());
             }
@@ -90,8 +89,7 @@ router.httpPut('/activities/updateActivity/{id}', function(request, response, pa
                 if (error) {
                     response.writeHead(400, {"Content-Type": "text/html"});
                     response.end(error.message);
-                }
-                else {
+                } else {
                     response.writeHead(200, {"Content-Type": "text/html"});
                     response.end();
                 }

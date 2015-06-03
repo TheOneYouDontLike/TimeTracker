@@ -1,6 +1,6 @@
 'use strict';
-var _ = require('lodash');
-var moment = require('moment');
+var _      = require('lodash'),
+    moment = require('moment');
 
 var statistics = function(activities) {
     var unicorn = {};
@@ -50,7 +50,7 @@ var statistics = function(activities) {
         }
 
         var sortedActivities = _.chain(activities)
-            .uniq(function(activity) { return activity.date })
+            .uniq(function(activity) { return activity.date; })
             .sortBy(function(activity) { return new Date(activity.date); })
             .value();
 
@@ -59,9 +59,9 @@ var statistics = function(activities) {
 
     function averageIntervalBetweenCinemaVisits() {
         var sortedActivities = _.chain(activities)
-            .uniq(function(activity) { return activity.date })
+            .uniq(function(activity) { return activity.date; })
             .sortBy(function(activity) { return new Date(activity.date); })
-            .filter(function(activity) { return activity.watchedInCinema === true })
+            .filter(function(activity) { return activity.watchedInCinema === true; })
             .value();
 
         if (sortedActivities.length <= 1) {

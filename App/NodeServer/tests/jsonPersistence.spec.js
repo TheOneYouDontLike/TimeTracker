@@ -173,7 +173,7 @@ describe('jsonPersistence', function() {
         var readFileStub = sinon.stub();
         readFileStub.withArgs('existingFileName').callsArgWith(1, null, JSON.stringify(data));
 
-        var writeFileStub = sinon.stub()
+        var writeFileStub = sinon.stub();
         writeFileStub.withArgs('existingFileName', JSON.stringify(expectedData)).callsArg(2);
 
         var fsMock = {
