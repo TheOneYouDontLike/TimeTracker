@@ -1,7 +1,7 @@
 'use strict';
 
 var moment          = require('moment'),
-    JsonPersistence = require('./jsonPersistence.js');
+    JsonPersistence = require('JsonPersistence');
 
 var NULL_DATA                      = null,
     ID_TYPE_ERROR                  = new Error('id parameter should be a string'),
